@@ -1,0 +1,21 @@
+{
+    "suggest.noselect": false,
+    "coc.preferences.formatOnSaveFiletypes": ["javascript", "typescript", "json", "php"],
+    "vetur.format.options.tabSize": 4,
+    "prettier.tabWidth": 4,
+    "prettier.semi": false,
+    "prettier.singleQuote": true,
+    "prettier.printWidth": 120,
+    "vetur.format.enable": true,
+    "vetur.format.defaultFormatter.html": "prettier",
+    "vetur.format.defaultFormatter.js": "prettier",
+    "vetur.trace.server": "verbose",
+    "languageserver": {
+        "efm": {
+            "command": "efm-langserver",
+            "args": [],
+            "filetypes": ["vim", "eruby", "markdown", "yaml"]
+        }
+    },
+    "tailwindCSS.emmetCompletions": true
+}
