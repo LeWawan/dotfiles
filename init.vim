@@ -39,7 +39,7 @@ autocmd BufWritePre * :%s/\s\+$//e
 nnoremap <F5> :UndotreeToggle<CR>
 
 " NERDTree
-nnoremap <leader>n :NERDTreeToggle %<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeIgnore = ['^node_modules$']
 
@@ -67,7 +67,7 @@ nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>fs <cmd>lua require('telescope.builtin').git_status()<cr>
 nnoremap <leader>fc <cmd>lua require('telescope.builtin').git_branches()<cr>
-nnoremap <leader>' <cmd> lua require("telescope.builtin").find_files({ prompt_title = "< VimRC >", cwd = "$HOME/dotfiles/TheWawan/"})<cr>
+nnoremap <leader>' <cmd> lua require("telescope.builtin").find_files({ prompt_title = "< VimRC >", cwd = "~/.config/nvim/"})<cr>
 
 " Vim-fugitive
 nnoremap <leader>gs :G<CR>
@@ -148,8 +148,6 @@ Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
-lua require('thewawan')
-
 colorscheme gruvbox
 set background=dark
 highlight Normal guibg=none
@@ -162,4 +160,6 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead',
       \ },
       \ }
+
+lua require('thewawan')
 
