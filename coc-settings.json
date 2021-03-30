@@ -10,12 +10,5 @@
     "vetur.format.defaultFormatter.html": "prettier",
     "vetur.format.defaultFormatter.js": "prettier",
     "vetur.trace.server": "verbose",
-    "languageserver": {
-        "efm": {
-            "command": "efm-langserver",
-            "args": [],
-            "filetypes": ["vim", "eruby", "markdown", "yaml"]
-        }
-    },
     "tailwindCSS.emmetCompletions": true
 }

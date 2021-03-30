@@ -97,6 +97,12 @@ inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -145,8 +151,18 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/fzf', { 'do': { ->  fzf#install()}}
+Plug 'junegunn/fzf.vim'
+Plug 'stsewd/fzf-checkout.vim'
 
 call plug#end()
+
+"Git
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 }}
+let $FZF_DEFAULT_OPTS='--reverse'
+nnoremap <leader>gb :GBranches<CR>
+nnoremap <leader>gl :Git pull<CR>
+nnoremap <leader>gp :Git push<CR>
 
 colorscheme gruvbox
 set background=dark
