@@ -4,6 +4,7 @@ set encoding=utf-8
 
 set clipboard=unnamed
 
+set autoread
 set exrc "This line source the .vimrc in the dir you launch vim .
 set relativenumber
 set nu
@@ -35,8 +36,22 @@ let mapleader = " "
 " Autocmd
 autocmd BufWritePre * :%s/\s\+$//e
 
-" Custom
-nnoremap <leader>sc :!unison-2.48 -sshargs '-C'  -prefer newer  -confirmbigdel  -ignorecase false  -ignore 'Path private/symfony4/var'  -ignore 'Path logs_apache'  -ignore 'Path */*/node_modules'  -ignore 'Path private/vendor'  -ignore 'Path logs_appli'  -batch '/Users/mbp13-montagnes/Lab/erwan' ssh://www-data@solaroc.compilatio.net//home/sites/erwan<CR>
+" Functions
+noremap <leader>zz :CloseHiddenBuffers<CR>
+
+function! s:CloseHiddenBuffers()
+  let open_buffers = []
+
+  for i in range(tabpagenr('$'))
+    call extend(open_buffers, tabpagebuflist(i + 1))
+  endfor
+
+  for num in range(1, bufnr("$") + 1)
+    if buflisted(num) && index(open_buffers, num) == -1
+      exec "bdelete ".num
+    endif
+  endfor
+endfunction
 
 nnoremap <C-S> <C-W>s
 nnoremap <C-V> <C-W>v
@@ -68,13 +83,27 @@ Plug 'kyazdani42/nvim-web-devicons'
 " Coc Vim for autocompletions
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" LSP Baby
+"Plug 'neovim/nvim-lspconfig'
+"Plug 'nvim-lua/completion-nvim'
+
+" Emmet
+"Plug 'mattn/emmet-vim'
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { ->  fzf#install()}}
 Plug 'junegunn/fzf.vim'
 Plug 'stsewd/fzf-checkout.vim'
 
+" ThePrimeagen
+Plug 'ThePrimeagen/vim-be-good'
+
+Plug 'ThePrimeagen/git-worktree.nvim'
+
+
 call plug#end()
+
 
 lua require('thewawan')
 

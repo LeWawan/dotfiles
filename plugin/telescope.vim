@@ -9,4 +9,5 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>fs <cmd>lua require('telescope.builtin').git_status()<cr>
 nnoremap <leader>fc <cmd>lua require('telescope.builtin').git_branches()<cr>
 nnoremap <leader>' <cmd> lua require("telescope.builtin").find_files({ prompt_title = "< VimRC >", cwd = "~/.config/nvim/"})<cr>
+nnoremap <leader>ft <cmd> lua require('telescope').extensions.git_worktree.git_worktrees()<cr>
 

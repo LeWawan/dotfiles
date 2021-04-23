@@ -5,6 +5,7 @@ APP="~/Lab/erwan/www/app"
 BACKOFFICE="~/Lab/erwan/www/backoffice"
 SUBMARY="~/Lab/erwan/www/submary"
 CONFIG="~/.config/nvim"
+PLAYGROUND="~/"
 
 createWindow() {
     session=$1
@@ -56,6 +57,11 @@ while [ "$#" -gt 0 ]; do
     "-submary")
         createSession submary primary
         createWindow submary vim -c $SUBMARY "~/nvim-osx64/bin/nvim ."
+        ;;
+
+    "-playground")
+        createSession playground primary
+        createWindow playground vim -c $PLAYGROUND "~/nvim-osx64/bin/nvim ."
         ;;
 
     "-config")
