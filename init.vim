@@ -1,6 +1,7 @@
 syntax on
 
-set encoding=utf-8
+set encoding=UTF-8
+set guifont=DroidSansMono\ Nerd\ Font:h11
 
 set clipboard=unnamed
 
@@ -23,7 +24,7 @@ set undofile
 set incsearch
 set scrolloff=8
 set cmdheight=2
-set colorcolumn=80
+set colorcolumn=180
 set signcolumn=yes
 highlight ColorColumn ctermbg=0 guibg=lightgrey
 set nocompatible
@@ -56,6 +57,8 @@ endfunction
 nnoremap <C-S> <C-W>s
 nnoremap <C-V> <C-W>v
 
+nnoremap <leader>ww !open '%'<cr>
+
 call plug#begin('~/.vim/plugged')
 
 " UndoTree
@@ -64,7 +67,6 @@ Plug 'mbbill/undotree'
 " NerdTree
 Plug 'preservim/nerdtree'
 Plug 'preservim/nerdcommenter'
-Plug 'ryanoasis/vim-devicons'
 
 " ColorScheme => Call it after plugin section
 "Plug 'joshdick/onedark.vim'
@@ -90,6 +92,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Emmet
 "Plug 'mattn/emmet-vim'
 
+" DevIcons
+if exists("g:loaded_webdevicons")
+  call webdevicons#refresh()
+endif
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { ->  fzf#install()}}
@@ -101,8 +108,20 @@ Plug 'ThePrimeagen/vim-be-good'
 
 Plug 'ThePrimeagen/git-worktree.nvim'
 
+" Wiki
+Plug 'vimwiki/vimwiki'
+
+" Svelte
+Plug 'leafOfTree/vim-svelte-plugin'
+
+" Icons && Syntax highlight for NerdTree
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
 
 call plug#end()
+
+let g:vim_svelte_plugin_use_typescript = 1
 
 
 lua require('thewawan')
