@@ -1,6 +1,6 @@
 {
     "suggest.noselect": false,
-    "coc.preferences.formatOnSaveFiletypes": ["javascript", "typescript", "json", "php"],
+    "coc.preferences.formatOnSaveFiletypes": ["vue", "javascript", "typescript", "json", "php"],
     "prettier.tabWidth": 4,
     "prettier.endOfLine": "lf",
     "prettier.semi": false,
@@ -24,5 +24,15 @@
             "wrap_attributes": "force-aligned"
         }
     },
-    "tailwindCSS.emmetCompletions": true
+    "tailwindCSS.emmetCompletions": true,
+    "eslint.validate": ["javascript", "typescript", "vue"],
+    "eslint.run": "onSave",
+    "eslint.autoFixOnSave": true,
+    "languageserver": {
+        "graphql": {
+            "command": "graphql-lsp",
+            "args": ["server", "-m", "stream"],
+            "filetypes": ["typescript", "typescriptreact", "graphql"]
+        }
+    }
 }

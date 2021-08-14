@@ -82,12 +82,17 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
+" TreeSitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
+
 " Coc Vim for autocompletions
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " LSP Baby
 "Plug 'neovim/nvim-lspconfig'
-"Plug 'nvim-lua/completion-nvim'
+"Plug 'kabouzeid/nvim-lspinstall' " All LspInstall <language>
+"Plug 'nvim-lua/completion-nvim' " Lsp autocompletion
 
 " Emmet
 "Plug 'mattn/emmet-vim'
@@ -114,6 +119,9 @@ Plug 'vimwiki/vimwiki'
 " Svelte
 Plug 'leafOfTree/vim-svelte-plugin'
 
+" Graphql
+Plug 'jparise/vim-graphql'
+
 " Icons && Syntax highlight for NerdTree
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -122,6 +130,21 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 call plug#end()
 
 let g:vim_svelte_plugin_use_typescript = 1
+
+" Theme
+colorscheme gruvbox
+set background=dark
+highlight Normal guibg=none
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ],
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead',
+      \ },
+      \ }
+
 
 
 lua require('thewawan')

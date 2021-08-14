@@ -1,9 +1,11 @@
---html support
---https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#html
+require'lspinstall'.setup() -- important
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+local function on_attach()
+    -- TODO: TJ told me to do this and I should do it because he is Telescopic
+    -- "Big Tech" "Cash Money" Johnson
+end
 
-require'lspconfig'.html.setup {
-  capabilities = capabilities,
-}
+--ts support
+--https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#tsserver
+
+require'lspconfig'.tsserver.setup{ on_attach=on_attach }
