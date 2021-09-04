@@ -1,38 +1,47 @@
 {
-    "suggest.noselect": false,
-    "coc.preferences.formatOnSaveFiletypes": ["vue", "javascript", "typescript", "json", "php"],
-    "prettier.tabWidth": 4,
-    "prettier.endOfLine": "lf",
-    "prettier.semi": false,
-    "prettier.singleQuote": true,
-    "prettier.printWidth": 180,
-    "prettier.trailingComma": "es5",
-    "prettier.bracketSpacing": true,
-    "prettier.htmlWhitespaceSensitivity": "css",
-    "vetur.format.options.tabSize": 4,
-    "vetur.format.enable": true,
-    "vetur.format.defaultFormatter.html": "prettier",
-    "vetur.format.defaultFormatter.js": "prettier",
-    "vetur.trace.server": "verbose",
-    "vetur.format.defaultFormatterOptions": {
-        "prettier": {
-            "semi": false,
-            "singleQuote": true,
-            "printWidth": 180
-        },
-        "js-beautify-html": {
-            "wrap_attributes": "force-aligned"
-        }
+  "coc.preferences.formatOnSaveFiletypes": ["vue", "javascript", "typescript", "json", "php"],
+  "suggest.noselect": false,
+  "prettier.tabWidth": 2,
+  "prettier.endOfLine": "lf",
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.printWidth": 180,
+  "prettier.trailingComma": "es5",
+  "prettier.bracketSpacing": true,
+  "prettier.htmlWhitespaceSensitivity": "css",
+  "html.format.wrapAttributes": "force-aligned",
+  "vetur.format.options.tabSize": 2,
+  "vetur.format.enable": true,
+  "vetur.format.defaultFormatter.js": "prettier",
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatterOptions": {
+    "prettyhtml": {
+      "wrapAttributes": false
     },
-    "tailwindCSS.emmetCompletions": true,
-    "eslint.validate": ["javascript", "typescript", "vue"],
-    "eslint.run": "onSave",
-    "eslint.autoFixOnSave": true,
-    "languageserver": {
-        "graphql": {
-            "command": "graphql-lsp",
-            "args": ["server", "-m", "stream"],
-            "filetypes": ["typescript", "typescriptreact", "graphql"]
-        }
+    "js-beautify-html": {
+      "wrapAttributes": "auto"
+    },
+    "prettier": {
+      "semi": false,
+      "wrapAttributes": "auto",
+      "singleQuote": true,
+      "eslintIntegration": true,
+      "trailingComma": "none",
+      "printWidth": 180,
+      "bracketSpacing": true,
+      "endOfLine": "auto",
+      "arrowParents": "avoid"
     }
+  },
+  "tailwindCSS.emmetCompletions": true,
+  "eslint.validate": ["javascript", "typescript", "vue"],
+  "eslint.run": "onSave",
+  "eslint.autoFixOnSave": true,
+  "languageserver": {
+    "graphql": {
+      "command": "graphql-lsp",
+      "args": ["server", "-m", "stream"],
+      "filetypes": ["typescript", "typescriptreact", "graphql"]
+    }
+  }
 }
