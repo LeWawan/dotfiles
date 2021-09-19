@@ -1,10 +1,9 @@
 " Vim LSP Remaps
-nnoremap <C-Q> :copen<CR>
-nnoremap <C-J> :cnext<CR>
-nnoremap <C-K> :cprev<CR>
+nnoremap <C-q> :copen<CR>
+nnoremap <C-n> :cnext<CR>
+nnoremap <C-p> :cprev<CR>
 
 nnoremap <C-q> :call ToggleQFList(1)<CR>
-nnoremap <C-l> :call ToggleQFList(0)<CR>
 
 let g:the_wawan_qf_l = 0
 let g:the_wawan_qf_g = 0

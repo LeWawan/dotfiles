@@ -1,3 +1,4 @@
+lua require('thewawan.telescope')
 " Telescope conf baby...
 nnoremap <Leader>p <cmd>lua require'telescope.builtin'.git_files{}<CR>
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>

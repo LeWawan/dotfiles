@@ -24,12 +24,16 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
+" Harpoon
+Plug 'ThePrimeagen/harpoon'
+
+
 
 if has('nvim')
   " LSP Baby
   "Plug 'neovim/nvim-lspconfig'
   "Plug 'glepnir/lspsaga.nvim'
-  "Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip'
   " Install vim-cmp
   "Plug 'hrsh7th/nvim-cmp'
   " Install the buffer completion source
@@ -67,6 +71,9 @@ Plug 'ThePrimeagen/git-worktree.nvim'
 
 " Wiki
 Plug 'vimwiki/vimwiki'
+
+" Firestore
+Plug 'delphinus/vim-firestore'
 
 
 call plug#end()
