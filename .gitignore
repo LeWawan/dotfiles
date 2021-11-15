@@ -1,5 +1,2 @@
-lsp/
-
-dev/
-
-test/
+# Lsp tests
+lspconfigtest/
