@@ -1,3 +1,5 @@
+" Bug...
+let g:coc_disable_transparent_cursor = 1
 " TextEdit might fail if hidden is not set.
 set hidden
 
