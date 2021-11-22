@@ -20,9 +20,12 @@ let g:lightline = {
       \ 'colorscheme': 'tokyonight',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ],
+      \             [ 'gitbranch', 'readonly', 'relativepath', 'cocstatus', 'modified' ] ],
       \ },
       \ 'component_function': {
       \   'gitbranch': 'FugitiveHead',
+      \   'cocstatus': 'coc#status'
       \ },
       \ }
+
+autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
