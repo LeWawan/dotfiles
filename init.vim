@@ -61,3 +61,5 @@ runtime ./maps.vim
 runtime ./theme.vim
 " }}}
 
+" Require more time to test
+"lua require('thewawan')

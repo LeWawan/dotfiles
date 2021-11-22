@@ -1,14 +1,7 @@
-if !exists('g:lspconfig') | finish | endif
-
-lua << EOF
-local nvim_lsp = require('lspconfig')
-local protocol = require('vim.lsp.protocol')
-
-local coq = require('coq')
-
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
 
   -- Mappings.
   local opts = { noremap = true, silent = true }
@@ -39,14 +32,6 @@ local on_attach = function(client, bufnr)
   end
 end
 
-nvim_lsp.tsserver.setup(coq.lsp_ensure_capabilities({
-  on_attach = on_attach,
-  filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx' }
-}))
-
-nvim_lsp.vuels.setup( coq.lsp_ensure_capabilities{
-  on_attach = on_attach,
-  filetypes = { 'vue' },
-})
-EOF
-
+return {
+  on_attach = on_attach
+}
