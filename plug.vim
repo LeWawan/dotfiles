@@ -5,7 +5,8 @@ endif
 call plug#begin()
 
 " Theme
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'itchyny/lightline.vim'
 
 " Finders
@@ -18,10 +19,6 @@ Plug 'ThePrimeagen/harpoon'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 
-" Theme
-Plug 'kyazdani42/nvim-web-devicons'
-
-
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': { ->  fzf#install()}}
@@ -33,13 +30,17 @@ Plug 'stsewd/fzf-checkout.vim'
 Plug 'mbbill/undotree'
 
 " Lsp
-"Plug 'neovim/nvim-lspconfig'
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
 
 " Treesitter
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': 'TSUpdate' }
 
 " Vsnip
-"Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
+" Emmet
+Plug 'mattn/emmet-vim'
 
 " Completion
 "Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
@@ -52,5 +53,24 @@ Plug 'nvim-treesitter/nvim-treesitter', { 'do': 'TSUpdate' }
 " Coc autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Nvim cmp
+"Plug 'hrsh7th/cmp-nvim-lsp'
+"Plug 'hrsh7th/cmp-buffer'
+"Plug 'hrsh7th/cmp-path'
+"Plug 'hrsh7th/cmp-cmdline'
+"Plug 'hrsh7th/nvim-cmp'
+
+" For vsnip users.
+"Plug 'hrsh7th/cmp-vsnip'
+"Plug 'hrsh7th/vim-vsnip'
+
+" Tree
+" requires
+Plug 'preservim/nerdtree'
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+"Plug 'kyazdani42/nvim-tree.lua'
+
+" Start screen
+Plug 'mhinz/vim-startify'
 
 call plug#end()
