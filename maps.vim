@@ -8,6 +8,9 @@ autocmd BufWritePre * :%s/\s\+$//e
 nnoremap <C-S> <C-W>s
 nnoremap <C-V> <C-W>v
 
+nnoremap <leader>- :vertical resize -10<CR>
+nnoremap <leader>+ :vertical resize +10<CR>
+
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 
 imap <C-c> <Esc>
