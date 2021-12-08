@@ -1,1 +1,4 @@
-{}
+{
+  "diagnostic.checkCurrentLine": true,
+  "python.pythonPath": "python"
+}
