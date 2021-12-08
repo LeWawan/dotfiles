@@ -62,4 +62,4 @@ runtime ./theme.vim
 " }}}
 
 " Require more time to test
-"lua require('thewawan')
+lua require('thewawan')

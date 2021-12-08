@@ -53,6 +53,11 @@ Plug 'mattn/emmet-vim'
 " Coc autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Comment
+" @see https://github.com/numToStr/Comment.nvim
+Plug 'numToStr/Comment.nvim'
+
+
 " Nvim cmp
 "Plug 'hrsh7th/cmp-nvim-lsp'
 "Plug 'hrsh7th/cmp-buffer'
