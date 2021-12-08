@@ -1,3 +1,6 @@
 -- Nvim completion
-require('thewawan.plugins.completion')
+-- require('thewawan.plugins.completion')
+
+-- Nvim comment
+require('thewawan.plugins.comment')
 
