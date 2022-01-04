@@ -1,5 +1,32 @@
 " Bug...
 let g:coc_disable_transparent_cursor = 1
+
+let g:coc_global_extensions = [
+  \  '@yaegassy/coc-volar',
+  \  'coc-css',
+  \  'coc-emmet',
+  \  'coc-git',
+  \  'coc-highlight',
+  \  'coc-html',
+  \  'coc-jedi',
+  \  'coc-jest',
+  \  'coc-json',
+  \  'coc-lua',
+  \  'coc-pairs',
+  \  'coc-phpls',
+  \  'coc-python',
+  \  'coc-react-refactor',
+  \  'coc-sh',
+  \  'coc-snippets',
+  \  'coc-svelte',
+  \  'coc-tag',
+  \  'coc-tailwindcss',
+  \  'coc-tslint-plugin',
+  \  'coc-tsserver',
+  \  'coc-vetur',
+  \  'coc-yaml'
+\ ]
+
 " TextEdit might fail if hidden is not set.
 set hidden
 
@@ -90,7 +117,7 @@ nmap <leader>f  <Plug>(coc-format-selected)
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('format')
+  autocmd FileType typescript,json,vue setl formatexpr=CocAction('format')
   " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
@@ -165,3 +192,7 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+
+" Volar
+nnoremap <silent><nowait> <space>vs :<C-u>CocCommand volar.action.splitEditors<CR>
