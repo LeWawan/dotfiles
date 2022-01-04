@@ -34,13 +34,16 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 
 " Treesitter
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': 'TSUpdate' }
+" Plug 'nvim-treesitter/nvim-treesitter', { 'do': 'TSUpdate' }
 
 " Vsnip
 Plug 'hrsh7th/vim-vsnip'
 
 " Emmet
 Plug 'mattn/emmet-vim'
+
+" Wiki
+Plug 'vimwiki/vimwiki'
 
 " Completion
 "Plug 'ms-jpq/coq_nvim', {'branch': 'coq'}
@@ -52,6 +55,8 @@ Plug 'mattn/emmet-vim'
 
 " Coc autocomplete
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" [Experimental] @see https://github.com/yaegassy/coc-jsdoc
+Plug 'yaegassy/coc-jsdoc', {'do': 'yarn install --frozen-lockfile'}
 
 " Comment
 " @see https://github.com/numToStr/Comment.nvim
@@ -77,5 +82,8 @@ Plug 'kyazdani42/nvim-web-devicons' " for file icons
 
 " Start screen
 Plug 'mhinz/vim-startify'
+
+" Vue
+Plug 'posva/vim-vue'
 
 call plug#end()
