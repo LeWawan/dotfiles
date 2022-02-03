@@ -23,7 +23,6 @@ let g:coc_global_extensions = [
   \  'coc-tailwindcss',
   \  'coc-tslint-plugin',
   \  'coc-tsserver',
-  \  'coc-vetur',
   \  'coc-yaml'
 \ ]
 
