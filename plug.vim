@@ -86,4 +86,7 @@ Plug 'mhinz/vim-startify'
 " Vue
 Plug 'posva/vim-vue'
 
+" Graphql
+Plug 'jparise/vim-graphql'
+
 call plug#end()
