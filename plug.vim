@@ -34,7 +34,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 
 " Treesitter
-" Plug 'nvim-treesitter/nvim-treesitter', { 'do': 'TSUpdate' }
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': 'TSUpdate' }
 
 " Vsnip
 Plug 'hrsh7th/vim-vsnip'

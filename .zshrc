@@ -151,15 +151,21 @@ if [ -f '/Users/mbp13-montagnes/Downloads/google-cloud-sdk/completion.zsh.inc' ]
 if [ '/usr/local/bin//exa' ]; then alias ls="exa --git";  fi
 
 # Aliases for pnpm
-alias pi="pnpm install --"
-alias pd="pnpm dev --"
-alias ps="pnpm start --"
-alias pb="pnpm build --"
-alias pl="pnpm lint --"
-alias pt="pnpm test --"
+alias ppi="pnpm install --"
+alias ppd="pnpm dev --"
+alias pps="pnpm start --"
+alias ppb="pnpm build --"
+alias ppl="pnpm lint --"
+alias ppt="pnpm test --"
+alias pptc="pnpm coverage --"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 export PNPM_HOME="/Users/mbp13-montagnes/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+export PATH="/usr/local/opt/ruby/bin:$PATH"
 
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
