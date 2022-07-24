@@ -1,6 +1,9 @@
 {
   "diagnostic.checkCurrentLine": true,
   "python.pythonPath": "python",
+  "volar.enable": true,
+  "volar.takeOverMode.enabled": true,
+  "volar.formatting.enable": true,
   "typescript.format.semicolons": "remove",
   "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
 }
