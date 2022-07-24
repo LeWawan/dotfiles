@@ -58,6 +58,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " [Experimental] @see https://github.com/yaegassy/coc-jsdoc
 Plug 'yaegassy/coc-jsdoc', {'do': 'yarn install --frozen-lockfile'}
 
+" Extra plugin
+" Solidity
+Plug 'tomlion/vim-solidity'
+
 " Comment
 " @see https://github.com/numToStr/Comment.nvim
 Plug 'numToStr/Comment.nvim'
