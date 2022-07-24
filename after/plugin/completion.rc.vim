@@ -11,7 +11,7 @@ let g:coc_global_extensions = [
   \  'coc-jedi',
   \  'coc-jest',
   \  'coc-json',
-  \  'coc-lua',
+  \  'coc-sumneko-lua',
   \  'coc-pairs',
   \  'coc-phpls',
   \  'coc-python',
