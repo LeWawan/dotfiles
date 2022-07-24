@@ -1,4 +1,6 @@
 {
   "diagnostic.checkCurrentLine": true,
-  "python.pythonPath": "python"
+  "python.pythonPath": "python",
+  "typescript.format.semicolons": "remove",
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
 }
