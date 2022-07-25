@@ -166,6 +166,13 @@ export PATH="$PNPM_HOME:$PATH"
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 
 
+# alias for homebrew
+alias archbrew="arch -arm64 brew"
+
+
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+# Phpbrew Initialization
+[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
