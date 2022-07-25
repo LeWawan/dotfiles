@@ -8,7 +8,7 @@ nnoremap('<leader>gl', ':Git pull<CR>')
 
 -- Push upstream for new branch
 function GitPushUpsOrgBranch()
-  print('[/!\ Finish me !]')
+  print('[! Finish me !]')
   local branch  io.popen("git branch --show-current 2>nul")
   print(branch)
 
