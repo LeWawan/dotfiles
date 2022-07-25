@@ -58,6 +58,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " [Experimental] @see https://github.com/yaegassy/coc-jsdoc
 Plug 'yaegassy/coc-jsdoc', {'do': 'yarn install --frozen-lockfile'}
 
+" Special indentationfor php
+Plug '2072/PHP-Indenting-for-VIm'
+
 " Special plugin solidity for vim
 Plug 'tomlion/vim-solidity'
 
