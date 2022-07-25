@@ -4,6 +4,10 @@
   "volar.enable": true,
   "volar.takeOverMode.enabled": true,
   "volar.formatting.enable": true,
+  "typescript.preferences.quoteStyle": "single",
   "typescript.format.semicolons": "remove",
-  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.enable": true
 }
