@@ -103,7 +103,7 @@ lspconfig.sumneko_lua.setup(config({
 lspconfig.tsserver.setup(config())
 lspconfig.html.setup(config())
 
-require'lspconfig'.volar.setup{
+require'lspconfig'.volar.setup(config({
   init_options = {
     typescript = {
       serverPath = '/path/to/.npm/lib/node_modules/typescript/lib/tsserverlib.js'
@@ -111,7 +111,7 @@ require'lspconfig'.volar.setup{
       -- serverPath = '/usr/local/lib/node_modules/typescript/lib/tsserverlibrary.js'
     }
   }
-}
+}))
 
 -- Php
-require'lspconfig'.intelephense.setup{}
+require'lspconfig'.intelephense.setup(config({}))

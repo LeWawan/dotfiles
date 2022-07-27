@@ -6,6 +6,7 @@ return require('packer').startup(function()
   -- Theming
   use 'folke/tokyonight.nvim'
   use 'itchyny/lightline.vim'
+  use 'josa42/nvim-lightline-lsp'
 
   -- Finders
   use 'nvim-lua/plenary.nvim'
@@ -33,9 +34,6 @@ return require('packer').startup(function()
 
   -- Treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-
-  -- Vsnip
-  use 'hrsh7th/vim-vsnip'
 
   -- Emmet
   use 'mattn/emmet-vim'
