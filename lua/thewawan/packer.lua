@@ -21,7 +21,6 @@ return require('packer').startup(function()
   -- Git
   use 'tpope/vim-fugitive'
   use { 'junegunn/fzf', run = function() vim.fn['fzf#install()'](0) end }
-  use 'junegunn/fzf.vim'
   use 'stsewd/fzf-checkout.vim'
 
   -- https://github.com/mbbill/undotree
