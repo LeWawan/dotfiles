@@ -99,6 +99,11 @@ _G.packer_plugins = {
     path = "/home/wawan/.local/share/nvim/site/pack/packer/start/cmp-vsnip",
     url = "https://github.com/hrsh7th/cmp-vsnip"
   },
+  ["dashboard-nvim"] = {
+    loaded = true,
+    path = "/home/wawan/.local/share/nvim/site/pack/packer/start/dashboard-nvim",
+    url = "https://github.com/glepnir/dashboard-nvim"
+  },
   ["emmet-vim"] = {
     loaded = true,
     path = "/home/wawan/.local/share/nvim/site/pack/packer/start/emmet-vim",
@@ -113,11 +118,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/wawan/.local/share/nvim/site/pack/packer/start/fzf-checkout.vim",
     url = "https://github.com/stsewd/fzf-checkout.vim"
-  },
-  ["fzf.vim"] = {
-    loaded = true,
-    path = "/home/wawan/.local/share/nvim/site/pack/packer/start/fzf.vim",
-    url = "https://github.com/junegunn/fzf.vim"
   },
   ["git-worktree.nvim"] = {
     loaded = true,
@@ -148,6 +148,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/wawan/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
+  },
+  ["nvim-lightline-lsp"] = {
+    loaded = true,
+    path = "/home/wawan/.local/share/nvim/site/pack/packer/start/nvim-lightline-lsp",
+    url = "https://github.com/josa42/nvim-lightline-lsp"
   },
   ["nvim-lsp-installer"] = {
     loaded = true,
