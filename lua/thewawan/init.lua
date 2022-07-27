@@ -1,6 +1,2 @@
--- Nvim completion
--- require('thewawan.plugins.completion')
-
--- Nvim comment
-require('thewawan.plugins.comment')
-
+require('thewawan.set')
+require('thewawan.packer')
