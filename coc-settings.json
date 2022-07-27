@@ -1,4 +1,5 @@
 {
+  "Lua.telemetry.enable": true,
   "diagnostic.checkCurrentLine": true,
   "python.pythonPath": "python",
   "volar.enable": true,
