@@ -9,7 +9,6 @@ return require('packer').startup(function()
   use 'josa42/nvim-lightline-lsp'
 
   -- Finders
-  use 'nvim-lua/plenary.nvim'
   use 'nvim-telescope/telescope.nvim'
   use 'nvim-telescope/telescope-fzy-native.nvim'
   use 'ThePrimeagen/git-worktree.nvim'
