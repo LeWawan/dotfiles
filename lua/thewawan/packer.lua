@@ -37,7 +37,23 @@ return require('packer').startup(function()
   use 'mattn/emmet-vim'
 
   -- Wiki
-  use 'vimwiki/vimwiki'
+  use {
+    'vimwiki/vimwiki',
+    config = function()
+      vim.g.vimwiki_list = {
+        {
+          path = '~/vimwiki',
+          syntax = 'markdown',
+          ext  = '.md',
+        }
+      }
+      vim.g.vimwiki_ext2syntax = {
+        ['.md'] = 'markdown',
+        ['.markdown'] = 'markdown',
+        ['.mdown'] = 'markdown',
+      }
+    end
+  }
 
   -- Completion
   --use 'ms-jpq/coq_nvim', {'branch': 'coq'}
