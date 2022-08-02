@@ -102,6 +102,7 @@ lspconfig.sumneko_lua.setup(config({
 
 lspconfig.tsserver.setup(config())
 lspconfig.html.setup(config())
+lspconfig.marksman.setup(config())
 
 require'lspconfig'.volar.setup(config({
   init_options = {
