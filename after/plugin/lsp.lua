@@ -85,6 +85,7 @@ local function config(_config)
 			nnoremap("<leader>rr", function() vim.lsp.buf.references() end)
 			nnoremap("<leader>rn", function() vim.lsp.buf.rename() end)
       vnoremap("<leader>f", function() vim.lsp.buf.formatting() end)
+      nnoremap("<leader>F", function() vim.lsp.buf.formatting() end)
 		end,
 	}, _config or {})
 end
@@ -104,6 +105,7 @@ lspconfig.tsserver.setup(config())
 lspconfig.html.setup(config())
 lspconfig.rust_analyzer.setup(config())
 lspconfig.taplo.setup(config())
+lspconfig.marksman.setup(config())
 
 require'lspconfig'.volar.setup(config({
   init_options = {
