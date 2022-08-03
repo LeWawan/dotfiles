@@ -102,6 +102,8 @@ lspconfig.sumneko_lua.setup(config({
 
 lspconfig.tsserver.setup(config())
 lspconfig.html.setup(config())
+lspconfig.rust_analyzer.setup(config())
+lspconfig.taplo.setup(config())
 
 require'lspconfig'.volar.setup(config({
   init_options = {
