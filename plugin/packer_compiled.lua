@@ -134,6 +134,11 @@ _G.packer_plugins = {
     path = "/Users/monmacbook/.local/share/nvim/site/pack/packer/start/lspkind-nvim",
     url = "https://github.com/onsails/lspkind-nvim"
   },
+  ["mason.nvim"] = {
+    loaded = true,
+    path = "/Users/monmacbook/.local/share/nvim/site/pack/packer/start/mason.nvim",
+    url = "https://github.com/williamboman/mason.nvim"
+  },
   nerdtree = {
     loaded = true,
     path = "/Users/monmacbook/.local/share/nvim/site/pack/packer/start/nerdtree",
