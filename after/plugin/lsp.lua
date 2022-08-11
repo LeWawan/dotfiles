@@ -4,6 +4,9 @@ local vnoremap = Remap.vnoremap
 
 vim.cmd('set completeopt=menu,menuone,noselect')
 
+-- Mason setup
+require('mason').setup()
+
 -- CMP Setup
 local cmp = require('cmp')
 local lspkind = require('lspkind')
