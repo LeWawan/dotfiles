@@ -29,6 +29,8 @@ return require('packer').startup(function()
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
   use 'onsails/lspkind-nvim'
+  -- Auto install lsp
+  use { "williamboman/mason.nvim" }
 
   -- Treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
