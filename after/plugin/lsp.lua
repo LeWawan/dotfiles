@@ -31,25 +31,25 @@ cmp.setup({
   },
   mapping = cmp.mapping.preset.insert({
     ['<Enter>'] = cmp.mapping.confirm({ select = true }),
-		["<C-u>"] = cmp.mapping.scroll_docs(-4),
-		["<C-d>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-	}),
+    ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-d>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+  }),
   formatting = {
-		format = function(entry, vim_item)
-			vim_item.kind = lspkind.presets.default[vim_item.kind]
-			local menu = source_mapping[entry.source.name]
-			vim_item.menu = menu
-			return vim_item
-		end,
-	},
+    format = function(entry, vim_item)
+      vim_item.kind = lspkind.presets.default[vim_item.kind]
+      local menu = source_mapping[entry.source.name]
+      vim_item.menu = menu
+      return vim_item
+    end,
+  },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
   },
-  {
-    { name = 'buffer' }
-  })
+    {
+      { name = 'buffer' }
+    })
 })
 
 
@@ -57,10 +57,10 @@ require("nvim-lsp-installer").setup {}
 local lspconfig = require("lspconfig")
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    underline = true,
-    update_in_insert = true,
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = true,
 })
 
 local lsp_flags = {
@@ -69,29 +69,28 @@ local lsp_flags = {
 }
 
 local function config(_config)
-	return vim.tbl_deep_extend("force", {
+  return vim.tbl_deep_extend("force", {
     lsp_flags = lsp_flags,
-		capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
     -- Use an on_attach function to only map the following keys
     -- after the language server attaches to the current buffer
-		on_attach = function()
+    on_attach = function()
       nnoremap("<leader>e", function() vim.diagnostic.open_float() end)
-      nnoremap("<leader>q", function() vim.diagnostic.setloclist() end)
-			nnoremap("gd", function() vim.lsp.buf.definition() end)
-			nnoremap("gr", function() vim.lsp.buf.references() end)
-			nnoremap("K", function() vim.lsp.buf.hover() end)
-			nnoremap("<leader>ws", function() vim.lsp.buf.workspace_symbol() end)
-			nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
-			nnoremap("[d", function() vim.diagnostic.goto_next() end)
-			nnoremap("]d", function() vim.diagnostic.goto_prev() end)
-			nnoremap("<leader>a", function() vim.lsp.buf.code_action() end)
-			vnoremap("<leader>a", function() vim.lsp.buf.range_code_action() end)
-			nnoremap("<leader>rr", function() vim.lsp.buf.references() end)
-			nnoremap("<leader>rn", function() vim.lsp.buf.rename() end)
+      -- nnoremap("<leader>q", function() vim.diagnostic.setloclist() end)
+      nnoremap("gd", function() vim.lsp.buf.definition() end)
+      nnoremap("gr", function() vim.lsp.buf.references() end)
+      nnoremap("K", function() vim.lsp.buf.hover() end)
+      nnoremap("<leader>ws", function() vim.lsp.buf.workspace_symbol() end)
+      nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
+      nnoremap("[d", function() vim.diagnostic.goto_next() end)
+      nnoremap("]d", function() vim.diagnostic.goto_prev() end)
+      vnoremap("<leader>a", function() vim.lsp.buf.code_action() end)
+      nnoremap("<leader>rr", function() vim.lsp.buf.references() end)
+      nnoremap("<leader>rn", function() vim.lsp.buf.rename() end)
       vnoremap("<leader>f", function() vim.lsp.buf.formatting() end)
       nnoremap("<leader>F", function() vim.lsp.buf.formatting() end)
-		end,
-	}, _config or {})
+    end,
+  }, _config or {})
 end
 
 lspconfig.sumneko_lua.setup(config({
@@ -99,7 +98,7 @@ lspconfig.sumneko_lua.setup(config({
     Lua = {
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = {'vim', 'use'},
+        globals = { 'vim', 'use' },
       },
     },
   },
@@ -111,7 +110,7 @@ lspconfig.rust_analyzer.setup(config())
 lspconfig.taplo.setup(config())
 lspconfig.marksman.setup(config())
 
-require'lspconfig'.volar.setup(config({
+require 'lspconfig'.volar.setup(config({
   init_options = {
     typescript = {
       serverPath = '/path/to/.npm/lib/node_modules/typescript/lib/tsserverlib.js'
@@ -122,4 +121,42 @@ require'lspconfig'.volar.setup(config({
 }))
 
 -- Php
-require'lspconfig'.intelephense.setup(config({}))
+require 'lspconfig'.intelephense.setup(config({}))
+
+-- Emmet
+local configs = require'lspconfig.configs'
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+if not configs.ls_emmet then
+  configs.ls_emmet = {
+    default_config = {
+      cmd = { 'emmet_ls', '--stdio' };
+      filetypes = {
+        'html',
+        'css',
+        'scss',
+        'javascriptreact',
+        'typescriptreact',
+        'haml',
+        'xml',
+        'xsl',
+        'pug',
+        'slim',
+        'sass',
+        'stylus',
+        'less',
+        'sss',
+        'hbs',
+        'handlebars',
+      };
+      root_dir = function()
+        return vim.loop.cwd()
+      end;
+      settings = {};
+    };
+  }
+end
+
+lspconfig.emmet_ls.setup(config({}))
