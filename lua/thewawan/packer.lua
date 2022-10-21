@@ -17,10 +17,14 @@ return require('packer').startup(function()
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
 
+  --The best one => ThePrimeagen
+  use "ThePrimeagen/vim-be-good"
+
   -- Git
   use 'tpope/vim-fugitive'
   use { 'junegunn/fzf', run = function() vim.fn['fzf#install()'](0) end }
   use 'stsewd/fzf-checkout.vim'
+  use 'airblade/vim-gitgutter'
 
   -- https://github.com/mbbill/undotree
   use 'mbbill/undotree'
@@ -32,8 +36,13 @@ return require('packer').startup(function()
   -- Auto install lsp
   use { "williamboman/mason.nvim" }
 
+  -- Debugger
+  use 'mfussenegger/nvim-dap'
+
   -- Treesitter
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  use 'nvim-treesitter/playground'
+  use 'nvim-treesitter/nvim-treesitter-context'
 
   -- Emmet
   use 'mattn/emmet-vim'

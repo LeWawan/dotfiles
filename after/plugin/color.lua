@@ -37,6 +37,7 @@ require("tokyonight").setup({
 
 vim.cmd("let g:lightline = {'colorscheme': 'tokyonight', 'active': {'left': [[ 'mode', 'paste', 'lsp_info', 'lsp_hints', 'lsp_errors', 'lsp_warnings', 'lsp_ok' ],[ 'gitbranch', 'readonly', 'relativepath', 'lsp_status', 'modified' ] ]}, 'component_function': { 'gitbranch': 'FugitiveHead' }} ")
 vim.cmd("call lightline#lsp#register()")
+
 vim.cmd('colorscheme tokyonight')
 
 

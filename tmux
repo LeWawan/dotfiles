@@ -40,7 +40,7 @@ while [ "$#" -gt 0 ]; do
     case "$curr" in
     "-config")
         createSession config primary
-        createWindow config vim -c $CONFIG "~/nvim-osx64/bin/nvim ."
+        createWindow config config -c $CONFIG "~/nvim-osx64/bin/nvim ."
         ;;
     "-nlp-marketer")
         createSession nlp-marketer primary
@@ -55,10 +55,22 @@ while [ "$#" -gt 0 ]; do
         ;;
     "-fswa")
         createSession fswa primary
-        createWindow fswa fswa-front -c "~/Lab/fswav2/fswav2-front" $NVIM
-        createWindow fswa fswa-back -c "~/Lab/fswav2/fswav2-back" $NVIM
-        createWindow fswa fswa-proxy -c "~/Lab/fswav2/conan-node-proxy" $NVIM
-        createWindow fswa fswa-docker -c "~/Lab/fswav2" $DOCKER_COMPOSE_UP
+        createWindow fswa fswa-front -c "~/Lab/fswav/fswav2-front" $NVIM
+        createWindow fswa fswa-back -c "~/Lab/fswav/fswav2-back" $NVIM
+        createWindow fswa fswa-proxy -c "~/Lab/fswav/conan-node-proxy" $NVIM
+        createWindow fswa fswa-docker -c "~/Lab/fswav" $DOCKER_COMPOSE_UP
+        ;;
+    "-vsdk")
+        createSession vsdk primary
+        createWindow vsdk vsdk-daemon-manager -c "~/Lab/fswav/vsdk-daemon/daemon-manager" $NVIM
+        createWindow vsdk vsdk-proxy -c "~/Lab/fswav/vsdk-daemon/web-api" $NVIM
+        ;;
+    "-platform")
+        createSession platform primary
+        createWindow platform docs -c "~/Lab/platform/docs" $NVIM
+        createWindow platform webapp -c "~/Lab/platform/webapp" $NVIM
+        createWindow platform "@vivoka/vivoka-api" -c "~/Lab/platform/webapp/packages/vivoka-api" $NVIM
+
         ;;
     "-random")
         createSession random primary

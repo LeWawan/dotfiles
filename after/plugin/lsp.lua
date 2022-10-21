@@ -47,9 +47,9 @@ cmp.setup({
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
   },
-    {
-      { name = 'buffer' }
-    })
+  {
+    { name = 'buffer' }
+  })
 })
 
 
@@ -110,6 +110,7 @@ lspconfig.rust_analyzer.setup(config())
 lspconfig.taplo.setup(config())
 lspconfig.marksman.setup(config())
 
+-- Vuejs
 require 'lspconfig'.volar.setup(config({
   init_options = {
     typescript = {
@@ -117,46 +118,99 @@ require 'lspconfig'.volar.setup(config({
       -- Alternative location if installed as root:
       -- serverPath = '/usr/local/lib/node_modules/typescript/lib/tsserverlibrary.js'
     }
+  },
+  settings = {
+    format = {
+      semicolons = 'remove'
+    }
   }
+}))
+
+-- Tailwindcss
+lspconfig.tailwindcss.setup(config({
+  handlers = {
+    ["tailwindcss/getConfiguration"] = function (_, _, params, _, bufnr, _)
+      -- tailwindcss lang server waits for this repsonse before providing hover
+      vim.lsp.buf_notify(bufnr, "tailwindcss/getConfigurationResponse", { _id = params._id })
+    end
+  },
+  settings = {},
+  flags = { debounce_text_changes = 150, }
 }))
 
 -- Php
 require 'lspconfig'.intelephense.setup(config({}))
 
+-- cpp
+require 'lspconfig'.clangd.setup(config({}))
+
+-- prisma
+require 'lspconfig'.prismals.setup(config({}))
+
+-- Treesitter
+require "nvim-treesitter.configs".setup {
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false, -- Whether the query persists across vim sessions
+    keybindings = {
+      toggle_query_editor = 'o',
+      toggle_hl_groups = 'i',
+      toggle_injected_languages = 't',
+      toggle_anonymous_nodes = 'a',
+      toggle_language_display = 'I',
+      focus_language = 'f',
+      unfocus_language = 'F',
+      update = 'R',
+      goto_node = '<cr>',
+      show_help = '?',
+    },
+  },
+  query_linter = {
+    enable = true,
+    use_virtual_text = true,
+    lint_events = { "BufWrite", "CursorHold" },
+  },
+  ensure_installed = "typescript",
+  highlight = { enable = true },
+}
+
+--
 -- Emmet
-local configs = require'lspconfig.configs'
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-if not configs.ls_emmet then
-  configs.ls_emmet = {
-    default_config = {
-      cmd = { 'emmet_ls', '--stdio' };
-      filetypes = {
-        'html',
-        'css',
-        'scss',
-        'javascriptreact',
-        'typescriptreact',
-        'haml',
-        'xml',
-        'xsl',
-        'pug',
-        'slim',
-        'sass',
-        'stylus',
-        'less',
-        'sss',
-        'hbs',
-        'handlebars',
-      };
-      root_dir = function()
-        return vim.loop.cwd()
-      end;
-      settings = {};
-    };
-  }
-end
-
-lspconfig.emmet_ls.setup(config({}))
+-- local configs = require'lspconfig.configs'
+--
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+--
+-- if not configs.ls_emmet then
+--   configs.ls_emmet = {
+--     default_config = {
+--       cmd = { 'emmet_ls', '--stdio' };
+--       filetypes = {
+--         'html',
+--         'css',
+--         'scss',
+--         'javascriptreact',
+--         'typescriptreact',
+--         'haml',
+--         'xml',
+--         'xsl',
+--         'pug',
+--         'slim',
+--         'sass',
+--         'stylus',
+--         'less',
+--         'sss',
+--         'hbs',
+--         'handlebars',
+--       };
+--       root_dir = function()
+--         return vim.loop.cwd()
+--       end;
+--       settings = {};
+--     };
+--   }
+-- end
+--
+-- lspconfig.emmet_ls.setup(config({}))
