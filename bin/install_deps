@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+BASE_DIR=$(pwd)
+
+# nvim latest installation
+cd ~
+if [[ -f ~/nvim-macos.tar.gz ]]; then
+  rm ~/nvim-macos.tar.gz
+fi
+wget https://github.com/neovim/neovim/releases/download/stable/nvim-macos.tar.gz
+tar -xzf nvim-macos.tar.gz
+rm ~/nvim-macos.tar.gz
+cd $BASE_DIR
+echo "[install] latest nvim installed"
+
+# Packer nvim installation
+if [[ -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ]];then
+  rm -rf ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+fi
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+echo "[install] packer vim installed"

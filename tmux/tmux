@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+NVIM="~/nvim-macos/bin/nvim ."
+DOCKER_COMPOSE_UP="docker-compose up"
+DOCKER_ENV="~/Lab/docker-env"
+CONFIG="~/.config/nvim"
+PILOTY_NUXT="~/Lab/piloty_jobboard_nuxt2.git"
+PILOTY_API_NEST="~/Lab/piloty-api-nestjs.git"
+PILOTY_WEBAPP="~/Lab/piloty-webapp.git"
+LAB="~/Lab"
+WEB3="~/Lab/web-3"
+
+createWindow() {
+    session=$1
+    window=$2
+    shift
+    shift
+    hasWindow=$(tmux list-windows -t $session | grep "$window")
+    if [ -z "$hasWindow" ]; then
+        cmd="tmux -f ~/.config/nvim/tmux.conf neww -t $session: -n $window -d"
+        if [ $# -gt 0 ]; then
+            cmd="$cmd $@"
+        fi
+        echo "Creating Window(\"$hasWindow\"): $cmd"
+        eval $cmd
+    fi
+}
+
+createSession() {
+    session=$1
+    window=$2
+    shift
+    shift
+    cmd="tmux new -f ~/.config/nvim/tmux.conf -s $session -d -n $window $@ > /dev/null 2>&1"
+
+    echo "Creating Session: $cmd"
+    eval $cmd
+}
+
+while [ "$#" -gt 0 ]; do
+    curr=$1
+    shift
+
+    case "$curr" in
+    "-config")
+        createSession config primary
+        createWindow config config -c $CONFIG "~/nvim-macos/bin/nvim ."
+        ;;
+    "-piloty")
+        createSession piloty primary
+        createWindow piloty piloty-nuxt -c $PILOTY_NUXT "~/nvim-macos/bin/nvim ."
+        createWindow piloty piloty-api -c $PILOTY_API_NEST "~/nvim-macos/bin/nvim ."
+        createWindow piloty piloty-webapp -c $PILOTY_WEBAPP "~/nvim-macos/bin/nvim ."
+        ;;
+    "-docker")
+        createSession docker primary
+        createWindow  docker -c $DOCKER_ENV "~/nvim-macos/bin/nvim ."
+        ;;
+    "-random")
+        createSession random primary
+        createWindow random vim -c $LAB "~/nvim-macos/bin/nvim ."
+        ;;
+    # Work in progress
+    *) echo "Unavailable command... $curr"
+    esac
+done
+

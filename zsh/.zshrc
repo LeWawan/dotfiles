@@ -1,36 +1,14 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-export LC_ALL="fr_FR.UTF-8"
-export LC_CTYPE="UTF-8"
-
-# Use latest stable node version
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-nvm use stable --silent
-
-fortune | cowsay -f tux
-
-# Use python 3.7
-alias python="python3.9"
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="~/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -45,14 +23,13 @@ ZSH_THEME="robbyrussell"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -67,6 +44,9 @@ ZSH_THEME="robbyrussell"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -102,7 +82,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-export EDITOR='vim'
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -115,57 +99,29 @@ export EDITOR='vim'
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+source ~/.zsh_profile
+source ~/.zsh_aliases
 
-# User aliases
-
-alias c="code"
-
-#Git
-alias gitcompi="git config --global user.name 'erwan' --replace-all && git config --global user.email 'erwan@compilatio.net' --replace-all && git config pull.rebase false"
-alias gitwawan="git config --global user.name 'LeWawan' --replace-all && git config --global user.email 'erwankreutz@gmail.com' --replace-all && git config pull.rebase false"
-alias nah="git reset --hard & git clean -df"
-
-alias uniplayground="uniconnect -l sub-pocs -r z-wawan/www/"
-
-#Custom vim command for nightly build of nvim
-alias vim="~/nvim-osx64/bin/nvim"
-
-
-source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-export HOMEBREW_NO_AUTO_UPDATE=1
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH:$HOME/.composer/vendor/bin:$PATH:/Users/mbp13-montagnes/.deno/bin:$PATH"
-
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/mbp13-montagnes/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/mbp13-montagnes/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/mbp13-montagnes/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/mbp13-montagnes/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
-# Exa ls replacement
-# https://the.exa.website/
-if [ '/usr/local/bin//exa' ]; then alias ls="exa --git";  fi
-
-# Aliases for pnpm
-alias ppi="pnpm install --"
-alias ppd="pnpm dev --"
-alias pps="pnpm start --"
-alias ppb="pnpm build --"
-alias ppl="pnpm lint --"
-alias ppt="pnpm test --"
-alias pptc="pnpm coverage --"
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-export PNPM_HOME="/Users/mbp13-montagnes/Library/pnpm"
+# pnpm
+export PNPM_HOME="~/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
 
+# localbin
+export CUSTOM_BIN="~/localbin/"
+export PATH="$CUSTOM_BIN:$PATH"
 
-# tabtab source for packages
-# uninstall by removing these lines
+# meteor
+export METEOR_HOME="~/.meteor"
+export PATH="$METEOR_HOME:$PATH"
+
+# yarn
+export YARN_HOME="~/.yarn/bin"
+export PATH="$YARN_HOME:$PATH"
+
+# composer
+export COMPOSER_HOME="~/.composer/vendor/bin"
+export PATH="$COMPOSER_HOME:$PATH"
+
+# nvm
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

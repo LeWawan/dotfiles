@@ -114,7 +114,7 @@ lspconfig.marksman.setup(config())
 require 'lspconfig'.volar.setup(config({
   init_options = {
     typescript = {
-      serverPath = '/path/to/.npm/lib/node_modules/typescript/lib/tsserverlib.js'
+      serverPath = '/Users/erwan/.nvm/versions/node/v18.12.0/lib/node_modules/npm/node_modules/typescript/lib/tsserverlib.js'
       -- Alternative location if installed as root:
       -- serverPath = '/usr/local/lib/node_modules/typescript/lib/tsserverlibrary.js'
     }
@@ -125,6 +125,8 @@ require 'lspconfig'.volar.setup(config({
     }
   }
 }))
+
+require 'lspconfig'.vuels.setup(config({}))
 
 -- Tailwindcss
 lspconfig.tailwindcss.setup(config({
@@ -142,7 +144,7 @@ lspconfig.tailwindcss.setup(config({
 require 'lspconfig'.intelephense.setup(config({}))
 
 -- cpp
-require 'lspconfig'.clangd.setup(config({}))
+-- require 'lspconfig'.clangd.setup(config({}))
 
 -- prisma
 require 'lspconfig'.prismals.setup(config({}))
@@ -178,39 +180,40 @@ require "nvim-treesitter.configs".setup {
 
 --
 -- Emmet
--- local configs = require'lspconfig.configs'
---
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
---
--- if not configs.ls_emmet then
---   configs.ls_emmet = {
---     default_config = {
---       cmd = { 'emmet_ls', '--stdio' };
---       filetypes = {
---         'html',
---         'css',
---         'scss',
---         'javascriptreact',
---         'typescriptreact',
---         'haml',
---         'xml',
---         'xsl',
---         'pug',
---         'slim',
---         'sass',
---         'stylus',
---         'less',
---         'sss',
---         'hbs',
---         'handlebars',
---       };
---       root_dir = function()
---         return vim.loop.cwd()
---       end;
---       settings = {};
---     };
---   }
--- end
---
--- lspconfig.emmet_ls.setup(config({}))
+local configs = require'lspconfig.configs'
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+if not configs.ls_emmet then
+  configs.ls_emmet = {
+    default_config = {
+      cmd = { 'emmet_ls', '--stdio' };
+      filetypes = {
+        'html',
+        'vue',
+        'css',
+        'scss',
+        'javascriptreact',
+        'typescriptreact',
+        'haml',
+        'xml',
+        'xsl',
+        'pug',
+        'slim',
+        'sass',
+        'stylus',
+        'less',
+        'sss',
+        'hbs',
+        'handlebars',
+      };
+      root_dir = function()
+        return vim.loop.cwd()
+      end;
+      settings = {};
+    };
+  }
+end
+
+lspconfig.emmet_ls.setup(config({}))
