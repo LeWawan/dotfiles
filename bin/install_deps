@@ -24,3 +24,8 @@ echo "[install] packer vim installed"
 # pnpm
 npm install -g pnpm
 echo "[install] pnpm installed"
+
+# antfu ni
+# https://github.com/antfu/ni
+npm i -g @antfu/ni
+echo "[install] antfu/ni"
