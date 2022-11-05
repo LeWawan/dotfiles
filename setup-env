@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+source bin/macos
+
 STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES
 
 pushd $DOTFILES
