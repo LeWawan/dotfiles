@@ -1,0 +1,19 @@
+# git config (@TODO update me with proper git config file...)
+alias gittrusty="git config --global user.name 'erwan' --replace-all && git config --global user.email 'erwan@hellotrusty.io' --replace-all && git config pull.rebase false"
+alias gitwawan="git config --global user.name 'LeWawan' --replace-all && git config --global user.email 'erwankreutz@gmail.com' --replace-all && git config pull.rebase false"
+
+# git commands
+alias nah="git reset --hard & git clean -df"
+
+# nvim
+alias vim="~/nvim-macos/bin/nvim"
+alias nvim="~/nvim-macos/bin/nvim"
+
+# python
+alias python="python3.9"
+
+# vscode
+alias c="code"
+
+# Cargo
+source "$HOME/.cargo/env"

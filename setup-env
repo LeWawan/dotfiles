@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+source bin/macos
+
+STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES
+
+pushd $DOTFILES
+for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
+do
+  echo "[link] stow $folder folder"
+  stow -D $folder
+  stow $folder
+done
