@@ -1,5 +1,5 @@
 # git config (@TODO update me with proper git config file...)
-alias gitcompi="git config --global user.name 'erwan' --replace-all && git config --global user.email 'erwan@compilatio.net' --replace-all && git config pull.rebase false"
+alias gittrusty="git config --global user.name 'erwan' --replace-all && git config --global user.email 'erwan@hellotrusty.io' --replace-all && git config pull.rebase false"
 alias gitwawan="git config --global user.name 'LeWawan' --replace-all && git config --global user.email 'erwankreutz@gmail.com' --replace-all && git config pull.rebase false"
 
 # git commands
