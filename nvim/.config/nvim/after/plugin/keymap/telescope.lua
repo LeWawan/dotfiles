@@ -10,7 +10,7 @@ require('telescope').setup({
     grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
     qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 
-    file_ignore_patterns = {"node_modules"}
+    file_ignore_patterns = { "^%.git/", "^node_modules" }
   },
   pickers = {
     previewers = false
@@ -48,7 +48,7 @@ nnoremap("<leader>gb", function()
     require('telescope.builtin').git_branches()
 end)
 nnoremap("<leader>'", function()
-    require('telescope.builtin').find_files({ prompt_title = "< VimRC >", cwd = "~/.config/nvim/"})
+    require('telescope.builtin').find_files({ prompt_title = "< VimRC >", cwd = "~/.dotfiles/", hidden = true })
 end)
 nnoremap("<leader>gw", function()
     require('telescope').extensions.git_worktree.git_worktrees()
