@@ -11,4 +11,4 @@ inoremap('<C-c>', '<Esc>')
 nnoremap('<leader>-',  ':vertical resize -10<CR>')
 nnoremap('<leader>+', ':vertical resize +10<CR>')
 
-nnoremap('<leader><CR>', ':so ~/.config/nvim/init.lua<CR>')
+nnoremap('<leader><CR>', ':so ~/.dotfiles/.config/nvim/init.lua<CR>')

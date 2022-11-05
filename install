@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+
+source ./bin/macos
+source ./bin/install_deps
+source ./setup-env

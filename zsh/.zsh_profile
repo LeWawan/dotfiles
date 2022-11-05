@@ -1,0 +1,10 @@
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# sometimes it makes sense ^^
+# export HOMEBREW_NO_AUTO_UPDATE=1
+
+# Exa ls replacement
+# https://the.exa.website/
+if [ '/usr/local/bin//exa' ]; then alias ls="exa --git";  fi
+
