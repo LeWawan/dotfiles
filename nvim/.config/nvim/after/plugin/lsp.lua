@@ -104,6 +104,7 @@ lspconfig.sumneko_lua.setup(config({
   },
 }))
 
+lspconfig.vls.setup(config())
 lspconfig.tsserver.setup(config())
 lspconfig.html.setup(config())
 lspconfig.rust_analyzer.setup(config())
@@ -114,7 +115,9 @@ lspconfig.marksman.setup(config())
 require 'lspconfig'.volar.setup(config({
   init_options = {
     typescript = {
-      serverPath = '/Users/erwan/.nvm/versions/node/v18.12.0/lib/node_modules/npm/node_modules/typescript/lib/tsserverlib.js'
+      -- serverPath = '~/.nvm/versions/node/v18.12.0/lib/node_modules/npm/node_modules/typescript/lib/tsserverlibrary.js',
+      -- @TODO fix check
+      tsdk = '/Users/erwan/.nvm/versions/node/v18.12.0/lib/node_modules/npm/node_modules/typescript/lib'
       -- Alternative location if installed as root:
       -- serverPath = '/usr/local/lib/node_modules/typescript/lib/tsserverlibrary.js'
     }
