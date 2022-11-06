@@ -94,7 +94,7 @@ local function config(_config)
 end
 
 
-local sumneko_root_path = "/Users/erwan/personal/sumneko"
+local sumneko_root_path = "/Users/erwan/local_libs/sumneko"
 local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
 local runtime_path = vim.split(package.path, ';')
 lspconfig.sumneko_lua.setup(config({
