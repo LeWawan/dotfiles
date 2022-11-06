@@ -43,3 +43,15 @@ vim.opt.colorcolumn = "80"
 vim.g.mapleader = " "
 vim.opt.clipboard="unnamedplus"
 
+-- vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 3
+vim.g.netrw_browse_split = 4
+vim.g.netrw_altv = 1
+vim.g.netrw_winsize = 50
+
+local augroup = vim.api.nvim_create_augroup('Project drawer', { clear = true })
+vim.api.nvim_create_autocmd('VimEnter', {
+  pattern = '*',
+  group = augroup,
+  command = ':Vexplore'
+})
