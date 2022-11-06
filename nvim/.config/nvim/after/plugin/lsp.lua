@@ -71,7 +71,7 @@ local lsp_flags = {
 local function config(_config)
   return vim.tbl_deep_extend("force", {
     lsp_flags = lsp_flags,
-    capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    capabilities = require("cmp_nvim_lsp").default_capabilities(),
     -- Use an on_attach function to only map the following keys
     -- after the language server attaches to the current buffer
     on_attach = function()
@@ -93,13 +93,32 @@ local function config(_config)
   }, _config or {})
 end
 
+
+local sumneko_root_path = "/Users/erwan/personal/sumneko"
+local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
+local runtime_path = vim.split(package.path, ';')
 lspconfig.sumneko_lua.setup(config({
+  cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
   settings = {
     Lua = {
+      runtime = {
+        version = 'LuaJIT',
+        path = runtime_path
+      },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = { 'vim', 'use' },
+        globals = { 'vim' },
       },
+      workspace = {
+        -- library = vim.api.nvim_get_runtime_file('', true)
+        library = {
+          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
+        }
+      },
+      telemetry = {
+        enable = false
+      }
     },
   },
 }))
