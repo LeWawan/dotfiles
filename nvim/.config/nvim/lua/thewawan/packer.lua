@@ -14,6 +14,9 @@ return require('packer').startup(function()
   use 'ThePrimeagen/git-worktree.nvim'
   use 'ThePrimeagen/harpoon'
 
+  -- Icons
+  use 'nvim-tree/nvim-web-devicons'
+
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
 
@@ -100,9 +103,9 @@ return require('packer').startup(function()
 
   -- Tree
   -- requires
-  use 'preservim/nerdtree'
-  use 'kyazdani42/nvim-web-devicons' -- for file icons
-  --use 'kyazdani42/nvim-tree.lua'
+  -- use 'preservim/nerdtree'
+  -- use 'kyazdani42/nvim-tree.lua'
+  -- use 'kyazdani42/nvim-web-devicons' -- for file icons
 
   -- Start screen
   use 'mhinz/vim-startify'
