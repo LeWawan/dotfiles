@@ -15,7 +15,12 @@ return require('packer').startup(function()
   use 'ThePrimeagen/harpoon'
 
   -- Icons
-  use 'nvim-tree/nvim-web-devicons'
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons', -- optional, for file icons
+    },
+  }
 
   use 'nvim-lua/popup.nvim'
   use 'nvim-lua/plenary.nvim'
