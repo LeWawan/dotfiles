@@ -6,13 +6,12 @@ vim.opt.termguicolors = true
 
 -- OR setup with some options
 require("nvim-tree").setup({
-  transparent_background = true,
   sort_by = "case_sensitive",
   view = {
     adaptive_size = true,
     mappings = {
       list = {
-        { key = "u", action = "dir_up" },
+        -- { key = "u", action = "dir_up" },
       },
     },
   },
