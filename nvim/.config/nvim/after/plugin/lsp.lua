@@ -107,7 +107,7 @@ lspconfig.sumneko_lua.setup(config({
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = { 'vim', 'require', 'os', 'package' },
+        globals = { 'use', 'vim', 'require', 'os', 'package' },
       },
       workspace = {
         -- library = vim.api.nvim_get_runtime_file('', true)
