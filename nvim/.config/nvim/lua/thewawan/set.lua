@@ -49,9 +49,9 @@ vim.g.netrw_browse_split = 4
 vim.g.netrw_altv = 1
 vim.g.netrw_winsize = 15
 
-local augroup = vim.api.nvim_create_augroup('Project drawer', { clear = true })
-vim.api.nvim_create_autocmd('VimEnter', {
-  pattern = '*',
-  group = augroup,
-  command = ':Vexplore'
-})
+-- local augroup = vim.api.nvim_create_augroup('Project drawer', { clear = true })
+-- vim.api.nvim_create_autocmd('VimEnter', {
+--   pattern = '*',
+--   group = augroup,
+--   command = ':Vexplore'
+-- })
