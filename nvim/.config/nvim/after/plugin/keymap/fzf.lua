@@ -8,10 +8,8 @@ nnoremap('<leader>gl', ':Git pull<CR>')
 
 -- Push upstream for new branch
 function GitPushUpsOrgBranch()
-  print('[! Finish me !]')
-  local branch  io.popen("git branch --show-current 2>nul")
-  print(branch)
-
+  local branch = vim.fn.system("git branch --show-current 2> /dev/null | tr -d '\n'")
+  vim.cmd("Git push --set-upstream origin " .. branch)
 end
 
 nnoremap('<leader>gu', function() GitPushUpsOrgBranch() end)
