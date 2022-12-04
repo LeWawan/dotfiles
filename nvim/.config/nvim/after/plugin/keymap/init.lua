@@ -12,3 +12,7 @@ nnoremap('<leader>-',  ':vertical resize -10<CR>')
 nnoremap('<leader>+', ':vertical resize +10<CR>')
 
 nnoremap('<leader><CR>', ':so ~/.dotfiles/.config/nvim/init.lua<CR>')
+
+-- Move around
+nnoremap('<C-d>', '<C-d>zz')
+nnoremap('<C-u>', '<C-u>zz')
