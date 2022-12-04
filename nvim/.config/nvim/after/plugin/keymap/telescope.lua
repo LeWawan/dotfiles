@@ -26,7 +26,7 @@ require('telescope').load_extension('fzy_native')
 require('telescope').load_extension('git_worktree')
 
 nnoremap("<M-p>", ":Telescope")
-nnoremap("<leader>p", function()
+nnoremap("<leader>fp", function()
     require('telescope.builtin').git_files()
 end)
 nnoremap("<leader>ff", function()
