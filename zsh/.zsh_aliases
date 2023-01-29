@@ -6,14 +6,22 @@ alias gitwawan="git config --global user.name 'LeWawan' --replace-all && git con
 alias nah="git reset --hard & git clean -df"
 
 # nvim
-alias vim="~/nvim-macos/bin/nvim"
-alias nvim="~/nvim-macos/bin/nvim"
+if [[ $(uname) == Linux ]]
+then
+  echo 'Linux detected...'
+  alias vim="~/nvim-linux64/bin/nvim"
+  alias nvim="~/nvim-linux64/bin/nvim"
+elif [[ $(uname) == Darwin ]]
+then
+  echo 'Macos detected...'
+  alias vim="~/nvim-macos/bin/nvim"
+  alias nvim="~/nvim-macos/bin/nvim"
+else
+  echo "zsh_aliases error: device uname not recognized"
+fi
 
 # python
 alias python="python3.9"
 
 # vscode
 alias c="code"
-
-# Cargo
-source "$HOME/.cargo/env"
