@@ -1,22 +1,22 @@
+local mark = require('harpoon.mark')
+local term = require('harpoon.term')
+local ui = require('harpoon.ui')
+
 local nnoremap = require('thewawan.keymap').nnoremap
 
 local silent = { silent = true }
 
 -- Terminal commands
--- ueoa is first through fourth finger left hand home row.
--- This just means I can crush, with opposite hand, the 4 terminal positions
---
--- These functions are stored in harpoon.  A plugn that I am developing
-nnoremap("<leader>q", function() require("harpoon.mark").add_file() end, silent)
-nnoremap("<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, silent)
+nnoremap("<leader>q", function() mark.add_file() end, silent)
 nnoremap("<leader>tc", function() require("harpoon.cmd-ui").toggle_quick_menu() end, silent)
 
-nnoremap("<C-h>", function() require("harpoon.ui").nav_file(1) end, silent)
-nnoremap("<C-j>", function() require("harpoon.ui").nav_file(2) end, silent)
-nnoremap("<C-k>", function() require("harpoon.ui").nav_file(3) end, silent)
-nnoremap("<C-l>", function() require("harpoon.ui").nav_file(4) end, silent)
+nnoremap("<C-e>", function() ui.toggle_quick_menu() end, silent)
+nnoremap("<C-h>", function() ui.nav_file(1) end, silent)
+nnoremap("<C-j>", function() ui.nav_file(2) end, silent)
+nnoremap("<C-k>", function() ui.nav_file(3) end, silent)
+nnoremap("<C-l>", function() ui.nav_file(4) end, silent)
 
-nnoremap("<leader>th", function() require("harpoon.term").gotoTerminal(1) end, silent)
-nnoremap("<leader>tj", function() require("harpoon.term").gotoTerminal(2) end, silent)
-nnoremap("<leader>tk", function() require("harpoon.term").gotoTerminal(3) end, silent)
-nnoremap("<leader>tl", function() require("harpoon.term").gotoTerminal(4) end, silent)
+nnoremap("<leader>th", function() term.gotoTerminal(1) end, silent)
+nnoremap("<leader>tj", function() term.gotoTerminal(2) end, silent)
+nnoremap("<leader>tk", function() term.gotoTerminal(3) end, silent)
+nnoremap("<leader>tl", function() term.gotoTerminal(4) end, silent)
