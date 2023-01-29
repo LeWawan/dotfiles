@@ -1,4 +1,4 @@
-local nnoremap = require('thewawan.keymap').nnoremap
+local nnoremap = require('thewawan.utils.keymap').nnoremap
 
 nnoremap('<leader>gs', ':G<CR>')
 nnoremap('<leader>gj', ':diffget //3<CR>')

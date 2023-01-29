@@ -1,4 +1,4 @@
--- vim.opt.guicursor = ''
+--vim.opt.guicursor  ''
 
 vim.opt.filetype = 'on'
 
@@ -11,6 +11,7 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
+
 
 vim.opt.wrap = false
 
@@ -33,7 +34,9 @@ vim.opt.cmdheight = 1
 
 -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 -- delays and poor user experience.
-vim.opt.updatetime = 50
+-- vim.opt.updatetime = 50
+vim.opt.updatetime = 250
+vim.o.updatetime = 250
 
 -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append("c")
@@ -53,5 +56,20 @@ vim.g.netrw_winsize = 15
 -- vim.api.nvim_create_autocmd('VimEnter', {
 --   pattern = '*',
 --   group = augroup,
---   command = ':Vexplore'
+--   command = ' =Vexplore'
 -- })
+
+
+
+vim.g.clipboard = {
+ name = 'WslClipboard',
+ copy = {
+    ['+'] = 'clip.exe',
+    ['*'] = 'clip.exe',
+  },
+ paste = {
+    ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+ },
+ cache_enabled = 0,
+}

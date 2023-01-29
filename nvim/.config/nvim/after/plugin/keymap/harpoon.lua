@@ -2,7 +2,7 @@ local mark = require('harpoon.mark')
 local term = require('harpoon.term')
 local ui = require('harpoon.ui')
 
-local nnoremap = require('thewawan.keymap').nnoremap
+local nnoremap = require('thewawan.utils.keymap').nnoremap
 
 local silent = { silent = true }
 

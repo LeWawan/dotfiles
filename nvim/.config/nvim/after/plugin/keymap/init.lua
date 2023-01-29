@@ -1,4 +1,4 @@
-local Remap = require('thewawan.keymap')
+local Remap = require('thewawan.utils.keymap')
 local nmap = Remap.nmap
 local nnoremap = Remap.nnoremap
 local inoremap = Remap.inoremap

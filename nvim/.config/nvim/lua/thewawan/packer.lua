@@ -17,7 +17,7 @@ return require('packer').startup(function(use)
   use 'ThePrimeagen/git-worktree.nvim'
   use 'ThePrimeagen/harpoon'
 
-  -- Icons
+  -- Nvim tree
   use {
     'nvim-tree/nvim-tree.lua',
     requires = {
@@ -40,11 +40,13 @@ return require('packer').startup(function(use)
   -- https://github.com/mbbill/undotree
   use 'mbbill/undotree'
 
+  -- Nvim lsp
+  use { 'neovim/nvim-lspconfig' }
+
   -- Auto install lsp Mason v2
   use {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "neovim/nvim-lspconfig",
   }
   use 'onsails/lspkind-nvim'
 
@@ -78,21 +80,9 @@ return require('packer').startup(function(use)
     end
   }
 
-  -- Completion
-  --use 'ms-jpq/coq_nvim', {'branch': 'coq'}
-  --use 'hrsh7th/vim-vsnip-integ'
-
-  -- Auto LSP
-  --use 'prabirshrestha/vim-lsp'
-  --use 'mattn/vim-lsp-settings'
-
-  -- Coc autocomplete
-  -- use {'neoclide/coc.nvim', branch = 'release'}
-
-
   -- Extra plugin
   -- Solidity
-  use 'tomlion/vim-solidity'
+  -- use 'tomlion/vim-solidity'
 
   -- Comment
   -- @see https://github.com/numToStr/Comment.nvim
@@ -114,17 +104,8 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
 
-  -- Tree
-  -- requires
-  -- use 'preservim/nerdtree'
-  -- use 'kyazdani42/nvim-tree.lua'
-  -- use 'kyazdani42/nvim-web-devicons' -- for file icons
-
   -- Start screen
   use 'mhinz/vim-startify'
-
-  -- Vue
-  --use 'posva/vim-vue'
 
   -- Graphql
   use 'jparise/vim-graphql'
@@ -135,6 +116,6 @@ return require('packer').startup(function(use)
     run = function() vim.fn["mkdp#util#install"]() end,
   })
 
-  -- Rust bacon
+  -- Rust bacon @Keep me
   -- use 'Canop/nvim-bacon'
 end)
