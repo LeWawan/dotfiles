@@ -103,24 +103,33 @@ source ~/.zsh_profile
 source ~/.zsh_aliases
 
 # pnpm
-export PNPM_HOME="~/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
 # localbin
-export CUSTOM_BIN="~/localbin/"
+export CUSTOM_BIN="$HOME/localbin/"
 export PATH="$CUSTOM_BIN:$PATH"
 
 # meteor
-export METEOR_HOME="~/.meteor"
+export METEOR_HOME="$HOME/.meteor"
 export PATH="$METEOR_HOME:$PATH"
 
 # yarn
-export YARN_HOME="~/.yarn/bin"
+export YARN_HOME="$HOME/.yarn/bin"
 export PATH="$YARN_HOME:$PATH"
 
 # composer
-export COMPOSER_HOME="~/.composer/vendor/bin"
+export COMPOSER_HOME="$HOME/.composer/vendor/bin"
 export PATH="$COMPOSER_HOME:$PATH"
+
+# rust
+export RUST_HOME="$HOME/.cargo/bin"
+export PATH="$RUST_HOME:$PATH"
+source "$HOME/.cargo/env"
+
+# go
+export GO_HOME="/usr/local/go/bin"
+export PATH="$GO_HOME:$PATH"
 
 # nvm
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
