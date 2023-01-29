@@ -4,16 +4,26 @@ local vnoremap = Remap.vnoremap
 
 vim.cmd('set completeopt=menu,menuone,noselect')
 
--- Mason setup
-require('mason').setup()
+-- Neodev - https://github.com/folke/neodev.nvim
+require("neodev").setup()
 
--- CMP Setup
+-- Mason setup - https://github.com/williamboman/mason.nvim
+require("mason").setup()
+require("mason-lspconfig").setup()
+require("mason-lspconfig").setup {
+  ensure_installed = { "sumneko_lua", "rust_analyzer" },
+  automatic_installation = false,
+}
+
+local lspconfig = require("lspconfig")
+
+-- Cmp Setup - https://github.com/hrsh7th/nvim-cmp
 local cmp = require('cmp')
 local lspkind = require('lspkind')
 
 local source_mapping = {
   buffer = '[Buffer]',
-  nvim_lsp = '[LSP]',
+  nvim_lsp = '[Lsp]',
   nvim_lua = '[Lua]',
   cmp = '[Cmp]',
   path = '[Path]'
@@ -21,12 +31,8 @@ local source_mapping = {
 
 cmp.setup({
   snippet = {
-    -- REQUIRED - you must specify a snippet engine
     expand = function(args)
       vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-      -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-      -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-      -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -47,15 +53,12 @@ cmp.setup({
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
   },
-  {
-    { name = 'buffer' }
-  })
+    {
+      { name = 'buffer' }
+    })
 })
 
-
-require("nvim-lsp-installer").setup {}
-local lspconfig = require("lspconfig")
-
+-- Custom lsp handlers
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   virtual_text = true,
   signs = true,
@@ -63,14 +66,12 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagn
   update_in_insert = true,
 })
 
-local lsp_flags = {
-  -- This is the default in Nvim 0.7+
-  debounce_text_changes = 150,
-}
-
 local function config(_config)
   return vim.tbl_deep_extend("force", {
-    lsp_flags = lsp_flags,
+    lsp_flags = {
+      -- This is the default in Nvim 0.7+ (this may be remove...)
+      debounce_text_changes = 150,
+    },
     capabilities = require("cmp_nvim_lsp").default_capabilities(),
     -- Use an on_attach function to only map the following keys
     -- after the language server attaches to the current buffer
@@ -93,49 +94,14 @@ local function config(_config)
   }, _config or {})
 end
 
-
-local sumneko_root_path = "/Users/erwan/local_libs/sumneko"
-local sumneko_binary = sumneko_root_path .. "/bin/lua-language-server"
-local runtime_path = vim.split(package.path, ';')
-lspconfig.sumneko_lua.setup(config({
-  cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
-  settings = {
-    Lua = {
-      runtime = {
-        version = 'LuaJIT',
-        path = runtime_path
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = { 'use', 'vim', 'require', 'os', 'package' },
-      },
-      workspace = {
-        -- library = vim.api.nvim_get_runtime_file('', true)
-        library = {
-          [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-          [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true
-        }
-      },
-      telemetry = {
-        enable = false
-      }
-    },
-  },
-}))
-
-lspconfig.vls.setup(config())
+-- Typescript config
 lspconfig.tsserver.setup(config())
-lspconfig.html.setup(config())
-lspconfig.rust_analyzer.setup(config())
-lspconfig.taplo.setup(config())
-lspconfig.marksman.setup(config())
 
--- Vuejs
-require 'lspconfig'.volar.setup(config({
+-- Vuejs config
+lspconfig.volar.setup(config({
   init_options = {
     typescript = {
       -- serverPath = '~/.nvm/versions/node/v18.12.0/lib/node_modules/npm/node_modules/typescript/lib/tsserverlibrary.js',
-      -- @TODO fix check
       tsdk = '/Users/erwan/.nvm/versions/node/v18.12.0/lib/node_modules/npm/node_modules/typescript/lib'
       -- Alternative location if installed as root:
       -- serverPath = '/usr/local/lib/node_modules/typescript/lib/tsserverlibrary.js'
@@ -147,95 +113,73 @@ require 'lspconfig'.volar.setup(config({
     }
   }
 }))
+-- Outdated vue...
+-- require 'lspconfig'.vuels.setup(config({}))
 
-require 'lspconfig'.vuels.setup(config({}))
-
--- Tailwindcss
-lspconfig.tailwindcss.setup(config({
-  handlers = {
-    ["tailwindcss/getConfiguration"] = function (_, _, params, _, bufnr, _)
-      -- tailwindcss lang server waits for this repsonse before providing hover
-      vim.lsp.buf_notify(bufnr, "tailwindcss/getConfigurationResponse", { _id = params._id })
-    end
-  },
-  settings = {},
-  flags = { debounce_text_changes = 150, }
+-- Rust config
+lspconfig.rust_analyzer.setup(config({
+  cmd = {
+    "rustup", "run", "stable", "rust-analyzer"
+  }
 }))
 
--- Php
-require 'lspconfig'.intelephense.setup(config({}))
-
--- cpp
--- require 'lspconfig'.clangd.setup(config({}))
-
--- prisma
-require 'lspconfig'.prismals.setup(config({}))
-
--- Treesitter
-require "nvim-treesitter.configs".setup {
-  playground = {
-    enable = true,
-    disable = {},
-    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-    persist_queries = false, -- Whether the query persists across vim sessions
-    keybindings = {
-      toggle_query_editor = 'o',
-      toggle_hl_groups = 'i',
-      toggle_injected_languages = 't',
-      toggle_anonymous_nodes = 'a',
-      toggle_language_display = 'I',
-      focus_language = 'f',
-      unfocus_language = 'F',
-      update = 'R',
-      goto_node = '<cr>',
-      show_help = '?',
+-- Lua config
+lspconfig.sumneko_lua.setup(config({
+  -- cmd = { sumneko_binary, "-E", sumneko_root_path .. "/main.lua" },
+  settings = {
+    Lua = {
+      runtime = {
+        version = 'Lua 5.3',
+        path = {
+          '?.lua',
+          '?/init.lua',
+          vim.fn.expand '~/.luarocks/share/lua/5.3/?.lua',
+          vim.fn.expand '~/.luarocks/share/lua/5.3/?/init.lua',
+          '/usr/share/5.3/?.lua',
+          '/usr/share/lua/5.3/?/init.lua'
+        }
+      },
+      workspace = {
+        library = {
+          vim.fn.expand '~/.luarocks/share/lua/5.3',
+          '/usr/share/lua/5.3'
+        }
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = { 'use', 'vim', 'require', 'os', 'package', 'nvim' },
+      },
+      telemetry = {
+        enable = false
+      },
+      completion = {
+        callSnippet = 'Replace'
+      }
     },
   },
-  query_linter = {
-    enable = true,
-    use_virtual_text = true,
-    lint_events = { "BufWrite", "CursorHold" },
-  },
-  ensure_installed = "typescript",
-  highlight = { enable = true },
-}
+}))
 
---
--- Emmet
-local configs = require'lspconfig.configs'
+-- Html + Emmet
+lspconfig.html.setup(config())
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+lspconfig.emmet_ls.setup(config({
+  filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
+  init_options = {
+      html = {
+        options = {
+          ["bem.enabled"] = true,
+        },
+      },
+    }
+}))
 
-if not configs.ls_emmet then
-  configs.ls_emmet = {
-    default_config = {
-      cmd = { 'emmet_ls', '--stdio' };
-      filetypes = {
-        'html',
-        'vue',
-        'css',
-        'scss',
-        'javascriptreact',
-        'typescriptreact',
-        'haml',
-        'xml',
-        'xsl',
-        'pug',
-        'slim',
-        'sass',
-        'stylus',
-        'less',
-        'sss',
-        'hbs',
-        'handlebars',
-      };
-      root_dir = function()
-        return vim.loop.cwd()
-      end;
-      settings = {};
-    };
-  }
-end
+-- Tailwindcss
+lspconfig.tailwindcss.setup(config({}))
 
-lspconfig.emmet_ls.setup(config({}))
+-- Markdown
+lspconfig.marksman.setup(config())
+
+-- Php
+lspconfig.intelephense.setup(config({}))
