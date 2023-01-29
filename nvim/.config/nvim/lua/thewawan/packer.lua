@@ -1,6 +1,6 @@
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup(function()
+return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   -- Theming
@@ -9,7 +9,10 @@ return require('packer').startup(function()
   use 'josa42/nvim-lightline-lsp'
 
   -- Finders
-  use 'nvim-telescope/telescope.nvim'
+  use {
+	  'nvim-telescope/telescope.nvim', tag = '0.1.x',
+	  requires = { {'nvim-lua/plenary.nvim'} }
+  }
   use 'nvim-telescope/telescope-fzy-native.nvim'
   use 'ThePrimeagen/git-worktree.nvim'
   use 'ThePrimeagen/harpoon'
@@ -20,10 +23,10 @@ return require('packer').startup(function()
     requires = {
       'nvim-tree/nvim-web-devicons', -- optional, for file icons
     },
+    tag = 'nightly' -- optional, updated every week. (see issue #1193)
   }
 
   use 'nvim-lua/popup.nvim'
-  use 'nvim-lua/plenary.nvim'
 
   --The best one => ThePrimeagen
   use "ThePrimeagen/vim-be-good"
@@ -37,19 +40,20 @@ return require('packer').startup(function()
   -- https://github.com/mbbill/undotree
   use 'mbbill/undotree'
 
-  -- Lsp
-  use 'neovim/nvim-lspconfig'
-  use 'williamboman/nvim-lsp-installer'
+  -- Auto install lsp Mason v2
+  use {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+  }
   use 'onsails/lspkind-nvim'
-  -- Auto install lsp
-  use { "williamboman/mason.nvim" }
 
   -- Debugger
   use 'mfussenegger/nvim-dap'
 
   -- Treesitter
-  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-  use 'nvim-treesitter/playground'
+  use('nvim-treesitter/nvim-treesitter', {run = ':TSUpdate' })
+  use('nvim-treesitter/playground')
   use 'nvim-treesitter/nvim-treesitter-context'
 
   -- Emmet
@@ -94,6 +98,8 @@ return require('packer').startup(function()
   -- @see https://github.com/numToStr/Comment.nvim
   use 'numToStr/Comment.nvim'
 
+  -- Nvim dev kit
+  use 'folke/neodev.nvim'
 
   -- Nvim cmp
   use 'hrsh7th/cmp-nvim-lsp'
@@ -101,6 +107,8 @@ return require('packer').startup(function()
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
+
+  -- debugger
 
   -- For vsnip users.
   use 'hrsh7th/cmp-vsnip'
@@ -121,4 +129,12 @@ return require('packer').startup(function()
   -- Graphql
   use 'jparise/vim-graphql'
 
+  -- Markdown
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
+
+  -- Rust bacon
+  -- use 'Canop/nvim-bacon'
 end)
