@@ -74,3 +74,29 @@ echo "[install] pnpm installed"
 # https://github.com/antfu/ni
 npm i -g @antfu/ni
 echo "[install] antfu/ni"
+
+# Rust
+cd
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Go
+cd
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.linux-amd64.tar.gz
+
+# Lua + luarocks
+cd
+curl -R -O http://www.lua.org/ftp/lua-5.4.4.tar.gz
+tar zxf lua-5.4.4.tar.gz
+cd lua-5.4.4
+make all test
+sudo make install
+
+
+cd
+curl -R -O https://luarocks.org/releases/luarocks-3.9.1.tar.gz
+tar zxpf luarocks-3.9.1.tar.gz
+cd luarocks-3.9.1
+./configure && make && sudo make install
+sudo luarocks install luasocket
+
+cd $BASE_DIR
