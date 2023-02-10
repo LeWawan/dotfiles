@@ -105,7 +105,8 @@ local basic_servers = {
   'html',
   'tailwindcss',
   'marksman',
-  'intelephense'
+  'intelephense',
+  'eslint'
 }
 
 require('mason-lspconfig').setup({
