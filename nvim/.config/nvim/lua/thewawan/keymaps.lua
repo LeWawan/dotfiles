@@ -1,7 +1,9 @@
 -- Things
 vim.cmd("autocmd BufWritePre * :%s/\\s\\+$//e")
 
+vim.keymap.set('n', '<C-c>', '<Esc>')
 vim.keymap.set('x', '<C-c>', '<Esc>')
+vim.keymap.set('i', '<C-c>', '<Esc>')
 
 -- Size remaps
 vim.keymap.set('n', '<leader>-',  ':vertical resize -10<CR>')
