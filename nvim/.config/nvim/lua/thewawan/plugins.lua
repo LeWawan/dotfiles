@@ -29,10 +29,13 @@ return require('packer').startup(function(use)
     }
   }
 
-  -- Autocompletion
-  use 'neovim/nvim-lspconfig'
+  -- Autocompletion + Syntax highlight
+  use {
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
+  }
   use 'nvim-treesitter/nvim-treesitter'
-  use 'williamboman/mason.nvim'
 
   -- cmp
   use 'hrsh7th/cmp-nvim-lsp'
