@@ -2,14 +2,52 @@
 
 BASE_DIR=$(pwd)
 
-# nvim latest installation
-cd ~
-if [[ -f ~/nvim-macos.tar.gz ]]; then
-  rm ~/nvim-macos.tar.gz
+# default
+
+if [[ $(uname) == Linux ]]
+then
+  sudo apt install curl wget python3 python3-pip ripgrep fd-find unzip -y
+
+elif [[ $(uname) == Darwin ]]
+then
+  brew install curl wget python3 python3-pip ripgrep fd-find unzip -y
+
+else
+  echo "install_deps error: device uname not recognized"
 fi
-wget https://github.com/neovim/neovim/releases/download/stable/nvim-macos.tar.gz
-tar -xzf nvim-macos.tar.gz
-rm ~/nvim-macos.tar.gz
+
+# nvim latest installation
+cd
+
+if [[ $(uname) == Linux ]]
+then
+  NVIM_SOURCE="nvim-linux64"
+  echo 'NVIM_SOURCE set to linux'
+elif [[ $(uname) == Darwin ]]
+then
+  NVIM_SOURCE="nvim-macos"
+  echo 'NVIM_SOURCE set to debian'
+else
+  echo "install_deps error: device uname not recognized"
+fi
+
+
+if [ -z "$NVIM_SOURCE" ]; then
+  echo "NVIM_SOURCE is unset"
+else
+  echo "in here"
+  if [[ -f "~/$NVIM_SOURCE.tar.gz" ]]; then
+    rm "~/$NVIM_SOURCE.tar.gz"
+  fi
+  wget "https://github.com/neovim/neovim/releases/download/stable/$NVIM_SOURCE.tar.gz"
+  tar -xzf "$NVIM_SOURCE.tar.gz"
+  rm "$NVIM_SOURCE.tar.gz"
+
+  sudo rm /usr/local/bin/nvim
+  cd /usr/local/bin
+  sudo ln -sf "$HOME/$NVIM_SOURCE/bin/nvim" nvim
+fi
+
 cd $BASE_DIR
 echo "[install] latest nvim installed"
 
