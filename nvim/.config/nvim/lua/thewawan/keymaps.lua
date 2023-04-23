@@ -32,11 +32,12 @@ vim.keymap.set('v', "<leader>d", "\"_d")
 vim.keymap.set('v', "<leader>d", "\"_d")
 
 vim.keymap.set('n', '<leader><leader>x', ':so %<cr>')
+vim.keymap.set('n', '<leader><leader>z', ':LspRestart<cr>')
 
 -- Fzf
 vim.keymap.set('n', '<leader>gs', ':G<CR>')
-vim.keymap.set('n', '<leader>gj', ':diffget //3<CR>')
-vim.keymap.set('n', '<leader>gf', ':diffget //2<CR>')
+vim.keymap.set('n', '<leader>gf', ':diffget //2<CR>') -- Ours
+vim.keymap.set('n', '<leader>gj', ':diffget //3<CR>') -- Theirs
 vim.keymap.set('n', '<leader>gp', ':Git push<CR>')
 vim.keymap.set('n', '<leader>gl', ':Git pull<CR>')
 
