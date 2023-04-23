@@ -9,6 +9,9 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 ---@diagnostic disable-next-line: unused-local
 local on_attach = function(client, bufnr)
+  -- attach twoslash queries
+  require("twoslash-queries").attach(client, bufnr)
+
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -60,6 +63,7 @@ local source_mapping = {
   buffer = '[Buffer]',
   nvim_lsp = '[Lsp]',
   nvim_lua = '[Lua]',
+  vsnip = '[Vsnip]',
   cmp = '[Cmp]',
   path = '[Path]'
 }
@@ -85,12 +89,12 @@ cmp.setup({
     end,
   },
   sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
     { name = 'vsnip' },
+    { name = 'nvim_lsp' },
   },
-    {
-      { name = 'buffer' }
-    })
+  {
+    { name = 'buffer' }
+  })
 })
 
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
@@ -111,7 +115,7 @@ local basic_servers = {
 
 require('mason-lspconfig').setup({
   ensure_installed = {
-    'sumneko_lua',
+    'lua_ls',
     'rust_analyzer',
     'tsserver',
     'volar',
@@ -123,7 +127,7 @@ for _key, value in pairs(basic_servers) do
   lspconfig[value].setup(config())
 end
 
-lspconfig.sumneko_lua.setup(config({
+lspconfig.lua_ls.setup(config({
   settings = {
     Lua = {
       diagnostics = {
