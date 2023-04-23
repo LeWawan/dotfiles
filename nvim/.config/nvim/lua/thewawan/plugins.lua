@@ -6,8 +6,13 @@ return require('packer').startup(function(use)
 
   -- Theming
   use 'folke/tokyonight.nvim'
+
+  -- New theme ?
+  use 'Everblush/nvim'
+
   use 'itchyny/lightline.vim'
   use 'josa42/nvim-lightline-lsp'
+  use "lukas-reineke/indent-blankline.nvim"
 
   -- Sidebar
   use {
@@ -36,6 +41,10 @@ return require('packer').startup(function(use)
     "neovim/nvim-lspconfig",
   }
   use 'nvim-treesitter/nvim-treesitter'
+  use 'nvim-treesitter/playground'
+
+  -- Twoslash queries
+  use 'marilari88/twoslash-queries.nvim'
 
   -- cmp
   use 'hrsh7th/cmp-nvim-lsp'
@@ -91,5 +100,18 @@ return require('packer').startup(function(use)
 
   -- Start screen
   use 'mhinz/vim-startify'
+
+  -- copilot
+  use 'github/copilot.vim'
+
+  -- import costs
+  -- use 'barrett-ruth/import-cost.nvim'
+  use({
+    'yardnsm/vim-import-cost',
+    run = 'npm install --omit=dev'
+  })
+
+  -- hex colors
+  use 'norcalli/nvim-colorizer.lua'
 
 end)
