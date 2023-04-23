@@ -2,6 +2,7 @@ local o = vim.opt
 local g = vim.g
 
 -- o.guicursor = ''
+o.mouse = nil
 
 o.filetype = 'on'
 
@@ -41,7 +42,7 @@ o.updatetime = 50
 -- Don't pass messages to |ins-completion-menu|.
 o.shortmess:append("c")
 
-o.colorcolumn = "80"
+o.colorcolumn = "120"
 
 g.mapleader = " "
 o.clipboard = "unnamedplus"
