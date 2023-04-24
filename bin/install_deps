@@ -6,15 +6,30 @@ BASE_DIR=$(pwd)
 
 if [[ $(uname) == Linux ]]
 then
-  sudo apt install curl wget python3 python3-pip ripgrep fd-find unzip -y
+  sudo apt install curl wget python3 python3-pip ripgrep fd-find unzip stow fortune cowsay exa -y
 
 elif [[ $(uname) == Darwin ]]
 then
-  brew install curl wget python3 python3-pip ripgrep fd-find unzip -y
+  brew install curl wget python3 python3-pip ripgrep fd-find unzip stow fortune cowsay exa -y
 
 else
   echo "install_deps error: device uname not recognized"
 fi
+
+# oh my zsh
+
+if [ ! -d "$HOME/.oh-my-zsh" ]
+then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+if [ -f "$HOME/.zshrc.pre-oh-my-zsh" ]
+then
+  mv ~/.zshrc.pre-oh-my-zsh ~/.zshrc
+fi
+
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
 # nvim latest installation
 cd
@@ -85,17 +100,17 @@ rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.linux-amd64.tar.gz
 
 # Lua + luarocks
 cd
-curl -R -O http://www.lua.org/ftp/lua-5.4.4.tar.gz
-tar zxf lua-5.4.4.tar.gz
-cd lua-5.4.4
+curl -R -O http://www.lua.org/ftp/lua-5.3.5.tar.gz
+tar zxf lua-5.3.5.tar.gz
+cd lua-5.3.5
 make all test
 sudo make install
 
 
 cd
-curl -R -O https://luarocks.org/releases/luarocks-3.9.1.tar.gz
-tar zxpf luarocks-3.9.1.tar.gz
-cd luarocks-3.9.1
+wget https://luarocks.org/releases/luarocks-3.8.0.tar.gz
+tar zxpf luarocks-3.8.0.tar.gz
+cd luarocks-3.8.0
 ./configure && make && sudo make install
 sudo luarocks install luasocket
 
