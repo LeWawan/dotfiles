@@ -148,7 +148,7 @@ lspconfig.volar.setup(config({
   init_options = {
     typescript = {
       -- serverPath = '~/.nvm/versions/node/v18.12.0/lib/node_modules/npm/node_modules/typescript/lib/tsserverlibrary.js',
-      tsdk = '/Users/erwan/.nvm/versions/node/v18.12.0/lib/node_modules/npm/node_modules/typescript/lib'
+      tsdk = '/home/wawan/.local/share/fnm/node-versions/v18.16.0/installation/lib/node_modules/typescript/lib'
       -- Alternative location if installed as root:
       -- serverPath = '/usr/local/lib/node_modules/typescript/lib/tsserverlibrary.js'
     }
