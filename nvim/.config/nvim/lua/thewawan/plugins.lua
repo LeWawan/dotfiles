@@ -58,6 +58,13 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
 
+  -- prettier
+  use ({
+    'prettier/vim-prettier',
+    run = 'npm install --frozen-lockfile --production'
+  })
+
+
   -- neodev.vim
   -- @note Potential breaking change...
   use "folke/neodev.nvim"
@@ -113,5 +120,8 @@ return require('packer').startup(function(use)
 
   -- hex colors
   use 'norcalli/nvim-colorizer.lua'
+
+  --
+  use 'prisma/vim-prisma'
 
 end)

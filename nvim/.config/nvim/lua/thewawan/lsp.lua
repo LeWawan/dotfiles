@@ -5,12 +5,16 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+-- vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 ---@diagnostic disable-next-line: unused-local
 local on_attach = function(client, bufnr)
   -- attach twoslash queries
-  require("twoslash-queries").attach(client, bufnr)
+  require("twoslash-queries")
+    -- .setup({
+    --   multi_line = true,
+    -- })
+    .attach(client, bufnr)
 
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -26,7 +30,7 @@ local on_attach = function(client, bufnr)
 
   -- Show keymaps
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>k', vim.lsp.buf.signature_help, bufopts)
 
   -- Workspace keymaps
   vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
@@ -110,7 +114,8 @@ local basic_servers = {
   'tailwindcss',
   'marksman',
   'intelephense',
-  'eslint'
+  'eslint',
+  'prismals'
 }
 
 require('mason-lspconfig').setup({
@@ -119,6 +124,7 @@ require('mason-lspconfig').setup({
     'rust_analyzer',
     'tsserver',
     'volar',
+    'prismals',
     unpack(basic_servers),
   }
 })

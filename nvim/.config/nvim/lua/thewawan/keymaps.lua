@@ -1,9 +1,12 @@
 -- Things
 vim.cmd("autocmd BufWritePre * :%s/\\s\\+$//e")
+vim.cmd("autocmd BufWritePre * :Prettier")
 
 vim.keymap.set('n', '<C-c>', '<Esc>')
 vim.keymap.set('x', '<C-c>', '<Esc>')
 vim.keymap.set('i', '<C-c>', '<Esc>')
+
+vim.keymap.set('n', '<leader>db', ':%bdelete|edit #|normal`"<cr>')
 
 -- Size remaps
 vim.keymap.set('n', '<leader>-',  ':vertical resize -10<CR>')
@@ -98,3 +101,4 @@ vim.keymap.set('n', '<F5>', ':UndotreeToggle<CR>')
 
 -- Vim wiki
 vim.keymap.set('n', '<leader>,', ':VimwikiToggleListItem<CR>')
+
