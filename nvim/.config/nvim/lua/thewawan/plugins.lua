@@ -37,6 +37,9 @@ return require('packer').startup(function(use)
   -- Autocompletion + Syntax highlight
   use {
     "williamboman/mason.nvim",
+    run = ":MasonUpdate"
+  }
+  use {
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
   }
@@ -121,7 +124,7 @@ return require('packer').startup(function(use)
   -- hex colors
   use 'norcalli/nvim-colorizer.lua'
 
-  --
+  -- nvim prisma
   use 'prisma/vim-prisma'
 
 end)
