@@ -9,7 +9,7 @@ alias nah="git reset --hard & git clean -df"
 alias vim="nvim"
 
 # python
-alias python="python3.9"
+alias python="python3"
 
 # vscode
 alias c="code"

@@ -143,17 +143,11 @@ export PATH="$GO_HOME:$PATH"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# nvm use
+
 # fnm
 export PATH="$HOME/.local/share/fnm:$PATH"
-eval "`fnm env`"
-
-# startup
-fortune | cowsay -f tux
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-
+eval "$(fnm env --use-on-cd)"
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -161,4 +155,16 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end
+
+# meteor
+export PATH="$HOME/.meteor:$PATH"
+
+# startup
+fortune | cowsay -f tux
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
