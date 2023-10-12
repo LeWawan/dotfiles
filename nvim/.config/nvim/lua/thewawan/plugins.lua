@@ -7,6 +7,9 @@ return require('packer').startup(function(use)
   -- Theming
   use 'folke/tokyonight.nvim'
 
+  -- ThePrimeagen you said ??
+  use 'ThePrimeagen/vim-be-good'
+
   -- New theme ?
   use 'Everblush/nvim'
 
