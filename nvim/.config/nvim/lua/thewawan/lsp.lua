@@ -93,12 +93,12 @@ cmp.setup({
     end,
   },
   sources = cmp.config.sources({
-    { name = 'vsnip' },
-    { name = 'nvim_lsp' },
-  },
-  {
-    { name = 'buffer' }
-  })
+      { name = 'vsnip' },
+      { name = 'nvim_lsp' },
+    },
+    {
+      { name = 'buffer' }
+    })
 })
 
 -- IMPORTANT: make sure to setup neodev BEFORE lspconfig
@@ -115,7 +115,8 @@ local basic_servers = {
   'marksman',
   'intelephense',
   'eslint',
-  'prismals'
+  'prismals',
+  'gopls'
 }
 
 require('mason-lspconfig').setup({
@@ -178,10 +179,14 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 lspconfig.emmet_ls.setup(config({
   filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
   init_options = {
-      html = {
-        options = {
-          ["bem.enabled"] = true,
-        },
+    html = {
+      options = {
+        ["bem.enabled"] = true,
       },
-    }
+    },
+  }
+}))
+
+lspconfig.prettier.setup(config({
+  filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
 }))
