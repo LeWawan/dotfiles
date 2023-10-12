@@ -109,7 +109,7 @@ local lspconfig = require('lspconfig')
 require('mason').setup()
 
 local basic_servers = {
-  'tsserver',
+  -- 'tsserver',
   'html',
   'tailwindcss',
   'marksman',
@@ -151,6 +151,7 @@ lspconfig.tsserver.setup(config())
 
 -- Vuejs config
 lspconfig.volar.setup(config({
+  filetypes = { 'vue', 'javascript', 'typescript', 'typescriptreact' },
   init_options = {
     typescript = {
       -- serverPath = '~/.nvm/versions/node/v18.12.0/lib/node_modules/npm/node_modules/typescript/lib/tsserverlibrary.js',
