@@ -7,8 +7,12 @@ require('telescope').setup({
     grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
     qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
 
-    file_ignore_patterns = { "^%.git/", "^node_modules" }
-  },
+    file_ignore_patterns = { "^%.git/", "^node_modules" },
+    mappings = {
+      i = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble },
+      n = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble },
+    },
+ },
   pickers = {
     previewers = false
   },
@@ -59,6 +63,6 @@ end)
 vim.keymap.set('n', "<leader>vh", function()
   require('telescope.builtin').help_tags()
 end)
-vim.keymap.set('n', "<leader>fq", function()
+vim.keymap.set('n', "<leader>qf", function()
   require('telescope.builtin').quickfix()
 end)

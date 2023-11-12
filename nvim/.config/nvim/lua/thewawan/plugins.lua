@@ -49,6 +49,7 @@ return require('packer').startup(function(use)
   use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-treesitter/playground'
 
+  use { 'folke/trouble.nvim', requires = "kyazdani42/nvim-web-devicons" }
   -- Twoslash queries
   use 'marilari88/twoslash-queries.nvim'
 
