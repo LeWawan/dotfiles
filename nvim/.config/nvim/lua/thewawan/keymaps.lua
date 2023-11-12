@@ -73,10 +73,6 @@ vim.keymap.set('n', "<leader>tk", function() term.gotoTerminal(3) end, silent)
 vim.keymap.set('n', "<leader>tl", function() term.gotoTerminal(4) end, silent)
 
 -- Lsp
-vim.keymap.set('n', '<C-n>', ':cnext<CR>')
-vim.keymap.set('n', '<C-p>', ':cprev<CR>')
-
-
 local toggle_qf = function()
   local qf_exists = false
   print(qf_exists)
@@ -94,7 +90,18 @@ local toggle_qf = function()
   end
 end
 
-vim.keymap.set('n', '<C-q>', toggle_qf, { noremap = false })
+-- vim.keymap.set('n', '<C-q>', toggle_qf, { noremap = false })
+vim.keymap.set('n', '<C-q>', function() require("trouble").toggle() end)
+-- vim.keymap.set('n', '<C-n>', ':cnext<CR>')
+vim.keymap.set('n', '<C-n>', function() require("trouble").next({ skip_groups = true, jump = true }) end)
+-- vim.keymap.set('n', '<C-p>', ':cprev<CR>')
+vim.keymap.set('n', '<C-p>', function() require("trouble").previous({ skip_groups = true, jump = true }) end)
+
+vim.keymap.set("n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end)
+vim.keymap.set("n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end)
+vim.keymap.set("n", "<leader>xq", function() require("trouble").toggle("quickfix") end)
+vim.keymap.set("n", "<leader>xl", function() require("trouble").toggle("loclist") end)
+vim.keymap.set("n", "gR", function() require("trouble").toggle("lsp_references") end)
 
 -- Undotree
 vim.keymap.set('n', '<F5>', ':UndotreeToggle<CR>')
