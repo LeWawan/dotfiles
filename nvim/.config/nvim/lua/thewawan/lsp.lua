@@ -209,3 +209,6 @@ lspconfig.solidity.setup(config({
     single_file_support = true,
 }))
 
+lspconfig.htmx.setup(config({
+  filetypes = { 'html' },
+}))
