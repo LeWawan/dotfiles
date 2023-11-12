@@ -15,7 +15,7 @@ return require('packer').startup(function(use)
 
   use 'itchyny/lightline.vim'
   use 'josa42/nvim-lightline-lsp'
-  use "lukas-reineke/indent-blankline.nvim"
+  -- use "lukas-reineke/indent-blankline.nvim"
 
   -- Sidebar
   use {
@@ -50,6 +50,7 @@ return require('packer').startup(function(use)
   use 'nvim-treesitter/playground'
 
   use { 'folke/trouble.nvim', requires = "kyazdani42/nvim-web-devicons" }
+
   -- Twoslash queries
   use 'marilari88/twoslash-queries.nvim'
 
@@ -119,11 +120,11 @@ return require('packer').startup(function(use)
   use 'github/copilot.vim'
 
   -- import costs
-  -- use 'barrett-ruth/import-cost.nvim'
-  use({
-    'yardnsm/vim-import-cost',
-    run = 'npm install --omit=dev'
-  })
+  -- use({'barrett-ruth/import-cost.nvim', run = 'sh install.sh pnpm'})
+  -- use({
+  --   'yardnsm/vim-import-cost',
+  --   run = 'npm install --omit=dev'
+  -- })
 
   -- hex colors
   use 'norcalli/nvim-colorizer.lua'
