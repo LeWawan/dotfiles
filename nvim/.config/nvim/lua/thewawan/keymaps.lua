@@ -1,6 +1,10 @@
 -- Things
 vim.cmd("autocmd BufWritePre * :%s/\\s\\+$//e")
-vim.cmd("autocmd BufWritePre * :Prettier")
+-- vim.cmd("autocmd BufWritePre *.tsx,*.ts,*.js,*.html,*.css :Prettier")
+vim.cmd("autocmd BufWritePre *.go,*.ts,*.vue :lua vim.lsp.buf.format()")
+
+-- Autocmd for astro
+vim.cmd('autocmd BufNewFile,BufRead *.astro set filetype=astro')
 
 vim.keymap.set('n', '<C-c>', '<Esc>')
 vim.keymap.set('x', '<C-c>', '<Esc>')
