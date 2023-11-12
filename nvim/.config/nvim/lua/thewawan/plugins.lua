@@ -15,7 +15,6 @@ return require('packer').startup(function(use)
 
   use 'itchyny/lightline.vim'
   use 'josa42/nvim-lightline-lsp'
-  -- use "lukas-reineke/indent-blankline.nvim"
 
   -- Sidebar
   use {
@@ -67,10 +66,10 @@ return require('packer').startup(function(use)
   use 'hrsh7th/vim-vsnip'
 
   -- prettier
-  use ({
-    'prettier/vim-prettier',
-    run = 'npm install --frozen-lockfile --production'
-  })
+  -- use ({
+  --   'prettier/vim-prettier',
+  --   run = 'npm install --frozen-lockfile --production'
+  -- })
 
 
   -- neodev.vim

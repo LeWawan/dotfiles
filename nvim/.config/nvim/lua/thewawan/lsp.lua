@@ -109,14 +109,13 @@ local lspconfig = require('lspconfig')
 require('mason').setup()
 
 local basic_servers = {
-  -- 'tsserver',
+  'astro',
   'html',
   'tailwindcss',
   'marksman',
   'intelephense',
   'eslint',
   'prismals',
-  'gopls'
 }
 
 require('mason-lspconfig').setup({
@@ -137,9 +136,6 @@ end
 lspconfig.lua_ls.setup(config({
   settings = {
     Lua = {
-      diagnostics = {
-        global = { 'vim' }
-      },
       completion = {
         callSnippet = "Replace"
       }
@@ -197,3 +193,19 @@ lspconfig.solidity.setup(config({
   root_dir = lspconfig.util.find_git_ancestor,
   single_file_support = true,
 }))
+
+lspconfig.gopls.setup(config({
+   settings = {
+    gopls = {
+      gofumpt = true
+    }
+  }
+}))
+
+lspconfig.solidity.setup(config({
+    cmd = {'nomicfoundation-solidity-language-server', '--stdio'},
+    filetypes = { 'solidity' },
+    root_dir = lspconfig.util.find_git_ancestor,
+    single_file_support = true,
+}))
+

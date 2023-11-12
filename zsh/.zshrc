@@ -138,6 +138,9 @@ source "$HOME/.cargo/env"
 export GO_HOME="/usr/local/go/bin"
 export PATH="$GO_HOME:$PATH"
 
+export GO_INSTALL_PATH="/home/wawan/go/bin"
+export PATH="$GO_INSTALL_PATH:$PATH"
+
 # nvm
 # export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
@@ -168,3 +171,11 @@ fortune | cowsay -f tux
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+# pnpm
+export PNPM_HOME="/home/wawan/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
