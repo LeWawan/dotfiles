@@ -1,5 +1,5 @@
 vim.opt.list = true
 
-require('indent_blankline').setup({
-  show_current_context = true,
-})
+-- require('ibl').setup({
+--   show_current_context = true,
+-- })
