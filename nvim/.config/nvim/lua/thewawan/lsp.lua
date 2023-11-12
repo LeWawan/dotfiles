@@ -190,3 +190,10 @@ lspconfig.emmet_ls.setup(config({
 lspconfig.prettier.setup(config({
   filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less' },
 }))
+
+lspconfig.solidity.setup(config({
+  cmd = {'nomicfoundation-solidity-language-server', '--stdio'},
+  filetypes = { 'solidity' },
+  root_dir = lspconfig.util.find_git_ancestor,
+  single_file_support = true,
+}))
