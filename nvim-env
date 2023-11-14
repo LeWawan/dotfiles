@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+while [ "$#" -gt 0 ]; do
+  curr=$1
+  shift
+
+  case "$curr" in
+    "-default")
+      mv ~/.config/nvim{,.bak.playground}
+      mv ~/.local/share/nvim{,.bak.playground}
+      mv ~/.local/state/nvim{,.bak.playground}
+      mv ~/.cache/nvim{,.bak.playground}
+
+      mv ~/.config/nvim{.bak.default,}
+      mv ~/.local/share/nvim{.bak.default,}
+      mv ~/.local/state/nvim{.bak.default,}
+      mv ~/.cache/nvim{.bak.default,}
+      ;;
+    "-playground")
+      mv ~/.config/nvim{,.bak.default}
+      mv ~/.local/share/nvim{,.bak.default}
+      mv ~/.local/state/nvim{,.bak.default}
+      mv ~/.cache/nvim{,.bak.default}
+
+      mv ~/.config/nvim{.bak.playground,}
+      mv ~/.local/share/nvim{.bak.playground,}
+      mv ~/.local/state/nvim{.bak.playground,}
+      mv ~/.cache/nvim{.bak.playground,}
+      echo "playground loaded"
+      ;;
+      # Work in progress
+      *) echo "Unavailable command... $curr" ;;
+    esac
+  done
