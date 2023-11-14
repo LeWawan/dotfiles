@@ -9,8 +9,8 @@ require('telescope').setup({
 
     file_ignore_patterns = { "^%.git/", "^node_modules" },
     mappings = {
-      i = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble },
-      n = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble },
+      i = { ["<c-q>"] = require("trouble.providers.telescope").open_with_trouble },
+      n = { ["<c-q>"] = require("trouble.providers.telescope").open_with_trouble },
     },
  },
   pickers = {
