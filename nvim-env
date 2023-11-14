@@ -1,11 +1,19 @@
 #!/usr/bin/env bash
 
+function displayHelp() {
+  echo "Usage: nvim-env [options]"
+  echo "Options:"
+  echo "  --default      Load default nvim environment"
+  echo "  --playground   Load playground nvim environment"
+  echo "  -h, --help     Display this help message"
+}
+
 while [ "$#" -gt 0 ]; do
   curr=$1
   shift
 
   case "$curr" in
-    "-default")
+    "--default")
       mv ~/.config/nvim{,.bak.playground}
       mv ~/.local/share/nvim{,.bak.playground}
       mv ~/.local/state/nvim{,.bak.playground}
@@ -16,7 +24,7 @@ while [ "$#" -gt 0 ]; do
       mv ~/.local/state/nvim{.bak.default,}
       mv ~/.cache/nvim{.bak.default,}
       ;;
-    "-playground")
+    "--playground")
       mv ~/.config/nvim{,.bak.default}
       mv ~/.local/share/nvim{,.bak.default}
       mv ~/.local/state/nvim{,.bak.default}
@@ -28,7 +36,12 @@ while [ "$#" -gt 0 ]; do
       mv ~/.cache/nvim{.bak.playground,}
       echo "playground loaded"
       ;;
-      # Work in progress
+    "--help")
+      displayHelp
+      ;;
+    "-h")
+      displayHelp
+      ;;
       *) echo "Unavailable command... $curr" ;;
     esac
   done
