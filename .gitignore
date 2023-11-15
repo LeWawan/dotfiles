@@ -2,3 +2,6 @@ libs/*
 
 # Neovim packer compiled files
 nvim/.config/nvim/plugin/packer_compiled.lua
+
+# Ssh stuff
+ssh-connect
