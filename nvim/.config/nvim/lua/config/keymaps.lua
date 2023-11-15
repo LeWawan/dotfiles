@@ -48,13 +48,6 @@ keymap.set("v", "<leader>d", '"_d')
 keymap.set("n", "<leader><leader>x", ":so %<cr>")
 keymap.set("n", "<leader><leader>z", ":LspRestart<cr>")
 
--- Fzf
-keymap.set("n", "<leader>gs", ":G<CR>")
-keymap.set("n", "<leader>gf", ":diffget //2<CR>") -- Ours
-keymap.set("n", "<leader>gj", ":diffget //3<CR>") -- Theirs
-keymap.set("n", "<leader>gp", ":Git push<CR>")
-keymap.set("n", "<leader>gl", ":Git pull<CR>")
-
 -- Push upstream for new branch
 function GitPushUpsOrgBranch()
   local branch = vim.fn.system("git branch --show-current 2> /dev/null | tr -d '\n'")
@@ -65,7 +58,7 @@ keymap.set("n", "<leader>gu", function()
   GitPushUpsOrgBranch()
 end)
 
--- Harpoon
+-- Harpoonooooon
 local mark = require("harpoon.mark")
 local term = require("harpoon.term")
 local ui = require("harpoon.ui")
