@@ -5,14 +5,6 @@ local opts = { noremap = true, silent = true }
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
--- Things
-vim.cmd("autocmd BufWritePre * :%s/\\s\\+$//e")
--- vim.cmd("autocmd BufWritePre *.tsx,*.ts,*.js,*.html,*.css :Prettier")
-vim.cmd("autocmd BufWritePre *.go,*.ts,*.vue,*.astro :lua vim.lsp.buf.format()")
-
--- Autocmd for astro
--- vim.cmd('autocmd BufNewFile,BufRead *.astro set filetype=astro')
-
 keymap.set("n", "<C-c>", "<Esc>")
 keymap.set("x", "<C-c>", "<Esc>")
 keymap.set("i", "<C-c>", "<Esc>")
@@ -30,7 +22,7 @@ keymap.set("n", "<C-d>", "<C-d>zz")
 keymap.set("n", "<C-u>", "<C-u>zz")
 
 keymap.set("n", "n", "nzzzv")
-keymap.set("n", "n", "nzzzv")
+keymap.set("n", "N", "Nzzzv")
 
 -- greatest remap ever (paste without override the registery)
 keymap.set("x", "<leader>p", '"_dP')
