@@ -5,7 +5,7 @@ local o = vim.opt
 local g = vim.g
 
 -- o.guicursor = ''
-o.mouse = nil
+o.mouse = ""
 
 o.filetype = "on"
 
@@ -54,3 +54,6 @@ g.netrw_liststyle = 3
 g.netrw_browse_split = 4
 g.netrw_altv = 1
 g.netrw_winsize = 15
+
+vim.cmd([[let &t_Cs = "\e[4:3m"]])
+vim.cmd([[let &t_Ce = "\e[4:0m"]])
