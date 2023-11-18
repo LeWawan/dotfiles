@@ -102,5 +102,8 @@ keymap.set("n", "<F5>", ":UndotreeToggle<CR>")
 keymap.set("n", "<leader>,", ":VimwikiToggleListItem<CR>")
 keymap.set("n", "<leader>ww", ":VimwikiIndex<CR>")
 
+-- Inc rename
+keymap.set("n", "<leader>rn", ":IncRename ")
+
 -- Clipboard
 -- vim.cmd("let g:clipboard = { 'name': 'WslClipboard', 'copy': {    '+': 'clip.exe',    '*': 'clip.exe',  }, 'paste': {    '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',    '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))', }, 'cache_enabled': 0}")
