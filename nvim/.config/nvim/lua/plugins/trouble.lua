@@ -4,14 +4,14 @@ return {
     cmd = "TroubleToggle",
     keys = {
       -- Add all my keymaps
-      { "n", "<C-q>", "<cmd>TroubleToggle<cr>" },
-      { "n", "<C-n>", "<cmd>TroubleToggle lsp_document_diagnostics<cr>" },
-      { "n", "<C-p>", "<cmd>TroubleToggle lsp_document_diagnostics<cr>" },
-      { "n", "<leader>xw", "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>" },
-      { "n", "<leader>xd", "<cmd>TroubleToggle lsp_document_diagnostics<cr>" },
-      { "n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>" },
-      { "n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>" },
-      { "n", "gR", "<cmd>TroubleToggle lsp_references<cr>" },
+      { "<C-q>", "<cmd>TroubleToggle<cr>" },
+      { "<C-n>", "<cmd>TroubleToggle document_diagnostics<cr>" },
+      { "<C-p>", "<cmd>TroubleToggle document_diagnostics<cr>" },
+      { "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>" },
+      { "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>" },
+      { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>" },
+      { "<leader>xl", "<cmd>TroubleToggle loclist<cr>" },
+      { "gR", "<cmd>TroubleToggle lsp_references<cr>" },
     },
   },
 }
