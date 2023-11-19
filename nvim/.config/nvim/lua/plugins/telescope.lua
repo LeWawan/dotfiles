@@ -1,6 +1,16 @@
 return {
+  { "nvim-telescope/telescope-fzy-native.nvim" },
+  { "ThePrimeagen/git-worktree.nvim" },
   {
-    "nvim-telescope/telescope.nvim",
+    "telescope.nvim",
+    dependencies = {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      build = "make",
+      config = function()
+        require("telescope").load_extension("fzf")
+        require("telescope").load_extension("git_worktree")
+      end,
+    },
     opts = {
       defaults = {
         file_sorter = require("telescope.sorters").get_fzy_sorter,
@@ -99,25 +109,6 @@ return {
           require("telescope.builtin").help_tags()
         end,
       },
-      {
-        "<leader>qf",
-        function()
-          require("telescope.builtin").quickfix()
-        end,
-      },
-    },
-  },
-  { "nvim-telescope/telescope-fzy-native.nvim" },
-  { "ThePrimeagen/git-worktree.nvim" },
-  {
-    "telescope.nvim",
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-      config = function()
-        require("telescope").load_extension("fzf")
-        require("telescope").load_extension("git_worktree")
-      end,
     },
   },
 }
