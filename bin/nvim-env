@@ -5,6 +5,7 @@ display_help() {
 	echo "Options:"
 	echo "  --default      Load default nvim environment"
 	echo "  --playground   Load playground nvim environment"
+	echo "  --clean-cache  Clean nvim cache"
 	echo "  -h, --help     Display this help message"
 }
 
@@ -105,6 +106,14 @@ while [ "$#" -gt 0 ]; do
 		mv ~/.local/state/nvim{.bak.playground,}
 		mv ~/.cache/nvim{.bak.playground,}
 		echo "Playground loaded"
+		;;
+
+	"--clean-cache")
+		log "Cleaning nvim cache"
+		rm -rf ~/.local/share/nvim
+		rm -rf ~/.local/state/nvim
+		rm -rf ~/.cache/nvim
+		log "Cleaning nvim cache completed"
 		;;
 	"--help" | "-h")
 		display_help
