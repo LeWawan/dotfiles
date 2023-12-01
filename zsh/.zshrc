@@ -159,8 +159,8 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# meteor
-export PATH="$HOME/.meteor:$PATH"
+# sonar-scanner
+export PATH="$HOME/sonar-scanner-5.0.1.3006-macosx/bin:$PATH"
 
 # startup
 fortune | cowsay -f tux
