@@ -43,6 +43,8 @@ keymap.set("v", "<leader>d", '"_d')
 keymap.set("n", "<leader><leader>x", ":so %<cr>")
 keymap.set("n", "<leader><leader>z", ":LspRestart<cr>")
 
+-- Git commands
+keymap.set("n", "<leader>gs", ":G<cr>")
 -- Push upstream for new branch
 function GitPushUpsOrgBranch()
   local branch = vim.fn.system("git branch --show-current 2> /dev/null | tr -d '\n'")
