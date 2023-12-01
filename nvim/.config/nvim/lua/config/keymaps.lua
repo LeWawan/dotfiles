@@ -45,6 +45,14 @@ keymap.set("n", "<leader><leader>z", ":LspRestart<cr>")
 
 -- Git commands
 keymap.set("n", "<leader>gs", ":G<cr>")
+keymap.set("n", "<leader>gp", ":G push<cr>")
+keymap.set("n", "<leader>gl", ":G pull<cr>")
+keymap.set("n", "<leader>gc", ":G commit<cr>")
+keymap.set("n", "<leader>gf", ":diffget //2<cr>") -- Our changes
+keymap.set("n", "<leader>gj", ":diffget //3<cr>") -- Their changes
+keymap.set("n", "<leader>gb", ":G blame<cr>")
+keymap.set("n", "<leader>gd", ":Gvdiffsplit<cr>")
+
 -- Push upstream for new branch
 function GitPushUpsOrgBranch()
   local branch = vim.fn.system("git branch --show-current 2> /dev/null | tr -d '\n'")
