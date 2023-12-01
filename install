@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
 
-source ./bin/env
-source ./bin/install_deps
-source ./setup-env
+source ./bin/core/env
+source ./bin/core/install_deps
+source ./bin/core/setup-env
