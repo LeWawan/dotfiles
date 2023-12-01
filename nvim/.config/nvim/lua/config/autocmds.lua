@@ -11,11 +11,3 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.cmd(":%s/\\s\\+$//e")
   end,
 })
-
--- Format on save
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = "*.go,*.ts,*.vue,*.astro",
-  callback = function()
-    vim.lsp.buf.format()
-  end,
-})
