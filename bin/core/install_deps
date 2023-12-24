@@ -99,19 +99,6 @@ cd
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.linux-amd64.tar.gz
 
 # Lua + luarocks
-cd
-curl -R -O http://www.lua.org/ftp/lua-5.3.5.tar.gz
-tar zxf lua-5.3.5.tar.gz
-cd lua-5.3.5
-make all test
-sudo make install
-
-
-cd
-wget https://luarocks.org/releases/luarocks-3.8.0.tar.gz
-tar zxpf luarocks-3.8.0.tar.gz
-cd luarocks-3.8.0
-./configure && make && sudo make install
-sudo luarocks install luasocket
+source ./deps-scripts/lua.sh
 
 cd $BASE_DIR
