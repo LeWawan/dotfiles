@@ -5,7 +5,7 @@ local o = vim.opt
 local g = vim.g
 
 -- o.guicursor = ''
-o.mouse = ""
+-- o.mouse = ""
 
 o.filetype = "on"
 
