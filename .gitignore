@@ -3,5 +3,9 @@ libs/*
 # Neovim packer compiled files
 nvim/.config/nvim/plugin/packer_compiled.lua
 
+# Copilot config
+nvim/.config/github-copilot/hosts.json
+nvim/.config/github-copilot/version.json
+
 # Ssh stuff
 ssh-connect
