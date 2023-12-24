@@ -109,6 +109,12 @@ return {
           require("telescope.builtin").help_tags()
         end,
       },
+      {
+        "<leader>gs",
+        function()
+          vim.api.nvim_command("G")
+        end,
+      },
     },
   },
 }

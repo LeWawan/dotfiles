@@ -50,8 +50,6 @@ keymap.set("n", "<leader>gl", ":G pull<cr>")
 keymap.set("n", "<leader>gc", ":G commit<cr>")
 keymap.set("n", "<leader>gf", ":diffget //2<cr>") -- Our changes
 keymap.set("n", "<leader>gj", ":diffget //3<cr>") -- Their changes
-keymap.set("n", "<leader>gb", ":G blame<cr>")
-keymap.set("n", "<leader>gd", ":Gvdiffsplit<cr>")
 
 -- Push upstream for new branch
 function GitPushUpsOrgBranch()
