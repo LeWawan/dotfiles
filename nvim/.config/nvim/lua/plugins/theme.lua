@@ -3,6 +3,7 @@ return {
   { "folke/tokyonight.nvim", enabled = false },
   {
     "catppuccin/nvim",
+    enabled = false,
     lazy = true,
     name = "catppuccin",
     opts = {
@@ -42,12 +43,18 @@ return {
         which_key = true,
       },
     },
+    {
+      "craftzdog/solarized-osaka.nvim",
+      lazy = false,
+      priority = 1000,
+      opts = {},
+    },
   },
 
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin-mocha",
+      colorscheme = "solarized-osaka",
     },
   },
 }
