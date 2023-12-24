@@ -183,3 +183,5 @@ esac
 # lua
 eval "$(luarocks path --bin)"
 
+# go
+export PATH=$PATH:/usr/local/go/bin
