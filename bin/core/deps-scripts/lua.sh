@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Lua + luarocks
 cd
@@ -7,19 +7,20 @@ curl -R -O https://www.lua.org/ftp/lua-5.4.6.tar.gz
 
 # Verify checksum
 if ! echo "$FILECHASUM lua-5.4.6.tar.gz" | shasum -a 256; then
-	echo "install_deps error: checksum failed"
+	echo "Error: Checksum failed for lua-5.4.6.tar.gz"
 	exit 1
 fi
 
 tar -zxf lua-5.4.6.tar.gz
 cd lua-5.4.6
 
-if [[ $(uname) == Linux ]]; then
+if [[ $(uname) == "Linux" ]]; then
 	make linux test
-elif [[ $(uname) == Darwin ]]; then
+elif [[ $(uname) == "Darwin" ]]; then
 	make macosx test
 else
-	echo "install_deps error: device uname not recognized"
+	echo "Error: Unsupported device. Uname not recognized."
+	exit 1
 fi
 
 sudo make install
@@ -29,6 +30,6 @@ cd
 wget https://luarocks.org/releases/luarocks-3.9.2.tar.gz
 tar zxpf luarocks-3.9.2.tar.gz
 cd luarocks-3.9.2
-./configure && make && sudo make install
-luarocks install luasocket
-luarocks install lapis
+./configure --with-lua-include=/usr/local/include && sudo make && sudo make install
+sudo luarocks install luasocket
+sudo luarocks install lapis
