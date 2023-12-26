@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+if [[ $(uname) == Linux ]]; then
+	sudo apt install zsh -y
+elif [[ $(uname) == Darwin ]]; then
+	brew install zsh -y
+else
+	echo "install_dependencies error: device uname not recognized"
+fi
+
+rm -rf "$HOME/.oh-my-zsh"
+
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
+rm ~/.zshrc
+
+chsh -s $(which zsh)
+
+echo "Now re-open the terminal please"
+exit 0
