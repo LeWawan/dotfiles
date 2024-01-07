@@ -22,6 +22,9 @@ require("lazy").setup({
     -- import/override with your plugins
     { import = "plugins" },
   },
+  dev = {
+    path = "~/Lab/nvim-plugins",
+  },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
     -- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
@@ -31,7 +34,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = { colorscheme = { "solarized-osaka", "catppuccin", "everblush", "tokyonight", "habamax" } },
+  install = { colorscheme = { "solarized-osaka" } },
   checker = { enabled = true }, -- automatically check for plugin updates
   performance = {
     rtp = {
