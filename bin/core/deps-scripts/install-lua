@@ -17,6 +17,7 @@ if ! echo "$FILECHASUM lua-$LUA_VERSION.tar.gz" | shasum -a 256; then
 fi
 
 tar -zxf lua-$LUA_VERSION.tar.gz
+rm lua-$LUA_VERSION.tar.gz
 cd lua-$LUA_VERSION
 
 if [[ $(uname) == "Linux" ]]; then
@@ -34,6 +35,7 @@ sudo luarocks install http CRYPTO_DIR=/opt/homebrew/opt/openssl@3 OPENSSL_DIR=/o
 cd
 wget "https://luarocks.org/releases/luarocks-$LUAROCKS_VERSION.tar.gz"
 tar zxpf "luarocks-$LUAROCKS_VERSION.tar.gz"
+rm "luarocks-$LUAROCKS_VERSION.tar.gz"
 cd "luarocks-$LUAROCKS_VERSION"
 ./configure --with-lua-include=/usr/local/include && sudo make && sudo make install
 sudo luarocks install luasocket
