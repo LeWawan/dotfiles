@@ -185,3 +185,10 @@ eval "$(luarocks path --bin)"
 
 # go
 export PATH=$PATH:/usr/local/go/bin
+
+# bun completions
+[ -s "/home/wawan/.bun/_bun" ] && source "/home/wawan/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
