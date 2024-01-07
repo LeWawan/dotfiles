@@ -83,6 +83,7 @@ install_go() {
 	rm go*
 	wget "https://go.dev/dl/$GO_SOURCE.tar.gz"
 	sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "$GO_SOURCE.tar.gz"
+	rm "$GO_SOURCE.tar.gz"
 }
 
 install_lua() {
