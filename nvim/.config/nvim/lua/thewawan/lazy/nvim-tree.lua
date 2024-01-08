@@ -2,7 +2,7 @@ return {
   "nvim-tree/nvim-tree.lua",
   version = "*",
   lazy = false,
-  requires = {
+  dependencies = {
     "kyazdani42/nvim-web-devicons",
     "kyazdani42/nvim-tree.lua",
   },
@@ -17,5 +17,6 @@ return {
     require('nvim-tree').setup()
 
     vim.api.nvim_set_keymap('n', '<leader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
+    vim.api.nvim_set_keymap('n', '<leader>m', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
   end
 }
