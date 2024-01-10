@@ -1,100 +1,136 @@
 return {
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    "VonHeikemen/lsp-zero.nvim",
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "hrsh7th/nvim-cmp",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path",
-    "saadparwaiz1/cmp_luasnip",
-    "hrsh7th/cmp-nvim-lua",
-    "L3MON4D3/LuaSnip",
-    "rafamadriz/friendly-snippets",
-    "marilari88/twoslash-queries.nvim",
-    "folke/neodev.nvim",
-    "j-hui/fidget.nvim"
-  },
-  config = function()
-    local lsp_zero = require("lsp-zero")
+	"neovim/nvim-lspconfig",
+	dependencies = {
+		"VonHeikemen/lsp-zero.nvim",
+		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
+		"hrsh7th/nvim-cmp",
+		"hrsh7th/cmp-nvim-lsp",
+		"hrsh7th/cmp-buffer",
+		"hrsh7th/cmp-path",
+		"saadparwaiz1/cmp_luasnip",
+		"hrsh7th/cmp-nvim-lua",
+		"L3MON4D3/LuaSnip",
+		"rafamadriz/friendly-snippets",
+		"marilari88/twoslash-queries.nvim",
+		"folke/neodev.nvim",
+		"j-hui/fidget.nvim",
+	},
+	config = function()
+		local lsp_zero = require("lsp-zero")
 
-    lsp_zero.on_attach(function(client, bufnr)
-      require('twoslash-queries').attach(client, bufnr)
+		lsp_zero.on_attach(function(client, bufnr)
+			require("twoslash-queries").attach(client, bufnr)
 
-      local bufopts = { buffer = bufnr, remap = false }
+			local bufopts = { buffer = bufnr, remap = false }
 
-      vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, bufopts)
-      vim.keymap.set('n', 'gD', function() vim.lsp.buf.declaration() end, bufopts)
+			vim.keymap.set("n", "gd", function()
+				vim.lsp.buf.definition()
+			end, bufopts)
+			vim.keymap.set("n", "gD", function()
+				vim.lsp.buf.declaration()
+			end, bufopts)
 
-      vim.keymap.set('n', 'K', function() vim.lsp.buf.hover() end, bufopts)
+			vim.keymap.set("n", "K", function()
+				vim.lsp.buf.hover()
+			end, bufopts)
 
-      vim.keymap.set('n', '<leader>vd', function() vim.diagnostic.open_float() end, bufopts)
+			vim.keymap.set("n", "<leader>vd", function()
+				vim.diagnostic.open_float()
+			end, bufopts)
 
-      -- Replaced diagnostics in quickfix list with trouble @SEE: "folke/trouble.nvim"
-      -- vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end)
-      -- vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end)
+			-- Replaced diagnostics in quickfix list with trouble @SEE: "folke/trouble.nvim"
+			-- vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end)
+			-- vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end)
 
+			-- Replaced with inc-rename @SEE: "smjonas/inc-rename.nvim"
+			-- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
 
-      -- Replaced with inc-rename @SEE: "smjonas/inc-rename.nvim"
-      -- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+			vim.keymap.set("n", "<space>vca", function()
+				vim.lsp.buf.code_action()
+			end, bufopts)
+			vim.keymap.set("n", "<space>vrr", function()
+				vim.lsp.buf.references()
+			end, bufopts)
+			vim.keymap.set("n", "<space>f", function()
+				vim.lsp.buf.format({ async = true })
+			end, bufopts)
 
-      vim.keymap.set('n', '<space>vca', function() vim.lsp.buf.code_action() end, bufopts)
-      vim.keymap.set('n', '<space>vrr', function() vim.lsp.buf.references() end, bufopts)
-      vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+			vim.keymap.set("i", "<C-h>", function()
+				vim.lsp.buf.signature_help()
+			end, bufopts)
+		end)
 
-      vim.keymap.set('i', '<C-h>', function() vim.lsp.buf.signature_help() end, bufopts)
-    end)
+		require("fidget").setup({})
+		require("mason").setup()
+		require("mason-lspconfig").setup({
+			ensure_installed = {
+				"lua_ls",
+				"stylua",
+				"rust_analyzer",
+				"volar",
+				"html",
+				"tailwindcss",
+				"marksman",
+				"eslint",
+				"emmet_language_server",
+			},
+			handlers = {
+				lsp_zero.default_setup,
+				lua_ls = function()
+					require("neodev").setup()
 
-    require("fidget").setup({})
-    require("mason").setup()
-    require("mason-lspconfig").setup({
-      ensure_installed = { "lua_ls", "rust_analyzer", "volar", "html", "tailwindcss", "marksman", "eslint" },
-      handlers = {
-        lsp_zero.default_setup,
-        lua_ls = function()
-          require("neodev").setup()
+					local lua_opts = lsp_zero.nvim_lua_ls()
 
-          local lua_opts = lsp_zero.nvim_lua_ls()
+					require("lspconfig")["lua_ls"].setup(vim.tbl_deep_extend("force", lua_opts, {
+						settings = {
+							Lua = {
+								completion = {
+									callSnippet = "Replace",
+								},
+							},
+						},
+					}))
 
-          require("lspconfig")["lua_ls"].setup(vim.tbl_deep_extend("force", lua_opts, {
-            settings = {
-              Lua = {
-                completion = {
-                  callSnippet = "Replace"
-                }
-              }
-            }
-          }))
+					require("lspconfig")["volar"].setup({
+						filetypes = { "vue", "javascript", "typescript", "typescriptreact" },
+					})
 
-          require("lspconfig")["volar"].setup({
-            filetypes = { 'vue', 'javascript', 'typescript', 'typescriptreact' },
-          })
-        end
-      }
-    })
+					require("lspconfig")["emmet_language_server"].setup({
+						filetypes = { "html", "typescriptreact", "javascriptreact", "css", "vue" },
+						init_options = {
+							html = {
+								options = {
+									["bem.enabled"] = true,
+								},
+							},
+						},
+					})
+				end,
+			},
+		})
 
-    local cmp = require('cmp')
-    local cmp_select = { behavior = cmp.SelectBehavior.Select }
+		local cmp = require("cmp")
+		local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
-    cmp.setup({
-      sources = {
-        { name = 'path' },
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lua' },
-        { name = 'luasnip', keyword_length = 2 },
-        { name = 'buffer',  keyword_length = 3 },
-      },
-      formatting = lsp_zero.cmp_format(),
-      mapping = cmp.mapping.preset.insert({
-        ['<Enter>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-Space>'] = cmp.mapping.complete(),
-      }),
-    })
-  end
+		cmp.setup({
+			sources = {
+				{ name = "path" },
+				{ name = "nvim_lsp" },
+				{ name = "nvim_lua" },
+				{ name = "luasnip", keyword_length = 2 },
+				{ name = "buffer", keyword_length = 3 },
+			},
+			formatting = lsp_zero.cmp_format(),
+			mapping = cmp.mapping.preset.insert({
+				["<Enter>"] = cmp.mapping.confirm({ select = true }),
+				["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+				["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+				["<C-y>"] = cmp.mapping.confirm({ select = true }),
+				["<C-Space>"] = cmp.mapping.complete(),
+			}),
+		})
+	end,
 }
 -- Mappings
 -- vim.cmd('set completeopt=menu,menuone,noselect')
