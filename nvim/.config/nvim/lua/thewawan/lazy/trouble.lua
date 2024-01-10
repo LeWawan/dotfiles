@@ -8,5 +8,7 @@ return {
     vim.keymap.set("n", "<C-q>", function() require("trouble").toggle() end)
     vim.keymap.set("n", "]d", function() require("trouble").next({ skip_groups = true, jump = true }) end)
     vim.keymap.set("n", "[d", function() require("trouble").previous({ skip_groups = true, jump = true }) end)
+    vim.keymap.set("n", "<C-n>", function() require("trouble").next({ skip_groups = true, jump = true }) end)
+    vim.keymap.set("n", "<C-p>", function() require("trouble").previous({ skip_groups = true, jump = true }) end)
   end
 }
