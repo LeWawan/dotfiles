@@ -17,8 +17,8 @@ return {
       vim.keymap.set('n', "<leader>fh", function() telescope.help_tags() end)
       vim.keymap.set('n', "<leader>gb", function() telescope.git_branches() end)
       vim.keymap.set('n', "<leader>'",
-        function() telescope.builtin.find_files({ prompt_title = "< VimRC >", cwd = "~/.dotfiles/", hidden = true }) end)
-      vim.keymap.set('n', "<leader>vh", function() telescope.builtin.help_tags() end)
+        function() telescope.find_files({ prompt_title = "< VimRC >", cwd = "~/.dotfiles/", hidden = true }) end)
+      vim.keymap.set('n', "<leader>vh", function() telescope.help_tags() end)
 
       require('telescope').setup({
         defaults = {
