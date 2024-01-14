@@ -1,5 +1,10 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
+source ./bin/core/env
 
-source ./bin/env
-source ./bin/install_deps
-source ./setup-env
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+	source ./bin/core/deps-scripts/install-zsh
+fi
+
+source ./bin/core/env
+source ./bin/core/install-deps
+source ./bin/core/setup-env

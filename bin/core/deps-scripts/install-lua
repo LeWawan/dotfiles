@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+BASE_DIR=$(pwd)
+
+LUA_VERSION="5.4.6"
+LUAROCKS_VERSION="3.9.2"
+
+# Lua + luarocks
+rm lua-
+cd
+FILECHASUM="7d5ea1b9cb6aa0b59ca3dde1c6adcb57ef83a1ba8e5432c0ecd06bf439b3ad88"
+curl -R -O "https://www.lua.org/ftp/lua-$LUA_VERSION.tar.gz"
+
+# Verify checksum
+if ! echo "$FILECHASUM lua-$LUA_VERSION.tar.gz" | shasum -a 256; then
+	echo "Error: Checksum failed for lua-$LUA_VERSION.tar.gz"
+	exit 1
+fi
+
+tar -zxf lua-$LUA_VERSION.tar.gz
+rm lua-$LUA_VERSION.tar.gz
+cd lua-$LUA_VERSION
+
+if [[ $(uname) == "Linux" ]]; then
+	make linux test
+elif [[ $(uname) == "Darwin" ]]; then
+	make macosx test
+else
+	echo "Error: Unsupported device. Uname not recognized."
+	exit 1
+fi
+
+sudo make install
+sudo luarocks install http CRYPTO_DIR=/opt/homebrew/opt/openssl@3 OPENSSL_DIR=/opt/homebrew/opt/openssl@3
+
+cd
+wget "https://luarocks.org/releases/luarocks-$LUAROCKS_VERSION.tar.gz"
+tar zxpf "luarocks-$LUAROCKS_VERSION.tar.gz"
+rm "luarocks-$LUAROCKS_VERSION.tar.gz"
+cd "luarocks-$LUAROCKS_VERSION"
+./configure --with-lua-include=/usr/local/include && sudo make && sudo make install
+sudo luarocks install luasocket
+sudo luarocks install lapis
+
+cd "$BASE_DIR"
