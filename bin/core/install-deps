@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+
+BASE_DIR=$(pwd)
+
+GO_VERSION="1.21.5"
+
+install_dependencies() {
+	if [[ $(uname) == Linux ]]; then
+		sudo apt install curl wget python3 python3-pip ripgrep fd-find unzip stow cowsay exa stow gcc make unzip libssl-dev ripgrep fd-find -y
+	elif [[ $(uname) == Darwin ]]; then
+		brew install curl wget ripgrep unzip stow fortune cowsay exa stow zsh ripgrep fd-find
+	else
+		echo "install_dependencies error: device uname not recognized"
+	fi
+}
+
+install_nvim() {
+	cd
+
+	if [[ $(uname) == Linux ]]; then
+		NVIM_SOURCE="nvim-linux64"
+	elif [[ $(uname) == Darwin ]]; then
+		NVIM_SOURCE="nvim-macos"
+	else
+		echo "install_nvim error: device uname not recognized"
+		return
+	fi
+
+	if [[ -f "$HOME/$NVIM_SOURCE.tar.gz" ]]; then
+		rm "$HOME/$NVIM_SOURCE.tar.gz"
+	fi
+
+	wget "https://github.com/neovim/neovim/releases/download/stable/$NVIM_SOURCE.tar.gz"
+	tar -xzf "$NVIM_SOURCE.tar.gz"
+	rm "$NVIM_SOURCE.tar.gz"
+
+	sudo rm /usr/local/bin/nvim
+	cd /usr/local/bin
+	sudo ln -sf "$HOME/$NVIM_SOURCE/bin/nvim" nvim
+	cd "$BASE_DIR"
+	echo "[install] latest nvim installed"
+}
+
+install_nvm() {
+	export NVM_DIR="$HOME/.nvm" && (
+		git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
+		cd "$NVM_DIR" || return
+		git checkout "$(git describe --abbrev=0 --tags --match "v[0-9]*" "$(git rev-list --tags --max-count=1)")"
+	) && \. "$NVM_DIR/nvm.sh"
+}
+
+install_fnm() {
+	source ./bin/core/deps-scripts/install-fnm
+}
+
+install_pnpm() {
+	npm install -g pnpm
+	echo "[install] pnpm installed"
+}
+
+install_antfu_ni() {
+	npm i -g @antfu/ni
+	echo "[install] antfu/ni"
+}
+
+install_rust() {
+	cd
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+}
+
+install_go() {
+
+	if [[ $(uname) == Linux ]]; then
+		GO_SOURCE="go$GO_VERSION.linux-$(dpkg --print-architecture)"
+	elif [[ $(uname) == Darwin ]]; then
+		GO_SOURCE="go$GO_VERSION.darwin-$(dpkg --print-architecture)"
+	else
+		echo "install_nvim error: device uname not recognized"
+		return
+	fi
+
+	cd /tmp
+	rm go*
+	wget "https://go.dev/dl/$GO_SOURCE.tar.gz"
+	sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "$GO_SOURCE.tar.gz"
+	rm "$GO_SOURCE.tar.gz"
+}
+
+install_lua() {
+	source ./bin/core/deps-scripts/install-lua
+}
+
+# install_dependencies
+#
+install_exa() {
+	cd /tmp
+	rm -rf ./exa*
+	if [[ $(uname) == Linux ]]; then
+		EXA_RELEASE="exa-linux-x86_64-v0.10.0.zip"
+	elif [[ $(uname) == Darwin ]]; then
+		EXA_RELEASE="exa-macos-x86_64-v0.10.0.zip"
+	else
+		echo "install_nvim error: device uname not recognized"
+		return
+	fi
+
+	mkdir exa
+	cd exa
+	wget "https://github.com/ogham/exa/releases/download/v0.10.0/$EXA_RELEASE"
+	unzip "$EXA_RELEASE"
+	sudo mv ./bin/exa /usr/bin/
+}
+
+install_exa
+install_nvim
+install_fnm
+install_pnpm
+install_antfu_ni
+install_rust
+install_go
+install_lua
+
+cd "$BASE_DIR"

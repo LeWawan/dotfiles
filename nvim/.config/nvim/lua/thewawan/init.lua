@@ -1,7 +1,7 @@
 require('thewawan.settings')
 
-require('thewawan.plugins')
+require('thewawan.lazy_init')
 
 require('thewawan.keymaps')
 
-require('thewawan.lsp')
+require('thewawan.discipline')

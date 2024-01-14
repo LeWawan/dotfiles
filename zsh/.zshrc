@@ -159,8 +159,8 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# meteor
-export PATH="$HOME/.meteor:$PATH"
+# sonar-scanner
+export PATH="$HOME/sonar-scanner-5.0.1.3006-macosx/bin:$PATH"
 
 # startup
 fortune | cowsay -f tux
@@ -179,3 +179,16 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# lua
+eval "$(luarocks path --bin)"
+
+# go
+export PATH=$PATH:/usr/local/go/bin
+
+# bun completions
+[ -s "/home/wawan/.bun/_bun" ] && source "/home/wawan/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
