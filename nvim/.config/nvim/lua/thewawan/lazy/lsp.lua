@@ -24,11 +24,26 @@ return {
 
 			local bufopts = { buffer = bufnr, remap = false }
 
+			local function on_list(options)
+				vim.fn.setqflist({}, " ", options)
+				require("trouble").open("quickfix")
+			end
+
 			vim.keymap.set("n", "gd", function()
-				vim.lsp.buf.definition()
+				vim.lsp.buf.definition({
+					on_list = on_list,
+				})
 			end, bufopts)
 			vim.keymap.set("n", "gD", function()
-				vim.lsp.buf.declaration()
+				vim.lsp.buf.declaration({
+					on_list = on_list,
+				})
+			end, bufopts)
+
+			vim.keymap.set("n", "gr", function()
+				vim.lsp.buf.references({
+					on_list = on_list,
+				})
 			end, bufopts)
 
 			vim.keymap.set("n", "K", function()
@@ -40,17 +55,18 @@ return {
 			end, bufopts)
 
 			-- Replaced diagnostics in quickfix list with trouble @SEE: "folke/trouble.nvim"
-			-- vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end)
-			-- vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end)
+			vim.keymap.set("n", "]d", function()
+				vim.diagnostic.goto_next()
+			end)
+			vim.keymap.set("n", "[d", function()
+				vim.diagnostic.goto_prev()
+			end)
 
 			-- Replaced with inc-rename @SEE: "smjonas/inc-rename.nvim"
 			-- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
 
 			vim.keymap.set("n", "<space>vca", function()
 				vim.lsp.buf.code_action()
-			end, bufopts)
-			vim.keymap.set("n", "<space>vrr", function()
-				vim.lsp.buf.references()
 			end, bufopts)
 			vim.keymap.set("n", "<space>f", function()
 				vim.lsp.buf.format({ async = true })
@@ -74,9 +90,40 @@ return {
 				"marksman",
 				"eslint",
 				"emmet_language_server",
+				"intelephense",
 			},
 			handlers = {
 				lsp_zero.default_setup,
+				volar = function()
+					require("lspconfig")["volar"].setup({
+						filetypes = { "vue", "javascript", "typescript", "typescriptreact" },
+						init_options = {
+							-- Update this in monorepo some day
+							-- typescript = {
+							--   tsdk = "",
+							-- },
+							languageFeatures = {
+								implementation = true, -- new in @volar/vue-language-server v0.33
+								references = true,
+								definition = true,
+								typeDefinition = true,
+								callHierarchy = true,
+								hover = true,
+								rename = true,
+								renameFileRefactoring = true,
+								signatureHelp = true,
+								codeAction = true,
+								workspaceSymbol = true,
+								completion = {
+									defaultTagNameCase = "both",
+									defaultAttrNameCase = "kebabCase",
+									getDocumentNameCasesRequest = false,
+									getDocumentSelectionRequest = false,
+								},
+							},
+						},
+					})
+				end,
 				lua_ls = function()
 					require("neodev").setup()
 
@@ -91,11 +138,8 @@ return {
 							},
 						},
 					}))
-
-					require("lspconfig")["volar"].setup({
-						filetypes = { "vue", "javascript", "typescript", "typescriptreact" },
-					})
-
+				end,
+				emmet_language_server = function()
 					require("lspconfig")["emmet_language_server"].setup({
 						filetypes = { "html", "typescriptreact", "javascriptreact", "css", "vue" },
 						init_options = {
