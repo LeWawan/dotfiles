@@ -29,19 +29,21 @@ return {
 				require("trouble").open("quickfix")
 			end
 
-			vim.keymap.set("n", "gd", function()
-				vim.lsp.buf.definition({
-					on_list = on_list,
-				})
-			end, bufopts)
+			-- Replaced by telescope...
+			-- vim.keymap.set("n", "gd", function()
+			-- 	vim.lsp.buf.definition({
+			-- 		on_list = on_list,
+			-- 	})
+			-- end, bufopts)
+			--
+			-- vim.keymap.set("n", "gr", function()
+			-- 	vim.lsp.buf.references({
+			-- 		on_list = on_list,
+			-- 	})
+			-- end, bufopts)
+
 			vim.keymap.set("n", "gD", function()
 				vim.lsp.buf.declaration({
-					on_list = on_list,
-				})
-			end, bufopts)
-
-			vim.keymap.set("n", "gr", function()
-				vim.lsp.buf.references({
 					on_list = on_list,
 				})
 			end, bufopts)
