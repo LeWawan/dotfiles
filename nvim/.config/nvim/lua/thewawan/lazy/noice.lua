@@ -2,7 +2,11 @@ return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
 	opts = {
-		-- add any options here
+		lsp = {
+			hover = {
+				silent = true,
+			},
+		},
 	},
 	dependencies = {
 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
@@ -12,15 +16,4 @@ return {
 		--   If not available, we use `mini` as the fallback
 		"rcarriga/nvim-notify",
 	},
-	config = function()
-		local banned_messages = { "No information available" }
-		vim.notify = function(msg, ...)
-			for _, banned in ipairs(banned_messages) do
-				if msg == banned then
-					return
-				end
-			end
-			return require("notify")(msg, ...)
-		end
-	end,
 }
