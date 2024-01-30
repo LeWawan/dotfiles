@@ -39,6 +39,17 @@ return {
 				telescope.help_tags()
 			end)
 
+			-- Lsp keymaps
+			vim.keymap.set("n", "<leader>gd", function()
+				telescope.lsp_definitions()
+			end)
+			vim.keymap.set("n", "<leader>gi", function()
+				telescope.lsp_implementations()
+			end)
+			vim.keymap.set("n", "<leader>gr", function()
+				telescope.lsp_references()
+			end)
+
 			require("telescope").setup({
 				defaults = {
 					mappings = {
