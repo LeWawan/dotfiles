@@ -8,9 +8,9 @@ return {
 		})
 
 		-- Trouble default keymaps
-		vim.keymap.set("n", "<leader>xx", function()
-			trouble.toggle()
-		end)
+		-- vim.keymap.set("n", "<leader>xx", function()
+		-- 	trouble.toggle()
+		-- end)
 		vim.keymap.set("n", "<leader>xw", function()
 			trouble.toggle("workspace_diagnostics")
 		end)
