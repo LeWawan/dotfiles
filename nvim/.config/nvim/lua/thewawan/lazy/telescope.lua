@@ -30,10 +30,12 @@ return {
 				telescope.help_tags()
 			end)
 			vim.keymap.set("n", "<leader>gb", function()
-				telescope.git_branches()
+				telescope.git_branches({
+					show_remote_tracking_branches = false,
+				})
 			end)
 			vim.keymap.set("n", "<leader>'", function()
-				telescope.find_files({ prompt_title = "< VimRC >", cwd = "~/.dotfiles/", hidden = true })
+				telescope.git_files({ prompt_title = "< VimRC >", cwd = "~/.dotfiles/", hidden = false })
 			end)
 			vim.keymap.set("n", "<leader>vh", function()
 				telescope.help_tags()
