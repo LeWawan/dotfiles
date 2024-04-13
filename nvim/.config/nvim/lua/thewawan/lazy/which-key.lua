@@ -1,6 +1,6 @@
 return {
 	"folke/which-key.nvim",
-	eent = "VeryLazy",
+	event = "VeryLazy",
 	opts = {
 		plugins = { spelling = true },
 		defaults = {
