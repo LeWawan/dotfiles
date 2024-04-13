@@ -135,10 +135,10 @@ export PATH="$RUST_HOME:$PATH"
 source "$HOME/.cargo/env"
 
 # go
-export GO_HOME="/usr/local/go/bin"
-export PATH="$GO_HOME:$PATH"
+export GO_HOME="$HOME/go"
+export PATH="$GO_HOME/bin:$PATH"
 
-export GO_INSTALL_PATH="/home/wawan/go/bin"
+export GO_INSTALL_PATH="$HOME/go/bin"
 export PATH="$GO_INSTALL_PATH:$PATH"
 
 # nvm
@@ -151,6 +151,16 @@ export PATH="$GO_INSTALL_PATH:$PATH"
 # fnm
 export PATH="$HOME/.local/share/fnm:$PATH"
 eval "$(fnm env --use-on-cd)"
+
+# check if the current version of node is the latest
+if [ -n "$(fnm ls | grep -o lts-latest)" ]; then
+  echo "Node is up to date"
+else
+  # echo in red that node is not up to date
+  echo -e "\033[0;31mNode is not up to date\033[0m"
+  echo -e "\033[0;34mPlease install the latest version with 'fnm install lts-latest && fnm use lts-latest'\033[0m"
+fi
+
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -173,12 +183,19 @@ fortune | cowsay -f tux
 [[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
 
 # pnpm
-export PNPM_HOME="/home/wawan/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
 
 # lua
 eval "$(luarocks path --bin)"
@@ -187,8 +204,12 @@ eval "$(luarocks path --bin)"
 export PATH=$PATH:/usr/local/go/bin
 
 # bun completions
-[ -s "/home/wawan/.bun/_bun" ] && source "/home/wawan/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# ruby
+eval "$(rbenv init - zsh)"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
