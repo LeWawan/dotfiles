@@ -118,29 +118,10 @@ return {
 					require("lspconfig").volar.setup({
 						filetypes = { "vue", "javascript", "typescript", "typescriptreact" },
 						init_options = {
-							languageFeatures = {
-								implementation = true, -- new in @volar/vue-language-server v0.33
-								references = true,
-								definition = true,
-								typeDefinition = true,
-								callHierarchy = true,
-								hover = true,
-								rename = true,
-								renameFileRefactoring = true,
-								signatureHelp = true,
-								codeAction = true,
-								workspaceSymbol = true,
-								completion = {
-									defaultTagNameCase = "both",
-									defaultAttrNameCase = "kebabCase",
-									getDocumentNameCasesRequest = false,
-									getDocumentSelectionRequest = false,
-								},
+							vue = {
+								hybridMode = false,
 							},
 						},
-						on_new_config = function(new_config, new_root_dir)
-							new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
-						end,
 					})
 
 					-- Multi server setup ( Needed ? )
