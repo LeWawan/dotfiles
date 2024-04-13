@@ -11,5 +11,8 @@ alias vim="nvim"
 # python
 alias python="python3"
 
+# laravel remaps
+alias ar="php artisan"
+
 # vscode
 alias c="code"
