@@ -1,0 +1,76 @@
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
+# localbin
+export CUSTOM_BIN="$HOME/localbin/"
+export PATH="$CUSTOM_BIN:$PATH"
+
+# meteor
+export METEOR_HOME="$HOME/.meteor"
+export PATH="$METEOR_HOME:$PATH"
+
+# yarn
+export YARN_HOME="$HOME/.yarn/bin"
+export PATH="$YARN_HOME:$PATH"
+
+# composer
+export COMPOSER_HOME="$HOME/.composer/vendor/bin"
+export PATH="$COMPOSER_HOME:$PATH"
+
+# rust
+export RUST_HOME="$HOME/.cargo/bin"
+export PATH="$RUST_HOME:$PATH"
+source "$HOME/.cargo/env"
+
+# go
+export GO_HOME="/usr/local/go/bin"
+export PATH="$GO_HOME:$PATH"
+
+export GO_INSTALL_PATH="/home/wawan/go/bin"
+export PATH="$GO_INSTALL_PATH:$PATH"
+
+# nvm
+# export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# nvm use
+
+# fnm
+export PATH="$HOME/.local/share/fnm:$PATH"
+eval "$(fnm env --use-on-cd)"
+
+# pnpm
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# sonar-scanner
+export PATH="$HOME/sonar-scanner-5.0.1.3006-macosx/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/home/wawan/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# lua
+eval "$(luarocks path --bin)"
+
+# go
+export PATH=$PATH:/usr/local/go/bin
+
+# bun completions
+[ -s "/home/wawan/.bun/_bun" ] && source "/home/wawan/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+#zig
+export PATH=$PATH:~/zig/
