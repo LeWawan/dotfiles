@@ -2,32 +2,9 @@
 
 NVIM="~/nvim-macos/bin/nvim ."
 DOCKER_COMPOSE_UP="docker-compose up"
-DOCKER_ENV="~/Lab/perso/docker-env"
+DOCKER_ENV="~/Lab/docker-env"
 CONFIG="~/.config/nvim"
 LAB="~/Lab"
-WEB3="~/Lab/perso/web-3"
-
-# Piloty
-PILOTY_NUXT="~/Lab/piloty/piloty_jobboard_nuxt2.git"
-PILOTY_API_NEST="~/Lab/piloty/piloty-api-nestjs.git"
-PILOTY_API_MODELS="~/Lab/piloty/piloty-models"
-PILOTY_WEBAPP="~/Lab/piloty/piloty-webapp.git"
-PILOTY_TOOLS="~/Lab/piloty/piloty-tools"
-
-
-# Trusty
-TRUSTY_MAGICLINK="~/Lab/trusty/magic-link-v3"
-TRUSTY_BRAIN_API="~/Lab/trusty/trusty-brain-api"
-
-WEB3="~/Lab/perso/web-3"
-
-# Shared
-TRUSTY_NOTIFY="~/Lab/trusty/trusty-notify"
-TRUSTY_ICONS="~/Lab/trusty/trusty-icons"
-TRUSTY_ICONS_V2="~/Lab/trusty/trusty-icons-v2"
-TRUSTY_SCHEMA_PRISMA="~/Lab/trusty/trusty-schema-prisma"
-TRUSTY_INTERNATIONALIZATION="~/Lab/trusty/trusty-internationalization"
-
 
 createWindow() {
     session=$1
@@ -65,27 +42,6 @@ while [ "$#" -gt 0 ]; do
         createSession config primary
         createWindow config config -c $CONFIG "~/nvim-macos/bin/nvim ."
         ;;
-    "-piloty")
-        createSession piloty primary
-        createWindow piloty piloty-nuxt -c $PILOTY_NUXT "~/nvim-macos/bin/nvim ."
-        createWindow piloty piloty-api -c $PILOTY_API_NEST "~/nvim-macos/bin/nvim ."
-        createWindow piloty piloty-models-x -c $PILOTY_API_MODELS "~/nvim-macos/bin/nvim ."
-        createWindow piloty piloty-webapp -c $PILOTY_WEBAPP "~/nvim-macos/bin/nvim ."
-        ;;
-    "-trusty")
-        createSession trusty primary
-        createWindow trusty magiclink -c $TRUSTY_MAGICLINK "~/nvim-macos/bin/nvim ."
-        createWindow trusty brain-api -c $TRUSTY_BRAIN_API "~/nvim-macos/bin/nvim ."
-      ;;
-    "-shared")
-        createSession shared primary
-        createWindow shared trusty-notify -c $TRUSTY_NOTIFY "~/nvim-macos/bin/nvim ."
-        createWindow shared trusty-icons -c $TRUSTY_ICONS "~/nvim-macos/bin/nvim ."
-        createWindow shared trusty-icons-v2 -c $TRUSTY_ICONS_V2 "~/nvim-macos/bin/nvim ."
-        createWindow shared trusty-schema-prisma -c $TRUSTY_SCHEMA_PRISMA "~/nvim-macos/bin/nvim ."
-        createWindow shared piloty-tools -c $PILOTY_TOOLS "~/nvim-macos/bin/nvim ."
-        createWindow shared internationalization -c $TRUSTY_INTERNATIONALIZATION "~/nvim-macos/bin/nvim ."
-      ;;
     "-docker")
         createSession docker primary
         createWindow docker docker-env -c $DOCKER_ENV "~/nvim-macos/bin/nvim ."
