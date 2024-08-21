@@ -82,7 +82,6 @@ return {
 		require("mason-lspconfig").setup({
 			ensure_installed = {
 				"lua_ls",
-				"stylua",
 				"rust_analyzer",
 				"volar",
 				"html",
@@ -91,7 +90,6 @@ return {
 				"eslint",
 				"emmet_language_server",
 				"intelephense",
-				"golang",
 			},
 			handlers = {
 				lsp_zero.default_setup,
