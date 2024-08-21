@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+cd
+
+if [[ $(uname) == Linux ]]; then
+  NVIM_SOURCE="nvim-linux64"
+elif [[ $(uname) == Darwin ]]; then
+  NVIM_SOURCE="nvim-macos-arm64"
+else
+  echo "install_nvim error: device uname not recognized"
+  return
+fi
+
+if [[ -f "$HOME/$NVIM_SOURCE.tar.gz" ]]; then
+  rm "$HOME/$NVIM_SOURCE.tar.gz"
+fi
+
+wget "https://github.com/neovim/neovim/releases/latest/download/$NVIM_SOURCE.tar.gz"
+tar -xzf "$NVIM_SOURCE.tar.gz"
+rm "$NVIM_SOURCE.tar.gz"
+
+sudo rm /usr/local/bin/nvim
+cd /usr/local/bin
+sudo ln -sf "$HOME/$NVIM_SOURCE/bin/nvim" nvim
+cd "$BASE_DIR"
+echo "[install] latest nvim installed"

@@ -1,60 +1,97 @@
 #!/usr/bin/env bash
 
-NVIM="~/nvim-macos/bin/nvim ."
+NVIM="nvim ."
 DOCKER_COMPOSE_UP="docker-compose up"
-DOCKER_ENV="~/Lab/docker-env"
+DOCKER_ENV="~/Lab/docker"
 CONFIG="~/.config/nvim"
 LAB="~/Lab"
+WEB3="~/Lab/perso/web-3"
+
+WEB3="~/Lab/perso/web-3"
+
+DELUPAY_MERCHANT="~/Lab/delupay/merchant-web"
+DELUPAY_CORE="~/Lab/delupay/web-core"
+DELUPAY_ADMIN="~/Lab/delupay/delupay-admin-web"
+
+DELUPAY_BACKEND="~/Lab/delupay/backend"
+DELUPAY_CMS="~/Lab/delupay/delupay-cms"
+
+DELUPAY_WOOCOMMERCE="~/Lab/cms/delupay-woocommerce"
+DELUPAY_MAGENTO="~/Lab/cms/delupay-magento"
+DELUPAY_PRESTASHOP="~/Lab/cms/delupay-prestashop"
+DELUPAY_DRUPAL="~/Lab/cms/delupay-drupal"
+
+DELUPAY_IOS="~/Lab/ios-app"
 
 createWindow() {
-    session=$1
-    window=$2
-    shift
-    shift
-    hasWindow=$(tmux list-windows -t $session | grep "$window")
-    if [ -z "$hasWindow" ]; then
-        cmd="tmux -f ~/.config/nvim/tmux.conf neww -t $session: -n $window -d"
-        if [ $# -gt 0 ]; then
-            cmd="$cmd $@"
-        fi
-        echo "Creating Window(\"$hasWindow\"): $cmd"
-        eval $cmd
-    fi
+	session=$1
+	window=$2
+	shift
+	shift
+	hasWindow=$(tmux list-windows -t $session | grep "$window")
+	if [ -z "$hasWindow" ]; then
+		cmd="tmux -f ~/.config/nvim/tmux.conf neww -t $session: -n $window -d"
+		if [ $# -gt 0 ]; then
+			cmd="$cmd $@"
+		fi
+		echo "Creating Window(\"$hasWindow\"): $cmd"
+		eval $cmd
+	fi
 }
 
 createSession() {
-    session=$1
-    window=$2
-    shift
-    shift
-    cmd="tmux new -f ~/.config/nvim/tmux.conf -s $session -d -n $window $@ > /dev/null 2>&1"
+	session=$1
+	window=$2
+	shift
+	shift
+	cmd="tmux new -f ~/.config/nvim/tmux.conf -s $session -d -n $window $@ > /dev/null 2>&1"
 
-    echo "Creating Session: $cmd"
-    eval $cmd
+	echo "Creating Session: $cmd"
+	eval $cmd
 }
 
 while [ "$#" -gt 0 ]; do
-    curr=$1
-    shift
+	curr=$1
+	shift
 
-    case "$curr" in
-    "-config")
-        createSession config primary
-        createWindow config config -c $CONFIG "~/nvim-macos/bin/nvim ."
-        ;;
-    "-docker")
-        createSession docker primary
-        createWindow docker docker-env -c $DOCKER_ENV "~/nvim-macos/bin/nvim ."
-        ;;
-    "-random")
-        createSession random primary
-        createWindow random vim -c $LAB "~/nvim-macos/bin/nvim ."
-        ;;
-    "-playground")
-        createSession playground primary
-        ;;
-    # Work in progress
-    *) echo "Unavailable command... $curr"
-    esac
+	case "$curr" in
+	"-config")
+		createSession config primary
+		createWindow config config -c $CONFIG "nvim ."
+		;;
+	"-dfront")
+		createSession delupay-front primary
+		createWindow delupay-front merchant-web -c $DELUPAY_MERCHANT "nvim ."
+		createWindow delupay-front core-web -c $DELUPAY_CORE "nvim ."
+		createWindow delupay-front admin-web -c $DELUPAY_ADMIN "nvim ."
+		;;
+	"-dcms")
+		createSession delupay-cms primary
+		createWindow delupay-cms delupay-woocommerce -c $DELUPAY_WOOCOMMERCE "nvim ."
+		createWindow delupay-cms delupay-magento -c $DELUPAY_MAGENTO "nvim ."
+		createWindow delupay-cms delupay-prestashop -c $DELUPAY_PRESTASHOP "nvim ."
+		createWindow delupay-cms delupay-drupal -c $DELUPAY_DRUPAL "nvim ."
+		;;
+	"-dapps")
+		createSession delupay-apps primary
+		createWindow delupay-apps delupay-ios -c $DELUPAY_IOS "nvim ."
+		;;
+	"-dback")
+		createSession delupay-back primary
+		createWindow delupay-back delupay-backend -c $DELUPAY_BACKEND "nvim ."
+		;;
+	"-docker")
+		createSession docker primary
+		createWindow docker docker-env -c $DOCKER_ENV "nvim ."
+		;;
+	"-random")
+		createSession random primary
+		createWindow random vim -c $LAB "nvim ."
+		;;
+	"-playground")
+		createSession playground primary
+		;;
+	# Work in progress
+	*) echo "Unavailable command... $curr" ;;
+	esac
 done
-
