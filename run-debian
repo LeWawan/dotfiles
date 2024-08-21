@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+BASE_DIR=$(pwd)
+
+display_help() {
+	echo "Usage: $0 [option...] {1}"
+	echo "Options:"
+	echo "  -c, --connect      Connect to existing Debian Docker container"
+	echo "  -n, --new          Delete and re-create Debian Docker image"
+	echo "  -h, --help         Display this help message"
+}
+
+create_new_debian_image() {
+	read -p "This will delete and re-create the Debian Docker image. Are you sure? (y/n): " confirm
+	if [ "$confirm" == "y" ]; then
+		docker stop debian && docker rm debian
+		docker build -t debian -f ~/.dotfiles/docker/Dockerfile.debian .
+	else
+		echo "Aborted."
+		exit 0
+	fi
+}
+
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+	-c | --connect)
+		# check if the container exists
+		if [ "$(docker ps -aq -f status=exited -f name=debian)" ]; then
+			docker start debian
+			docker exec -it debian bash
+		else
+			docker run -it --name debian debian bash
+		fi
+		exit 0
+		;;
+	-n | --new)
+		create_new_debian_image
+		;;
+	-s | --stop)
+		docker stop debian
+		;;
+	-k | --kill)
+		docker stop debian && docker rm debian
+		;;
+	-h | --help)
+		display_help
+		exit 0
+		;;
+	*)
+		echo "Invalid option: $1"
+		echo "Use -h or --help for usage information."
+		exit 1
+		;;
+	esac
+	shift
+done
