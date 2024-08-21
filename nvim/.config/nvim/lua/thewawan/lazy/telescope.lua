@@ -6,7 +6,7 @@ return {
 		},
 		config = function()
 			local telescope = require("telescope.builtin")
-			local trouble = require("trouble.providers.telescope")
+			-- local trouble = require("trouble.providers.telescope")
 
 			vim.keymap.set("n", "<leader>fp", function()
 				telescope.git_files()
@@ -31,7 +31,7 @@ return {
 			end)
 			vim.keymap.set("n", "<leader>gb", function()
 				telescope.git_branches({
-					show_remote_tracking_branches = false,
+					-- show_remote_tracking_branches = false,
 				})
 			end)
 			vim.keymap.set("n", "<leader>'", function()
@@ -53,18 +53,18 @@ return {
 			end)
 
 			require("telescope").setup({
-				defaults = {
-					mappings = {
-						i = {
-							["<C-q>"] = trouble.open_with_trouble,
-							["<C-t>"] = trouble.open_with_trouble,
-						},
-						n = {
-							["<C-q>"] = trouble.open_with_trouble,
-							["<C-t>"] = trouble.open_with_trouble,
-						},
-					},
-				},
+				-- defaults = {
+				-- 	mappings = {
+				-- 		i = {
+				-- 			["<C-q>"] = trouble.open_with_trouble,
+				-- 			["<C-t>"] = trouble.open_with_trouble,
+				-- 		},
+				-- 		n = {
+				-- 			["<C-q>"] = trouble.open_with_trouble,
+				-- 			["<C-t>"] = trouble.open_with_trouble,
+				-- 		},
+				-- 	},
+				-- },
 			})
 		end,
 	},
