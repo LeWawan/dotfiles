@@ -113,6 +113,18 @@ return {
 						end
 					end
 
+					require("lspconfig").eslint.setup({
+						root_dir = util.root_pattern(
+							".eslintrc",
+							".eslintrc.js",
+							".eslintrc.cjs",
+							".eslintrc.yaml",
+							".eslintrc.yml",
+							".eslintrc.json",
+							"package.json"
+						),
+					})
+
 					require("lspconfig").volar.setup({
 						filetypes = { "vue", "javascript", "typescript", "typescriptreact" },
 						init_options = {
