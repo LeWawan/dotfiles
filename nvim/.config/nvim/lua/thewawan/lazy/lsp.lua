@@ -24,33 +24,49 @@ return {
 
 			local bufopts = { buffer = bufnr, remap = false }
 
-			vim.keymap.set("n", "gd", function()
-				vim.lsp.buf.definition()
-			end, bufopts)
+			local function on_list(options)
+				vim.fn.setqflist({}, " ", options)
+				require("trouble").open("quickfix")
+			end
+
+			-- Replaced by telescope...
+			-- vim.keymap.set("n", "gd", function()
+			-- 	vim.lsp.buf.definition({
+			-- 		on_list = on_list,
+			-- 	})
+			-- end, bufopts)
+			--
+			-- vim.keymap.set("n", "gr", function()
+			-- 	vim.lsp.buf.references({
+			-- 		on_list = on_list,
+			-- 	})
+			-- end, bufopts)
+
 			vim.keymap.set("n", "gD", function()
-				vim.lsp.buf.declaration()
+				vim.lsp.buf.declaration({
+					on_list = on_list,
+				})
 			end, bufopts)
 
-			vim.keymap.set("n", "K", function()
-				vim.lsp.buf.hover()
-			end, bufopts)
+			vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 
 			vim.keymap.set("n", "<leader>vd", function()
 				vim.diagnostic.open_float()
 			end, bufopts)
 
 			-- Replaced diagnostics in quickfix list with trouble @SEE: "folke/trouble.nvim"
-			-- vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end)
-			-- vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end)
+			vim.keymap.set("n", "]d", function()
+				vim.diagnostic.goto_next()
+			end)
+			vim.keymap.set("n", "[d", function()
+				vim.diagnostic.goto_prev()
+			end)
 
 			-- Replaced with inc-rename @SEE: "smjonas/inc-rename.nvim"
 			-- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
 
 			vim.keymap.set("n", "<space>vca", function()
 				vim.lsp.buf.code_action()
-			end, bufopts)
-			vim.keymap.set("n", "<space>vrr", function()
-				vim.lsp.buf.references()
 			end, bufopts)
 			vim.keymap.set("n", "<space>f", function()
 				vim.lsp.buf.format({ async = true })
@@ -66,7 +82,6 @@ return {
 		require("mason-lspconfig").setup({
 			ensure_installed = {
 				"lua_ls",
-				"stylua",
 				"rust_analyzer",
 				"volar",
 				"html",
@@ -74,9 +89,178 @@ return {
 				"marksman",
 				"eslint",
 				"emmet_language_server",
+				"intelephense",
 			},
 			handlers = {
 				lsp_zero.default_setup,
+				volar = function()
+					local util = require("lspconfig.util")
+					local function get_typescript_server_path(root_dir)
+						local global_ts = "/Users/erwan.kreutz/Library/pnpm/global/5/node_modules/typescript/lib"
+						-- Alternative location if installed as root:
+						-- local global_ts = '/usr/local/lib/node_modules/typescript/lib'
+						local found_ts = ""
+						local function check_dir(path)
+							found_ts = util.path.join(path, "node_modules", "typescript", "lib")
+							if util.path.exists(found_ts) then
+								return path
+							end
+						end
+						if util.search_ancestors(root_dir, check_dir) then
+							return found_ts
+						else
+							return global_ts
+						end
+					end
+
+					require("lspconfig").eslint.setup({
+						root_dir = util.root_pattern(
+							".eslintrc",
+							".eslintrc.js",
+							".eslintrc.cjs",
+							".eslintrc.yaml",
+							".eslintrc.yml",
+							".eslintrc.json",
+							"package.json"
+						),
+					})
+
+					require("lspconfig").volar.setup({
+						filetypes = { "vue", "javascript", "typescript", "typescriptreact" },
+						init_options = {
+							vue = {
+								hybridMode = false,
+							},
+						},
+					})
+
+					-- Multi server setup ( Needed ? )
+					-- local lspconfig_util = require("lspconfig.util")
+					-- local lspconfig_configs = require("lspconfig.configs")
+
+					-- local function on_new_config(new_config, new_root_dir)
+					-- 	local function get_typescript_server_path(root_dir)
+					-- 		local global_ts = "/home/[yourusernamehere]/.npm/lib/node_modules/typescript/lib"
+					-- 		-- Alternative location if installed as root:
+					-- 		-- local global_ts = '/usr/local/lib/node_modules/typescript/lib'
+					-- 		local found_ts = ""
+					-- 		local function check_dir(path)
+					-- 			found_ts = lspconfig_util.path.join(path, "node_modules", "typescript", "lib")
+					-- 			if lspconfig_util.path.exists(found_ts) then
+					-- 				return path
+					-- 			end
+					-- 		end
+					-- 		if lspconfig_util.search_ancestors(root_dir, check_dir) then
+					-- 			return found_ts
+					-- 		else
+					-- 			return global_ts
+					-- 		end
+					-- 	end
+					--
+					-- 	if
+					-- 		new_config.init_options
+					-- 		and new_config.init_options.typescript
+					-- 		and new_config.init_options.typescript.tsdk == ""
+					-- 	then
+					-- 		new_config.init_options.typescript.tsdk = get_typescript_server_path(new_root_dir)
+					-- 	end
+					-- end
+					--
+
+					-- local volar_cmd = { "vue-language-server", "--stdio" }
+					-- local volar_root_dir = lspconfig_util.root_pattern("package.json")
+
+					-- lspconfig_configs.volar_api = {
+					-- 	default_config = {
+					-- 		cmd = volar_cmd,
+					-- 		root_dir = volar_root_dir,
+					-- 		on_new_config = on_new_config,
+					-- 		filetypes = { "vue", "javascript", "typescript", "typescriptreact" },
+					-- 		init_options = {
+					-- 			typescript = {
+					-- 				tsdk = "",
+					-- 			},
+					-- 			languageFeatures = {
+					-- 				implementation = true, -- new in @volar/vue-language-server v0.33
+					-- 				references = true,
+					-- 				definition = true,
+					-- 				typeDefinition = true,
+					-- 				callHierarchy = true,
+					-- 				hover = true,
+					-- 				rename = true,
+					-- 				renameFileRefactoring = true,
+					-- 				signatureHelp = true,
+					-- 				codeAction = true,
+					-- 				workspaceSymbol = true,
+					-- 				completion = {
+					-- 					defaultTagNameCase = "both",
+					-- 					defaultAttrNameCase = "kebabCase",
+					-- 					getDocumentNameCasesRequest = false,
+					-- 					getDocumentSelectionRequest = false,
+					-- 				},
+					-- 			},
+					-- 		},
+					-- 	},
+					-- }
+					-- require("lspconfig").volar_api.setup({})
+					--
+					-- lspconfig_configs.volar_doc = {
+					-- 	default_config = {
+					-- 		cmd = volar_cmd,
+					-- 		root_dir = volar_root_dir,
+					-- 		on_new_config = on_new_config,
+					--
+					-- 		filetypes = { "vue" },
+					-- 		-- If you want to use Volar's Take Over Mode (if you know, you know):
+					-- 		--filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
+					-- 		init_options = {
+					-- 			typescript = {
+					-- 				tsdk = "",
+					-- 			},
+					-- 			languageFeatures = {
+					-- 				implementation = true, -- new in @volar/vue-language-server v0.33
+					-- 				documentHighlight = true,
+					-- 				documentLink = true,
+					-- 				codeLens = { showReferencesNotification = true },
+					-- 				-- not supported - https://github.com/neovim/neovim/pull/15723
+					-- 				semanticTokens = false,
+					-- 				diagnostics = true,
+					-- 				schemaRequestService = true,
+					-- 			},
+					-- 		},
+					-- 	},
+					-- }
+					-- require("lspconfig").volar_doc.setup({})
+					--
+					-- lspconfig_configs.volar_html = {
+					-- 	default_config = {
+					-- 		cmd = volar_cmd,
+					-- 		root_dir = volar_root_dir,
+					-- 		on_new_config = on_new_config,
+					--
+					-- 		filetypes = { "vue" },
+					-- 		-- If you want to use Volar's Take Over Mode (if you know, you know), intentionally no 'json':
+					-- 		--filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+					-- 		init_options = {
+					-- 			typescript = {
+					-- 				tsdk = "",
+					-- 			},
+					-- 			documentFeatures = {
+					-- 				selectionRange = true,
+					-- 				foldingRange = true,
+					-- 				linkedEditingRange = true,
+					-- 				documentSymbol = true,
+					-- 				-- not supported - https://github.com/neovim/neovim/pull/13654
+					-- 				documentColor = false,
+					-- 				documentFormatting = {
+					-- 					defaultPrintWidth = 100,
+					-- 				},
+					-- 			},
+					-- 		},
+					-- 	},
+					-- }
+					-- require("lspconfig").volar_html.setup({})
+				end,
 				lua_ls = function()
 					require("neodev").setup()
 
@@ -91,11 +275,8 @@ return {
 							},
 						},
 					}))
-
-					require("lspconfig")["volar"].setup({
-						filetypes = { "vue", "javascript", "typescript", "typescriptreact" },
-					})
-
+				end,
+				emmet_language_server = function()
 					require("lspconfig")["emmet_language_server"].setup({
 						filetypes = { "html", "typescriptreact", "javascriptreact", "css", "vue" },
 						init_options = {

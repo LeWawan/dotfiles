@@ -47,6 +47,9 @@ vim.keymap.set("n", "<leader><leader>z", ":LspRestart<cr>")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
+vim.keymap.set("n", "<C-p>", ":cprev<CR>")
+vim.keymap.set("n", "<C-n>", ":cnext<CR>")
+
 -- Lsp
 local toggle_qf = function()
 	local qf_exists = false

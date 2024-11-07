@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+	if [[ $(uname) == Linux ]]; then
+		GO_SOURCE="go$GO_VERSION.linux-$(dpkg --print-architecture)"
+	elif [[ $(uname) == Darwin ]]; then
+		GO_SOURCE="go$GO_VERSION.darwin-$(dpkg --print-architecture)"
+	else
+		echo "install_nvim error: device uname not recognized"
+		return
+	fi
+
+	cd /tmp
+	rm go*
+	wget "https://go.dev/dl/$GO_SOURCE.tar.gz"
+	sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "$GO_SOURCE.tar.gz"
+	rm "$GO_SOURCE.tar.gz"
