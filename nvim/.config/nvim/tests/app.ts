@@ -1,0 +1,2 @@
+const toto: string = "toto";
+//     ^?
