@@ -9,3 +9,5 @@ nvim/.config/github-copilot/version.json
 
 # Ssh stuff
 ssh-connect
+
+tmux/tmux
