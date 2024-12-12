@@ -16,3 +16,7 @@ alias ar="php artisan"
 
 # vscode
 alias c="code"
+
+# fnm & nvm
+alias fnm="echo 'fnm is not installed, please use volta instead'"
+alias nvm="echo 'nvm is not installed, please use volta instead'"

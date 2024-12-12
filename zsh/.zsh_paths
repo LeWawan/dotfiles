@@ -1,6 +1,11 @@
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
+# volta
+export VOLTA_BIN="$HOME/.volta/bin"
+export PATH="$VOLTA_BIN:$PATH"
+
+
+# pnpm - no need because it is set by volta
+# export PNPM_HOME="$HOME/Library/pnpm"
+# export PATH="$PNPM_HOME:$PATH"
 
 # localbin
 export CUSTOM_BIN="$HOME/localbin/"
