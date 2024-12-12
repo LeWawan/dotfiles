@@ -15,7 +15,7 @@ export LANG=en_US.UTF-8
 
 # Exa ls replacement
 # https://the.exa.website/
-if [ '/usr/local/bin//exa' ]; then alias ls="exa --git";  fi
+# if [ '/usr/local/bin//exa' ]; then alias ls="exa --git";  fi
 
 # direnv
 eval "$(direnv hook zsh)"
