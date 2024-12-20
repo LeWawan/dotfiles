@@ -1,16 +1,10 @@
 #!/bin/bash
 
-WIFI_INTERFACE=$(networksetup -listallhardwareports | awk '/Wi-Fi/{getline; print $2}')
-NETWORK_INFO=$(networksetup -getairportnetwork $WIFI_INTERFACE 2>/dev/null)
+NETWORK_NAME=$(system_profiler SPAirPortDataType | awk '/Current Network Information:/ { getline; print substr($0, 13, (length($0) - 13)); exit }')
 
-if [[ "$NETWORK_INFO" == *"You are not associated with an AirPort network"* ]]; then
+# Check if network name is empty
+if [ -z "$NETWORK_NAME" ]; then
     sketchybar --set wifi label="Disconnected"
 else
-    NETWORK_NAME=$(echo "$NETWORK_INFO" | sed 's/Current Wi-Fi Network: //')
-    # Check if network name is empty
-    if [ -z "$NETWORK_NAME" ]; then
-        sketchybar --set wifi label="Disconnected"
-    else
-        sketchybar --set wifi label="$NETWORK_NAME"
-    fi
+    sketchybar --set wifi label="$NETWORK_NAME"
 fi
