@@ -56,7 +56,7 @@ source "$ITEM_DIR/front_app.sh"
 source "$ITEM_DIR/time.sh"
 source "$ITEM_DIR/battery.sh"
 source "$ITEM_DIR/sound.sh"
-# source "$ITEM_DIR/wifi.sh" # Bugged for now
+source "$ITEM_DIR/wifi.sh"
 source "$ITEM_DIR/cpu.sh"
 source "$ITEM_DIR/ram.sh"
 sketchybar --add item cat center \
