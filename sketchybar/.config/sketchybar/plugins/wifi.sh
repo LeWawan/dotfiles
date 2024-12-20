@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NETWORK_NAME=$(system_profiler SPAirPortDataType | awk '/Current Network Information:/ { getline; print substr($0, 13, (length($0) - 13)); exit }')
+NETWORK_NAME=$(ipconfig getsummary $(networksetup -listallhardwareports | awk '/Hardware Port: Wi-Fi/{getline; print $2}') | awk -F ' SSID : ' '/ SSID : / {print $2}')
 
 # Check if network name is empty
 if [ -z "$NETWORK_NAME" ]; then
