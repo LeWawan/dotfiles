@@ -11,15 +11,11 @@ return {
 		"saadparwaiz1/cmp_luasnip",
 		"hrsh7th/cmp-nvim-lua",
 		"L3MON4D3/LuaSnip",
-		"rafamadriz/friendly-snippets",
 		"marilari88/twoslash-queries.nvim",
-		"folke/neodev.nvim",
 		"j-hui/fidget.nvim",
+		"folke/lazydev.nvim",
 	},
 	config = function()
-		-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-		require("neodev").setup()
-
 		local lsp_zero = require("lsp-zero")
 		-- Reserve a space in the gutter
 		-- This will avoid an annoying layout shift in the screen
@@ -109,7 +105,6 @@ return {
 				"marksman",
 				"eslint",
 				"emmet_language_server",
-				"intelephense",
 			},
 			handlers = {
 				lsp_zero.default_setup,
@@ -178,8 +173,6 @@ return {
 					})
 				end,
 				lua_ls = function()
-					require("neodev").setup()
-
 					local lua_opts = lsp_zero.nvim_lua_ls()
 
 					require("lspconfig")["lua_ls"].setup(vim.tbl_deep_extend("force", lua_opts, {
@@ -206,6 +199,16 @@ return {
 						},
 					})
 				end,
+				-- ruby_lsp = function()
+				-- 	require("lspconfig")["ruby_lsp"].setup({
+				-- 		capabilities = capabilities,
+				-- 		filetypes = { "ruby", "eruby" },
+				-- 		init_options = {
+				-- 			formatter = "standard",
+				-- 			linters = { "standard" },
+				-- 		},
+				-- 	})
+				-- end,
 			},
 		})
 
