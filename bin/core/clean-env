@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./bin/macos
+source ~/.dotfiles/bin/core/env
 
 STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES
 
