@@ -56,11 +56,11 @@ source "$ITEM_DIR/front_app.sh"
 source "$ITEM_DIR/time.sh"
 source "$ITEM_DIR/battery.sh"
 source "$ITEM_DIR/sound.sh"
-source "$ITEM_DIR/wifi.sh"
+# source "$ITEM_DIR/wifi.sh"
 source "$ITEM_DIR/cpu.sh"
 source "$ITEM_DIR/ram.sh"
 sketchybar --add item cat center \
-           --set cat icon="<💻/>"\
+           --set cat icon="(╯°□°）╯︵ ┻━┻"\
                      icon.font="$ICON_FONT:Regular:16.0" \
                      icon.color=$DARK_WHITE\
                      label.draw=off

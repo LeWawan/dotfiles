@@ -1,27 +1,25 @@
 #!/bin/bash
+source ./icons.sh
 
-SPACE_ICONS=("1:DEV" "2:WEB" "3:ITERM" "4:ALL")
+SPACE_LABELS=("1:DEV" "2:WEB" "3:ITERM" "4:ALL")
+SPACE_ICONS=($DEV_ICON $WEB_ICON $TERM_ICON $ALL_ICON)
 
 SPACE=(
-  icon.padding_left=18
-  icon.padding_right=18
   label.padding_right=33
-  icon.color=$WHITE
-  icon.font="$FONT:ExtraBold:14.0"
-  icon.highlight_color=$SKY
-  icon.background.draw=on
+  label.color=$WHITE
+  label.font="$FONT:ExtraBold:14.0"
+  label.highlight_color=$SKY
   background.padding_left=-8
   background.padding_right=-8
   background.color=$BG_SEC_COLR
+  background.highlight_color=$SKY
   background.corner_radius=10
-  background.drawing=on
-  label.drawing=off
 )
 
 sketchybar --add event aerospace_workspace_change
 
 sid=0
-for i in "${!SPACE_ICONS[@]}"
+for i in "${!SPACE_LABELS[@]}"
 do
   sid=$(($i+1))
   sketchybar --add item space.$sid left \
@@ -29,7 +27,7 @@ do
              --set space.$sid "${SPACE[@]}" \
                   script="$PLUGIN_DIR/space.sh $sid" \
                   click_script="aerospace workspace $sid" \
-             --set space.$sid icon=${SPACE_ICONS[i]}
+             --set space.$sid label=${SPACE_LABELS[i]} icon=${SPACE_ICONS[i]} icon.color=$WHITE icon.padding_left=4
 done
 
 sketchybar --add item space_separator_left left \

@@ -119,10 +119,10 @@ alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-ctrl-h = 'workspace 1'
-ctrl-j = 'workspace 2'
-ctrl-k = 'workspace 3'
-ctrl-l = 'workspace 4'
+ctrl-h = 'exec-and-forget aerospace workspace 1 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=1 '
+ctrl-j = 'exec-and-forget aerospace workspace 2 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=2 '
+ctrl-k = 'exec-and-forget aerospace workspace 3 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=3 '
+ctrl-l = 'exec-and-forget aerospace workspace 4 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=4 '
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 ctrl-shift-h = 'move-node-to-workspace 1'

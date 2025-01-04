@@ -17,4 +17,9 @@ export BATTERY_50_ICON=􀺶
 export BATTERY_25_ICON=􀛩
 export BATTERY_0_ICON=􀛪
 
+export DEV_ICON=􀟛
+export WEB_ICON=􀆪
+export TERM_ICON=􀩼
+export ALL_ICON=􀓨
+
 
