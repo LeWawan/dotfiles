@@ -26,7 +26,7 @@ do
              --subscribe space.$sid aerospace_workspace_change \
              --set space.$sid "${SPACE[@]}" \
                   script="$PLUGIN_DIR/space.sh $sid" \
-                  click_script="aerospace workspace $sid" \
+                  click_script="aerospace workspace $sid & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$sid" \
              --set space.$sid label=${SPACE_LABELS[i]} icon=${SPACE_ICONS[i]} icon.color=$WHITE icon.padding_left=4
 done
 
