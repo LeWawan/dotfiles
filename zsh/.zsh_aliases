@@ -1,6 +1,7 @@
 # git config (@TODO update me with proper git config file...)
-alias gittrusty="git config --global user.name 'erwan' --replace-all && git config --global user.email 'erwan@hellotrusty.io' --replace-all && git config pull.rebase false"
+
 alias gitwawan="git config --global user.name 'LeWawan' --replace-all && git config --global user.email 'erwankreutz@gmail.com' --replace-all && git config pull.rebase false"
+alias gitdelupay="git config --global user.name 'erwan.kreutz' --replace-all && git config --global user.email 'erwan.kreutz@delupay.com' --replace-all && git config pull.rebase false"
 
 # git commands
 alias nah="git reset --hard & git clean -df"
@@ -20,3 +21,6 @@ alias c="code"
 # fnm & nvm
 alias fnm="echo 'fnm is not installed, please use volta instead'"
 alias nvm="echo 'nvm is not installed, please use volta instead'"
+
+# adonis
+alias ace="node ace"
