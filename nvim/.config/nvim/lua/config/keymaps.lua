@@ -54,9 +54,7 @@ local toggle_qf = function()
 		vim.cmd(":copen")
 	end
 end
+vim.keymap.set("n", "<C-q>", toggle_qf)
 
 -- Undotree
 vim.keymap.set("n", "<F5>", ":UndotreeToggle<CR>")
-
--- Clipboard
--- vim.cmd("let g:clipboard = { 'name': 'WslClipboard', 'copy': {    '+': 'clip.exe',    '*': 'clip.exe',  }, 'paste': {    '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',    '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))', }, 'cache_enabled': 0}")
