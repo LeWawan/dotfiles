@@ -1,29 +1,21 @@
--- Things
+-- Strip space at the end of line
 vim.cmd("autocmd BufWritePre * :%s/\\s\\+$//e")
--- vim.cmd("autocmd BufWritePre *.tsx,*.ts,*.js,*.html,*.css :Prettier")
--- vim.cmd("autocmd BufWritePre *.tsx,*.ts,*.js,*.html,*.css <Plug>(prettier-format)")
 
--- vim.cmd("autocmd BufWritePre *.go,*.ts,*.vue,*.astro :lua vim.lsp.buf.format()")
-
--- Autocmd for astro
--- vim.cmd('autocmd BufNewFile,BufRead *.astro set filetype=astro')
-
+-- Remap C-c to <Esc>
 vim.keymap.set("n", "<C-c>", "<Esc>")
 vim.keymap.set("x", "<C-c>", "<Esc>")
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
+-- Delete all buffers
 vim.keymap.set("n", "<leader>db", ':%bdelete|edit #|normal`"<cr>')
 
--- Size remaps
+-- Split size remaps
 vim.keymap.set("n", "<leader>-", ":vertical resize -10<CR>")
 vim.keymap.set("n", "<leader>+", ":vertical resize +10<CR>")
-
-vim.keymap.set("n", "<leader><CR>", ":so ~/.dotfiles/nvim/.config/nvim/init.lua<CR>")
 
 -- Move around (keep the cursor center)
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
-
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "n", "nzzzv")
 
@@ -36,8 +28,6 @@ vim.keymap.set("v", "<leader>y", '"+y')
 vim.keymap.set("n", "<leader>Y", '"+Y', { noremap = false })
 
 vim.keymap.set("n", "<leader>d", '"_d')
-vim.keymap.set("v", "<leader>d", '"_d')
-
 vim.keymap.set("v", "<leader>d", '"_d')
 
 vim.keymap.set("n", "<leader><leader>x", ":so %<cr>")
@@ -70,9 +60,6 @@ end
 
 -- Undotree
 vim.keymap.set("n", "<F5>", ":UndotreeToggle<CR>")
-
--- Vim wiki
-vim.keymap.set("n", "<leader>,", ":VimwikiToggleListItem<CR>")
 
 -- Clipboard
 -- vim.cmd("let g:clipboard = { 'name': 'WslClipboard', 'copy': {    '+': 'clip.exe',    '*': 'clip.exe',  }, 'paste': {    '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',    '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))', }, 'cache_enabled': 0}")

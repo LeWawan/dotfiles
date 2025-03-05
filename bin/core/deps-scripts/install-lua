@@ -1,20 +1,13 @@
 #!/usr/bin/env bash
 BASE_DIR=$(pwd)
 
-LUA_VERSION="5.4.6"
-LUAROCKS_VERSION="3.9.2"
+LUA_VERSION="5.3.5"
+LUAROCKS_VERSION="3.11.1"
 
 # Lua + luarocks
 rm lua-
 cd
-FILECHASUM="7d5ea1b9cb6aa0b59ca3dde1c6adcb57ef83a1ba8e5432c0ecd06bf439b3ad88"
 curl -R -O "https://www.lua.org/ftp/lua-$LUA_VERSION.tar.gz"
-
-# Verify checksum
-if ! echo "$FILECHASUM lua-$LUA_VERSION.tar.gz" | shasum -a 256; then
-	echo "Error: Checksum failed for lua-$LUA_VERSION.tar.gz"
-	exit 1
-fi
 
 tar -zxf lua-$LUA_VERSION.tar.gz
 rm lua-$LUA_VERSION.tar.gz

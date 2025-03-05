@@ -1,6 +1,9 @@
 local o = vim.opt
 local g = vim.g
 
+g.mapleader = " "
+g.maplocalleader = "\\"
+
 -- o.guicursor = ''
 o.mouse = nil
 
@@ -44,7 +47,18 @@ o.shortmess:append("c")
 
 o.colorcolumn = "120"
 
-g.mapleader = " "
+g.clipboard = {
+	name = "xsel",
+	copy = {
+		["+"] = "xsel --nodetach -i -b",
+		["*"] = "xsel --nodetach -i -p",
+	},
+	paste = {
+		["+"] = "xsel  -o -b",
+		["*"] = "xsel  -o -b",
+	},
+	cache_enabled = 1,
+}
 o.clipboard = "unnamedplus"
 
 -- g.netrw_banner = 0
