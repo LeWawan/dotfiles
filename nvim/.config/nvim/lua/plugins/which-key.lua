@@ -1,103 +1,15 @@
 return {
 	"folke/which-key.nvim",
-  lazy = true,
+	lazy = true,
 	event = "VeryLazy",
 	opts = {
 		plugins = { spelling = true },
-		defaults = {
-			-- mode = { "n", "v" },
-			-- ["]"] = { name = "+next" },
-			-- ["["] = { name = "+prev" },
-			--
-			-- ["<leader>f"] = {
-			-- 	name = "+telescope",
-			-- 	{
-			-- 		p = "Git files",
-			-- 		f = "Find files",
-			-- 		g = "Live grep",
-			-- 		b = "Buffers",
-			-- 		h = "Help tags",
-			-- 		t = "Treesitter",
-			-- 		["'"] = "< VimRC >",
-			-- 	},
-			-- },
-			-- ["<leader>g"] = { name = "+git", {
-			-- 	b = "Git branches",
-			-- 	s = "Git status",
-			-- } },
-			--
-			-- ["<leader>w"] = { name = "+windows" },
-			--
-			-- ["<leader>x"] = {
-			-- 	name = "+trouble",
-			-- 	{
-			-- 		x = "Toggle trouble",
-			-- 		w = "Toggle trouble workspace",
-			-- 		q = "Toggle quickfix",
-			-- 		l = "Toggle loclist",
-			-- 	},
-			-- },
-			--
-			-- -- Perso
-			-- ["<leader>t"] = {
-			-- 	name = "+terminal",
-			-- 	{
-			-- 		h = "Toggle terminal 1",
-			-- 		j = "Toggle terminal 2",
-			-- 		k = "Toggle terminal 3",
-			-- 		l = "Toggle terminal 4",
-			-- 	},
-			-- },
-		},
+		defaults = {},
 	},
 	config = function(_, opts)
 		local wk = require("which-key")
 		wk.setup(opts)
 
-		-- mode = { "n", "v" },
-		-- ["]"] = { name = "+next" },
-		-- ["["] = { name = "+prev" },
-		--
-		-- ["<leader>f"] = {
-		-- 	name = "+telescope",
-		-- 	{
-		-- 		p = "Git files",
-		-- 		f = "Find files",
-		-- 		g = "Live grep",
-		-- 		b = "Buffers",
-		-- 		h = "Help tags",
-		-- 		t = "Treesitter",
-		-- 		["'"] = "< VimRC >",
-		-- 	},
-		-- },
-		-- ["<leader>g"] = { name = "+git", {
-		-- 	b = "Git branches",
-		-- 	s = "Git status",
-		-- } },
-		--
-		-- ["<leader>w"] = { name = "+windows" },
-		--
-		-- ["<leader>x"] = {
-		-- 	name = "+trouble",
-		-- 	{
-		-- 		x = "Toggle trouble",
-		-- 		w = "Toggle trouble workspace",
-		-- 		q = "Toggle quickfix",
-		-- 		l = "Toggle loclist",
-		-- 	},
-		-- },
-		--
-		-- -- Perso
-		-- ["<leader>t"] = {
-		-- 	name = "+terminal",
-		-- 	{
-		-- 		h = "Toggle terminal 1",
-		-- 		j = "Toggle terminal 2",
-		-- 		k = "Toggle terminal 3",
-		-- 		l = "Toggle terminal 4",
-		-- 	},
-		-- },
-		--
 		wk.add({
 			{ "]", "+next", desc = "Next error" },
 			{ "[", "+prev", desc = "Previous error" },

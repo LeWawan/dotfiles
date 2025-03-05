@@ -3,6 +3,8 @@ return {
 	-- The primeagen you said ?
 	{
 		"ThePrimeagen/harpoon",
+		event = "VeryLazy",
+		lazy = true,
 		config = function()
 			local mark = require("harpoon.mark")
 			local term = require("harpoon.term")
@@ -42,10 +44,16 @@ return {
 			end, { silent = true })
 		end,
 	},
-	"ThePrimeagen/vim-be-good",
+	{
+		"ThePrimeagen/vim-be-good",
+		event = "VeryLazy",
+		lazy = true,
+	},
 
 	{
 		"smjonas/inc-rename.nvim",
+		event = "VeryLazy",
+		lazy = true,
 		config = function()
 			require("inc_rename").setup()
 			vim.keymap.set("n", "<leader>rn", ":IncRename ")
@@ -54,6 +62,8 @@ return {
 
 	{
 		"laytan/cloak.nvim",
+		event = "VeryLazy",
+		lazy = true,
 		config = function()
 			local cloak = require("cloak")
 			cloak.setup()
@@ -66,9 +76,7 @@ return {
 
 	{
 		"numToStr/Comment.nvim",
-		opts = {
-			-- add any options here
-		},
-		lazy = false,
+		event = "VeryLazy",
+		lazy = true,
 	},
 }
