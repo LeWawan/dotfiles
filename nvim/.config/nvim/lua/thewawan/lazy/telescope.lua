@@ -3,6 +3,10 @@ return {
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release",
+			},
 		},
 		config = function()
 			local telescope = require("telescope.builtin")
@@ -16,6 +20,11 @@ return {
 			end)
 			vim.keymap.set("n", "<leader>fg", function()
 				telescope.live_grep({ hidden = true })
+			end)
+			vim.keymap.set("n", "<leader>fc", function()
+				require("telescope.builtin").live_grep({
+					default_text = 'class="[^"]*<cursor>[^"]*"',
+				})
 			end)
 			vim.keymap.set("n", "<leader>fr", function()
 				telescope.lsp_references()
@@ -52,20 +61,22 @@ return {
 				telescope.lsp_references()
 			end)
 
+			-- You dont need to set any of these options. These are the default ones. Only
+			-- the loading is important
 			require("telescope").setup({
-				-- defaults = {
-				-- 	mappings = {
-				-- 		i = {
-				-- 			["<C-q>"] = trouble.open_with_trouble,
-				-- 			["<C-t>"] = trouble.open_with_trouble,
-				-- 		},
-				-- 		n = {
-				-- 			["<C-q>"] = trouble.open_with_trouble,
-				-- 			["<C-t>"] = trouble.open_with_trouble,
-				-- 		},
-				-- 	},
-				-- },
+				extensions = {
+					fzf = {
+						fuzzy = true, -- false will only do exact matching
+						override_generic_sorter = true, -- override the generic sorter
+						override_file_sorter = true, -- override the file sorter
+						case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+						-- the default case_mode is "smart_case"
+					},
+				},
 			})
+			-- To get fzf loaded and working with telescope, you need to call
+			-- load_extension, somewhere after setup function:
+			require("telescope").load_extension("fzf")
 		end,
 	},
 }
