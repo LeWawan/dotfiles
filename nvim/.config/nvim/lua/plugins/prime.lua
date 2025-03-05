@@ -1,24 +1,4 @@
 return {
-	"mbbill/undotree",
-	{
-		"folke/zen-mode.nvim",
-		config = function()
-			require("zen-mode").setup({
-				window = {
-					width = 120,
-					options = {
-						number = true,
-						relativenumber = true,
-					},
-				},
-			})
-
-			vim.keymap.set("n", "<leader>zz", function()
-				require("zen-mode").toggle()
-				vim.wo.wrap = false
-			end)
-		end,
-	},
 
 	-- The primeagen you said ?
 	{
@@ -69,13 +49,6 @@ return {
 		config = function()
 			require("inc_rename").setup()
 			vim.keymap.set("n", "<leader>rn", ":IncRename ")
-		end,
-	},
-
-	{
-		"github/copilot.vim",
-		config = function()
-			vim.g.copilot_enabled = false
 		end,
 	},
 
