@@ -4,6 +4,7 @@ libs/*
 nvim/.config/nvim/plugin/packer_compiled.lua
 
 # Copilot config
+nvim/.config/github-copilot/apps.json
 nvim/.config/github-copilot/hosts.json
 nvim/.config/github-copilot/version.json
 
