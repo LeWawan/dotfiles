@@ -1,6 +1,3 @@
--- Strip space at the end of line
-vim.cmd("autocmd BufWritePre * :%s/\\s\\+$//e")
-
 -- Remap C-c to <Esc>
 vim.keymap.set("n", "<C-c>", "<Esc>")
 vim.keymap.set("x", "<C-c>", "<Esc>")
