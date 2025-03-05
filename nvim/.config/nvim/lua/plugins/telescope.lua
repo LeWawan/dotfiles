@@ -1,6 +1,8 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
+		event = "VeryLazy",
+		lazy = true,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{
@@ -60,7 +62,6 @@ return {
 			vim.keymap.set("n", "<leader>gr", function()
 				telescope.lsp_references()
 			end)
-
 
 			-- You dont need to set any of these options. These are the default ones. Only
 			-- the loading is important

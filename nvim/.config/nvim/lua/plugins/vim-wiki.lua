@@ -1,5 +1,7 @@
 return {
 	"vimwiki/vimwiki",
+	event = "VeryLazy",
+	lazy = true,
 	config = function()
 		vim.g.vimwiki_list = {
 			{
