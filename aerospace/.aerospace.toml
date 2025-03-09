@@ -58,6 +58,7 @@ preset = 'qwerty'
 inner.horizontal = 8
 inner.vertical =   8
 outer.left =       8
+# outer.bottom =     [{ monitor.main = 100 }, 8]
 outer.bottom =     8
 outer.top =        [{ monitor.main = 18 }, 48]
 #outer.top =        48
@@ -119,10 +120,10 @@ alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-ctrl-h = 'exec-and-forget aerospace workspace 1 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=1 '
-ctrl-j = 'exec-and-forget aerospace workspace 2 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=2 '
-ctrl-k = 'exec-and-forget aerospace workspace 3 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=3 '
-ctrl-l = 'exec-and-forget aerospace workspace 4 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=4 '
+ctrl-alt-h = 'exec-and-forget aerospace workspace 1 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=1 '
+ctrl-alt-j = 'exec-and-forget aerospace workspace 2 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=2 '
+ctrl-alt-k = 'exec-and-forget aerospace workspace 3 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=3 '
+ctrl-alt-l = 'exec-and-forget aerospace workspace 4 & sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=4 '
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 ctrl-shift-h = 'move-node-to-workspace 1'
@@ -135,7 +136,7 @@ alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
 alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#mode
+# See: https://nikitabobko.github.io/AeroSpace/commands#mode18
 alt-shift-semicolon = 'mode service'
 alt-shift-enter = 'mode apps'
 
@@ -144,7 +145,7 @@ alt-shift-enter = 'mode apps'
 [mode.service.binding]
 esc = ['reload-config', 'mode main']
 r = ['flatten-workspace-tree', 'mode main'] # reset layout
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout18
 backspace = ['close-all-windows-but-current', 'mode main']
 
 # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
