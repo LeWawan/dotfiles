@@ -47,19 +47,23 @@ o.shortmess:append("c")
 
 o.colorcolumn = "120"
 
-g.clipboard = {
-	name = "xsel",
-	copy = {
-		["+"] = "xsel --nodetach -i -b",
-		["*"] = "xsel --nodetach -i -p",
-	},
-	paste = {
-		["+"] = "xsel  -o -b",
-		["*"] = "xsel  -o -b",
-	},
-	cache_enabled = 1,
-}
-o.clipboard = "unnamedplus"
+if vim.fn.has("mac") == 1 then
+	o.clipboard = "unnamedplus"
+else
+	g.clipboard = {
+		name = "xsel",
+		copy = {
+			["+"] = "xsel --nodetach -i -b",
+			["*"] = "xsel --nodetach -i -p",
+		},
+		paste = {
+			["+"] = "xsel  -o -b",
+			["*"] = "xsel  -o -b",
+		},
+		cache_enabled = 1,
+	}
+	o.clipboard = "unnamedplus"
+end
 
 -- g.netrw_banner = 0
 g.netrw_liststyle = 3
