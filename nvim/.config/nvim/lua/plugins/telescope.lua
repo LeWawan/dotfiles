@@ -63,6 +63,22 @@ return {
 				telescope.lsp_references()
 			end)
 
+      vim.keymap.set("n", "<leader>ww", function()
+        require("obsidian")
+        vim.cmd(":ObsidianSearch")
+      end)
+
+      vim.keymap.set("n", "<leader>ws", function()
+        require("obsidian")
+        vim.cmd(":ObsidianTags")
+      end)
+
+      vim.keymap.set("n", "<leader>wt", function()
+        require("obsidian")
+        vim.cmd(":ObsidianToday")
+      end)
+
+
 			-- You dont need to set any of these options. These are the default ones. Only
 			-- the loading is important
 			require("telescope").setup({
