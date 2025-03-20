@@ -118,6 +118,8 @@ return {
 				},
 				on_attach = function(client, bufnr)
 					require("twoslash-queries").attach(client, bufnr)
+
+          require("ts-error-translator").setup()
 				end,
 			})
 
