@@ -2,10 +2,12 @@ return {
 	-- Autocompletion
 	{
 		"hrsh7th/nvim-cmp",
+		dependencies = {},
 		event = "InsertEnter",
 		config = function()
 			local cmp = require("cmp")
 			local cmp_select = { behavior = cmp.SelectBehavior.Select }
+			local lsp_zero = require("lsp-zero")
 
 			cmp.setup({
 				sources = {
@@ -15,6 +17,7 @@ return {
 					{ name = "luasnip", keyword_length = 2 },
 					{ name = "buffer", keyword_length = 3 },
 				},
+				formatting = lsp_zero.cmp_format({ async = true }),
 				mapping = cmp.mapping.preset.insert({
 					["<Enter>"] = cmp.mapping.confirm({ select = true }),
 					["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
@@ -39,9 +42,10 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			"VonHeikemen/lsp-zero.nvim",
+
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lua",
-			"VonHeikemen/lsp-zero.nvim",
 
 			"marilari88/twoslash-queries.nvim",
 		},
@@ -123,15 +127,35 @@ return {
 				end,
 			})
 
-			require("lspconfig").html.setup({})
+			require("lspconfig").tailwindcss.setup({
+				flags = {
+					debounce_text_changes = 1000,
+				},
+			})
 
-			require("lspconfig").tailwindcss.setup({})
+			require("lspconfig").eslint.setup({
+				filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+				flags = {
+					debounce_text_changes = 1000,
+				},
+			})
 
-			require("lspconfig").marksman.setup({})
+			-- Not today son :(
+			-- require("lspconfig").oxlint.setup({
+			-- 	filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+			-- 	cmd = { "oxlint", "--stdio" },
+			-- 	debug = true,
+			-- })
 
-			require("lspconfig").eslint.setup({})
-
-			require("lspconfig").emmet_language_server.setup({})
+			require("lspconfig").emmet_language_server.setup({
+				init_options = {
+					html = {
+						options = {
+							["bem.enabled"] = true,
+						},
+					},
+				},
+			})
 
 			local lua_opts = lsp_zero.nvim_lua_ls()
 			require("lspconfig").lua_ls.setup(vim.tbl_deep_extend("force", lua_opts, {
@@ -143,6 +167,9 @@ return {
 					},
 				},
 			}))
+
+			require("lspconfig").marksman.setup({})
+			-- require("lspconfig").html.setup({})
 		end,
 	},
 }
