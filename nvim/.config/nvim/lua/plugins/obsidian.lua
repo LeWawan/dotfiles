@@ -26,7 +26,36 @@ return {
 
     -- see below for full list of options 👇
     daily_notes = {
-      folder = "Dailies/"
+      folder = "☀️  Dailies/"
     },
+    follow_url_func = function(url)
+      local os_name = vim.loop.os_uname().sysname
+      local os_release = vim.loop.os_uname().release
+      if os_name == "Darwin" then
+        -- macOS
+        vim.fn.jobstart({"open", url})
+      elseif os_name == "Windows" or os_release:find("WSL2") then
+        -- Windows or WSL
+        vim.cmd(':exec "!start ' .. url .. '"')
+      else
+        -- Linux or other
+        vim.fn.jobstart({"xdg-open", url})
+      end
+    end,
+
+    follow_img_func = function(img)
+      local os_name = vim.loop.os_uname().sysname
+      local os_release = vim.loop.os_uname().release
+      if os_name == "Darwin" then
+        -- macOS
+        vim.fn.jobstart { "qlmanage", "-p", img }
+      elseif os_name == "Windows" or os_release:find("WSL2") then
+        -- Windows or WSL
+        vim.cmd(':exec "!start ' .. img .. '"')
+      else
+        -- Linux or other
+        vim.fn.jobstart({"xdg-open", img})
+      end
+    end,
   },
 }
