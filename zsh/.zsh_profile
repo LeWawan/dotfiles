@@ -19,3 +19,8 @@ export LANG=en_US.UTF-8
 
 # direnv
 eval "$(direnv hook zsh)"
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Added by `rbenv init` on Thu Jan 30 11:36:28 CET 2025
+eval "$(rbenv init - --no-rehash zsh)"
