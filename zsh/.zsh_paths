@@ -35,6 +35,10 @@ export PATH="$GO_HOME:$PATH"
 export GO_INSTALL_PATH="/home/wawan/go/bin"
 export PATH="$GO_INSTALL_PATH:$PATH"
 
+# personal binaries
+export PERSONAL_BIN="$HOME/.local/scripts"
+export PATH="$PERSONAL_BIN:$PATH"
+
 # nvm
 # export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
