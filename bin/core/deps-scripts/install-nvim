@@ -1,23 +1,20 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-git clone -b v0.11.1 https://github.com/neovim/neovim.git $HOME/personal/neovim
+NVIM_VERSION="v0.11.1"
+NVIM_DIR="$HOME/personal/neovim"
 
-NVIM_REQUIRED_PACKAGES=(
-  cmake
-  gettext
-  lua5.1
-  liblua5.1.0-dev
-)
-
-if [[ $(uname) == Linux ]]; then
-  sudo apt install "${NVIM_REQUIRED_PACKAGES[@]}"
-elif [[ $(uname) == Darwin ]]; then
-  brew install "${NVIM_REQUIRED_PACKAGES[@]}"
-else
-  echo "install_nvim error: device uname not recognized"
-  return
+echo "🚀 Clonage Neovim $NVIM_VERSION..."
+if [[ -d "$NVIM_DIR" ]]; then
+  echo "📂 Le dossier $NVIM_DIR existe déjà, suppression..."
+  rm -rf "$NVIM_DIR"
 fi
 
-cd $HOME/personal/neovim
+git clone -b "$NVIM_VERSION" https://github.com/neovim/neovim.git "$NVIM_DIR"
+
+echo "🔧 Build Neovim..."
+cd "$NVIM_DIR"
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
+
+echo "✅ Neovim $NVIM_VERSION installé."

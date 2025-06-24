@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Install Volta
+curl https://get.volta.sh | bash
+
+# Export Volta bin to PATH (important!)
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+# Verify Volta is available
+volta --version
+
+# Install Node.js via Volta
+volta install node@latest
+
+node --version
+
+# Install pnpm via Volta
+volta install pnpm
+
+# Optional: check pnpm version
+pnpm --version
+
+# Install @antfu/ni globally
+npm i -g @antfu/ni
