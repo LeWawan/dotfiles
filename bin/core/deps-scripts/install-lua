@@ -1,37 +1,57 @@
 #!/usr/bin/env bash
-BASE_DIR=$(pwd)
+set -euo pipefail
 
-LUA_VERSION="5.3.5"
-LUAROCKS_VERSION="3.11.1"
+CURRENT_DIR=$(pwd)
+LUA_VERSION="5.1"
+LUAROCKS_VERSION="3.9.2"
+LUAROCKS_INSTALL_DIR="$HOME/luarocks"
 
-# Lua + luarocks
-rm lua-
-cd
-curl -R -O "https://www.lua.org/ftp/lua-$LUA_VERSION.tar.gz"
+echo "🚀 Installation des dépendances système pour Lua $LUA_VERSION..."
 
-tar -zxf lua-$LUA_VERSION.tar.gz
-rm lua-$LUA_VERSION.tar.gz
-cd lua-$LUA_VERSION
+install_system_packages() {
+  if [[ "$(uname)" == "Linux" ]]; then
+    if command -v apt-get &> /dev/null; then
+      sudo apt-get update
+      sudo apt-get install -y lua${LUA_VERSION} liblua${LUA_VERSION}-0 liblua${LUA_VERSION}-0-dev
+    elif command -v dnf &> /dev/null; then
+      sudo dnf install -y lua${LUA_VERSION} lua${LUA_VERSION}-devel
+    else
+      echo "⚠️ Gestionnaire de paquets non supporté, installe manuellement"
+      exit 1
+    fi
+  elif [[ "$(uname)" == "Darwin" ]]; then
+    if command -v brew &> /dev/null; then
+      brew update
+      brew install lua@${LUA_VERSION}
+    else
+      echo "⚠️ Homebrew non trouvé, installe-le manuellement"
+      exit 1
+    fi
+  else
+    echo "❌ Système non reconnu"
+    exit 1
+  fi
+}
 
-if [[ $(uname) == "Linux" ]]; then
-	make linux test
-elif [[ $(uname) == "Darwin" ]]; then
-	make macosx test
-else
-	echo "Error: Unsupported device. Uname not recognized."
-	exit 1
-fi
+install_system_packages
 
-sudo make install
-sudo luarocks install http CRYPTO_DIR=/opt/homebrew/opt/openssl@3 OPENSSL_DIR=/opt/homebrew/opt/openssl@3
+echo "📦 Téléchargement et installation de LuaRocks $LUAROCKS_VERSION..."
 
-cd
-wget "https://luarocks.org/releases/luarocks-$LUAROCKS_VERSION.tar.gz"
-tar zxpf "luarocks-$LUAROCKS_VERSION.tar.gz"
-rm "luarocks-$LUAROCKS_VERSION.tar.gz"
-cd "luarocks-$LUAROCKS_VERSION"
-./configure --with-lua-include=/usr/local/include && sudo make && sudo make install
-sudo luarocks install luasocket
-sudo luarocks install lapis
+cd /tmp
+curl -L -R -O https://luarocks.org/releases/luarocks-${LUAROCKS_VERSION}.tar.gz
+tar zxpf luarocks-${LUAROCKS_VERSION}.tar.gz
+cd luarocks-${LUAROCKS_VERSION}
 
-cd "$BASE_DIR"
+# Configure et compile LuaRocks
+./configure --with-lua-include=/usr/include/lua${LUA_VERSION} --prefix=$LUAROCKS_INSTALL_DIR
+make
+make install
+
+# Ajoute LuaRocks au PATH dans la session actuelle
+export PATH="$LUAROCKS_INSTALL_DIR/bin:$PATH"
+
+echo "✅ LuaRocks installé dans $LUAROCKS_INSTALL_DIR."
+
+echo "🛠 Vérification des versions :"
+lua -v
+luarocks --version

@@ -1,3 +1,27 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+echo "🚀 Installation de Rust via rustup..."
+
+# Téléchargement du script d'installation dans un fichier temporaire
+TMP_SCRIPT="$(mktemp)"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o "$TMP_SCRIPT"
+
+# Vérification que le script n'est pas vide
+if [[ ! -s "$TMP_SCRIPT" ]]; then
+  echo "❌ Échec du téléchargement du script rustup."
+  rm -f "$TMP_SCRIPT"
+  exit 1
+fi
+
+# Exécution du script d'installation
+bash "$TMP_SCRIPT" -y
+
+# Nettoyage
+rm -f "$TMP_SCRIPT"
+
+export PATH="$HOME/.cargo/bin:$PATH"
+
+rustc --version
+
+echo "✅ Rust installé avec rustup."

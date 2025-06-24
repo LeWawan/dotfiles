@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-if ! command -v node &> /dev/null; then
-  echo "[install] node not found, installing fnm"
-  install_fnm
-fi
-
-npm i -g @antfu/ni

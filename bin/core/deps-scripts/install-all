@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BASE_DIR=$(pwd)
+
+GO_VERSION="1.21.5"
+
+install_dependencies() {
+  echo "[install] Installing system dependencies..."
+  if [[ "$(uname)" == "Linux" ]]; then
+    if command -v apt-get &>/dev/null; then
+      sudo apt-get update
+      sudo apt-get install -y curl wget python3 python3-pip ripgrep fd-find unzip stow fortune cowsay gcc make cmake libssl-dev
+    elif command -v dnf &>/dev/null; then
+      sudo dnf install -y curl wget python3 python3-pip ripgrep fd-find unzip stow fortune cowsay gcc make cmake openssl-devel
+    else
+      echo "⚠️ Package manager not supported. Please install dependencies manually."
+      exit 1
+    fi
+  elif [[ "$(uname)" == "Darwin" ]]; then
+    if command -v brew &>/dev/null; then
+      brew update
+      brew install curl wget ripgrep unzip stow fortune cowsay fd cmake openssl
+    else
+      echo "⚠️ Homebrew not found. Please install it manually."
+      exit 1
+    fi
+  else
+    echo "❌ Unsupported OS: $(uname)"
+    exit 1
+  fi
+  echo "[install] System dependencies installed."
+}
+
+run_script() {
+  local script_name=$1
+  local script_path="./$script_name"
+
+  if [[ ! -f "$script_path" ]]; then
+    echo "❌ Script $script_name not found in $SCRIPTS_DIR"
+    exit 1
+  fi
+
+  echo "[install] Running $script_name..."
+
+  local current_dir=$(pwd)
+
+  source "$script_name"
+
+  cd "$current_dir"
+
+  echo "[install] $script_name completed."
+}
+
+main() {
+  install_dependencies
+
+  # run_script install-zsh
+  run_script install-lua
+  run_script install-rust
+  run_script install-go
+  run_script install-nvim
+  run_script install-node-env
+
+  cd "$BASE_DIR"
+  echo "🎉 All installations completed!"
+}
+
+main

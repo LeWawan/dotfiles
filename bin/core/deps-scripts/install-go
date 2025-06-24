@@ -1,16 +1,65 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-	if [[ $(uname) == Linux ]]; then
-		GO_SOURCE="go$GO_VERSION.linux-$(dpkg --print-architecture)"
-	elif [[ $(uname) == Darwin ]]; then
-		GO_SOURCE="go$GO_VERSION.darwin-$(dpkg --print-architecture)"
-	else
-		echo "install_nvim error: device uname not recognized"
-		return
-	fi
+GO_VERSION="1.24.4"  # Mets la version souhaitée ici
 
-	cd /tmp
-	rm go*
-	wget "https://go.dev/dl/$GO_SOURCE.tar.gz"
-	sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "$GO_SOURCE.tar.gz"
-	rm "$GO_SOURCE.tar.gz"
+echo "🚀 Installation de Go $GO_VERSION..."
+
+# Détecte l'OS et l'architecture
+OS=""
+ARCH=""
+
+case "$(uname -s)" in
+  Linux) OS="linux" ;;
+  Darwin) OS="darwin" ;;
+  *)
+    echo "❌ OS non supporté: $(uname -s)"
+    exit 1
+    ;;
+esac
+
+# Architecture
+case "$(uname -m)" in
+  x86_64) ARCH="amd64" ;;
+  aarch64|arm64) ARCH="arm64" ;;
+  *)
+    echo "❌ Architecture non supportée: $(uname -m)"
+    exit 1
+    ;;
+esac
+
+GO_SOURCE="go${GO_VERSION}.${OS}-${ARCH}"
+GO_TAR="${GO_SOURCE}.tar.gz"
+DOWNLOAD_URL="https://go.dev/dl/${GO_TAR}"
+
+echo "Téléchargement de $DOWNLOAD_URL..."
+
+cd /tmp
+
+# Nettoyage des anciens fichiers go téléchargés
+rm -f go*.tar.gz
+
+# Téléchargement avec wget et suivi des redirections
+if ! wget -q --show-progress --progress=bar:force:noscroll -O "$GO_TAR" "$DOWNLOAD_URL"; then
+  echo "❌ Échec du téléchargement de $DOWNLOAD_URL"
+  exit 1
+fi
+
+# Vérification que le fichier est bien une archive tar.gz valide
+if ! tar -tzf "$GO_TAR" > /dev/null 2>&1; then
+  echo "❌ Le fichier téléchargé n'est pas une archive tar.gz valide. Vérifie l'URL et la version."
+  exit 1
+fi
+
+echo "Extraction de Go dans /usr/local..."
+
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf "$GO_TAR"
+
+rm "$GO_TAR"
+
+export PATH=$PATH:/usr/local/go/bin
+
+go version
+
+echo "✅ Go $GO_VERSION installé."
