@@ -22,6 +22,9 @@ eval "$(direnv hook zsh)"
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+# Sessionizer
+bindkey -s ^f "tmux-sessionizer\n"
+
 # Added by `rbenv init` on Thu Jan 30 11:36:28 CET 2025
 eval "$(rbenv init - --no-rehash zsh)"
 

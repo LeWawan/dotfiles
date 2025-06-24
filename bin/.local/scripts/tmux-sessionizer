@@ -5,7 +5,8 @@ if [[ $# -eq 1 ]]; then
 else
     selected=$(
       {
-        find ~/Lab/ -mindepth 1 -maxdepth 2 -type d
+        find ~/Lab/delupay/ ~/Lab/delupay-cms/ ~/Lab/perso/ ~/Lab/pocs/ -mindepth 1 -maxdepth 1 -type d
+        echo "$HOME/Lab/playground"
         echo "$HOME/.dotfiles"
         echo "$HOME/.config/nvim"
       } | fzf
