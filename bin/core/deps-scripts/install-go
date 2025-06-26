@@ -57,7 +57,9 @@ sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf "$GO_TAR"
 
 rm "$GO_TAR"
+rm -rf $HOME/.config/go/telemetry
 
+# Ajoute go au PATH dans la session actuelle
 export PATH=$PATH:/usr/local/go/bin
 
 go version

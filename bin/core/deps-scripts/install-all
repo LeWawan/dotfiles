@@ -10,9 +10,9 @@ install_dependencies() {
   if [[ "$(uname)" == "Linux" ]]; then
     if command -v apt-get &>/dev/null; then
       sudo apt-get update
-      sudo apt-get install -y curl wget python3 python3-pip ripgrep fd-find unzip stow fortune cowsay gcc make cmake libssl-dev
+      sudo apt-get install -y curl wget python3 python3-pip ripgrep fd-find unzip stow fortune cowsay gcc make cmake libssl-dev direnv
     elif command -v dnf &>/dev/null; then
-      sudo dnf install -y curl wget python3 python3-pip ripgrep fd-find unzip stow fortune cowsay gcc make cmake openssl-devel
+      sudo dnf install -y curl wget python3 python3-pip ripgrep fd-find unzip stow fortune cowsay gcc make cmake openssl-devel direnv
     else
       echo "⚠️ Package manager not supported. Please install dependencies manually."
       exit 1
@@ -20,7 +20,7 @@ install_dependencies() {
   elif [[ "$(uname)" == "Darwin" ]]; then
     if command -v brew &>/dev/null; then
       brew update
-      brew install curl wget ripgrep unzip stow fortune cowsay fd cmake openssl
+      brew install curl wget ripgrep unzip stow fortune cowsay fd cmake openssl direnv
     else
       echo "⚠️ Homebrew not found. Please install it manually."
       exit 1
@@ -34,10 +34,11 @@ install_dependencies() {
 
 run_script() {
   local script_name=$1
-  local script_path="./$script_name"
+  local script_dir="$(dirname "$0")/bin/core/deps-scripts"
+  local script_path="$script_dir/$script_name"
 
   if [[ ! -f "$script_path" ]]; then
-    echo "❌ Script $script_name not found in $SCRIPTS_DIR"
+    echo "❌ Script $script_name not found in $script_path."
     exit 1
   fi
 
@@ -45,7 +46,7 @@ run_script() {
 
   local current_dir=$(pwd)
 
-  source "$script_name"
+  source "$script_path"
 
   cd "$current_dir"
 

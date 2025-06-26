@@ -20,7 +20,9 @@ bash "$TMP_SCRIPT" -y
 # Nettoyage
 rm -f "$TMP_SCRIPT"
 
+# Ajoute Rust au PATH dans la session actuelle
 export PATH="$HOME/.cargo/bin:$PATH"
+source "$HOME/.cargo/env"
 
 rustc --version
 
