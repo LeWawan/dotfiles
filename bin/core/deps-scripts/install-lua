@@ -4,7 +4,7 @@ set -euo pipefail
 CURRENT_DIR=$(pwd)
 LUA_VERSION="5.1"
 LUAROCKS_VERSION="3.9.2"
-LUAROCKS_INSTALL_DIR="$HOME/luarocks"
+LUAROCKS_INSTALL_DIR="$HOME/.luarocks"
 
 echo "🚀 Installation des dépendances système pour Lua $LUA_VERSION..."
 

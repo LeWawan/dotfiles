@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ~/.dotfiles/bin/core/env
+source ./bin/core/env
 
 STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES
 

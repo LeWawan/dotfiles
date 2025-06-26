@@ -6,5 +6,5 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
 fi
 
 source ./bin/core/env
-source ./bin/core/install-deps
+source ./bin/core/deps-scripts/install-all
 source ./bin/core/setup-env
