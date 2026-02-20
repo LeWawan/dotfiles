@@ -1,26 +1,30 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install Volta
-curl https://get.volta.sh | bash
+echo "Installing Node.js environment..."
 
-# Export Volta bin to PATH (important!)
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+if command -v omarchy-install-dev-env &>/dev/null; then
+  echo "Using omarchy-install-dev-env..."
+  omarchy-install-dev-env node
+elif command -v mise &>/dev/null; then
+  echo "Using mise..."
+  mise use --global node@latest
+  mise use --global pnpm@latest
+else
+  echo "Neither omarchy-install-dev-env nor mise found."
+  echo "Install mise first: https://mise.jdx.dev"
+  exit 1
+fi
 
-# Verify Volta is available
-volta --version
-
-# Install Node.js via Volta
-volta install node@latest
+# Activate mise in current shell if needed
+if command -v mise &>/dev/null; then
+  eval "$(mise activate bash)"
+fi
 
 node --version
-
-# Install pnpm via Volta
-volta install pnpm
-
-# Optional: check pnpm version
 pnpm --version
 
 # Install @antfu/ni globally
 npm i -g @antfu/ni
+
+echo "Node.js environment installed."

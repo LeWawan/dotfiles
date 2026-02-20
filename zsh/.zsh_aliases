@@ -19,8 +19,8 @@ alias ar="php artisan"
 alias c="code"
 
 # fnm & nvm
-alias fnm="echo 'fnm is not installed, please use volta instead'"
-alias nvm="echo 'nvm is not installed, please use volta instead'"
+alias fnm="echo 'fnm is not installed, please use mise instead'"
+alias nvm="echo 'nvm is not installed, please use mise instead'"
 
 # adonis
 alias ace="node ace"

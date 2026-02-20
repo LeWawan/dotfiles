@@ -2,12 +2,6 @@
 export PERSONAL_BIN="$HOME/.local/scripts"
 export PATH="$PERSONAL_BIN:$PATH"
 
-# volta
-if [[ -d "$HOME/.volta/bin" ]]; then
-  export VOLTA_BIN="$HOME/.volta/bin"
-  export PATH="$VOLTA_BIN:$PATH"
-fi
-
 # rust
 if [[ -d "$HOME/.cargo/bin" ]]; then
   export RUST_HOME="$HOME/.cargo/bin"
@@ -15,14 +9,7 @@ if [[ -d "$HOME/.cargo/bin" ]]; then
   source "$HOME/.cargo/env"
 fi
 
-# go
-if [[ -d "/usr/local/go/bin" ]]; then
-  export GO_HOME="/usr/local/go/bin"
-  export PATH="$GO_HOME:$PATH"
-fi
-
-# lua
-if [[ -d "$HOME/.luarocks/bin" ]]; then
-  export LUA_HOME="$HOME/.luarocks/bin"
-  export PATH="$LUA_HOME:$PATH"
+# mise
+if command -v mise &>/dev/null; then
+  eval "$(mise activate zsh)"
 fi
