@@ -28,11 +28,7 @@ if [[ -d "$HOME/.config/walker" ]]; then
   cp -a "$HOME/.config/walker/config.toml" "$TARGET/walker/" 2>/dev/null || true
 fi
 
-# Mako - resolve symlink if present
-if [[ -e "$HOME/.config/mako/config" ]]; then
-  echo "[snapshot] mako/"
-  cp -aL "$HOME/.config/mako/config" "$TARGET/mako/" 2>/dev/null || true
-fi
+# Mako — skipped: managed by omarchy theme system (symlink to current theme)
 
 # Alacritty
 if [[ -d "$HOME/.config/alacritty" ]]; then
@@ -52,11 +48,7 @@ if [[ -d "$HOME/.config/fastfetch" ]]; then
   cp -a "$HOME/.config/fastfetch/config.jsonc" "$TARGET/fastfetch/" 2>/dev/null || true
 fi
 
-# Lazygit
-if [[ -d "$HOME/.config/lazygit" ]]; then
-  echo "[snapshot] lazygit/"
-  cp -a "$HOME/.config/lazygit/config.yml" "$TARGET/lazygit/" 2>/dev/null || true
-fi
+# Lazygit — skipped: managed by nvim stow package
 
 # Btop
 if [[ -d "$HOME/.config/btop" ]]; then

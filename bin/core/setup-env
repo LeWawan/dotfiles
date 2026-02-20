@@ -8,5 +8,5 @@ pushd $DOTFILES
 for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g"); do
 	echo "[link] stow $folder folder"
 	stow -D $folder
-	stow $folder
+	stow --adopt $folder
 done
