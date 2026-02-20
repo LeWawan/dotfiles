@@ -1,58 +1,61 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "🚀 Installation de Zsh et Oh My Zsh..."
+echo "Installing Zsh and Oh My Zsh..."
 
 install_zsh() {
   if [[ "$(uname)" == "Linux" ]]; then
-    if command -v apt-get &>/dev/null; then
+    if command -v pacman &>/dev/null; then
+      sudo pacman -S --noconfirm --needed zsh
+    elif command -v apt-get &>/dev/null; then
       sudo apt-get update
       sudo apt-get install -y zsh
     elif command -v dnf &>/dev/null; then
       sudo dnf install -y zsh
     else
-      echo "⚠️ Gestionnaire de paquets non supporté, installe zsh/curl/git manuellement"
+      echo "Package manager not supported, install zsh manually"
       exit 1
     fi
   elif [[ "$(uname)" == "Darwin" ]]; then
     if command -v brew &>/dev/null; then
       brew install zsh
     else
-      echo "⚠️ Homebrew non trouvé, installe-le manuellement"
+      echo "Homebrew not found, install it manually"
       exit 1
     fi
   else
-    echo "❌ OS non reconnu: $(uname)"
+    echo "Unsupported OS: $(uname)"
     exit 1
   fi
 }
 
 install_oh_my_zsh() {
-  # Supprime Oh My Zsh existant si présent
   if [[ -d "$HOME/.oh-my-zsh" ]]; then
-    echo "🧹 Suppression de l'installation existante d'Oh My Zsh"
+    echo "Removing existing Oh My Zsh installation..."
     rm -rf "$HOME/.oh-my-zsh"
   fi
 
-  echo "⬇️ Téléchargement et installation d'Oh My Zsh..."
-  # Exécute le script d'installation sans interaction
+  echo "Installing Oh My Zsh..."
   RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 }
 
 install_plugins_and_theme() {
   local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
-  echo "⬇️ Installation du plugin zsh-autosuggestions..."
-  git clone https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom/plugins/zsh-autosuggestions"
+  echo "Installing zsh-autosuggestions plugin..."
+  if [[ -d "$zsh_custom/plugins/zsh-autosuggestions" ]]; then
+    echo "zsh-autosuggestions already installed, skipping."
+  else
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$zsh_custom/plugins/zsh-autosuggestions"
+  fi
 }
 
 update_zshrc() {
-  echo "⚙️ Configuration de ~/.zshrc..."
+  echo "Configuring ~/.zshrc..."
 
-  # Sauvegarde l'ancien .zshrc s'il existe
   if [[ -f "$HOME/.zshrc" ]]; then
     mv "$HOME/.zshrc" "$HOME/.zshrc.backup.$(date +%Y%m%d_%H%M%S)"
-    echo "🛡️ Sauvegarde de l'ancien .zshrc dans ~/.zshrc.backup.*"
+    echo "Backed up old .zshrc"
   fi
 }
 
@@ -61,14 +64,14 @@ change_default_shell_to_zsh() {
   zsh_path="$(which zsh)"
 
   if [[ "$SHELL" != "$zsh_path" ]]; then
-    echo "🔄 Changement du shell par défaut en zsh ($zsh_path)..."
+    echo "Changing default shell to zsh ($zsh_path)..."
     if chsh -s "$zsh_path"; then
-      echo "✅ Shell par défaut changé en zsh"
+      echo "Default shell changed to zsh"
     else
-      echo "⚠️ Impossible de changer le shell par défaut. Fais-le manuellement avec chsh -s $zsh_path"
+      echo "Could not change default shell. Run manually: chsh -s $zsh_path"
     fi
   else
-    echo "ℹ️ Zsh est déjà le shell par défaut"
+    echo "Zsh is already the default shell"
   fi
 }
 
@@ -79,9 +82,9 @@ main() {
   update_zshrc
   change_default_shell_to_zsh
 
-  echo
-  echo "🎉 Installation terminée !"
-  echo "👉 Ouvre un nouveau terminal pour utiliser zsh."
+  echo ""
+  echo "Zsh installation complete!"
+  echo "Open a new terminal to use zsh."
 }
 
 main

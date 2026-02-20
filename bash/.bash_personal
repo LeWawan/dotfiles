@@ -1,0 +1,45 @@
+# Personal dotfiles config - sourced from ~/.bashrc after omarchy defaults
+# Add: source ~/.bash_personal  at the end of ~/.bashrc
+
+# personal binaries
+export PERSONAL_BIN="$HOME/.local/scripts"
+export PATH="$PERSONAL_BIN:$PATH"
+
+# rust
+if [[ -d "$HOME/.cargo/bin" ]]; then
+  export RUST_HOME="$HOME/.cargo/bin"
+  export PATH="$RUST_HOME:$PATH"
+  source "$HOME/.cargo/env"
+fi
+
+# locale
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# git config aliases
+alias gitwawan="git config --global user.name 'LeWawan' --replace-all && git config --global user.email 'erwankreutz@gmail.com' --replace-all && git config pull.rebase false"
+alias gitdelupay="git config --global user.name 'erwan.kreutz' --replace-all && git config --global user.email 'erwan.kreutz@delupay.com' --replace-all && git config pull.rebase false"
+
+# git commands
+alias nah="git reset --hard & git clean -df"
+
+# vim
+alias vim="nvim"
+
+# python
+alias python="python3"
+
+# laravel
+alias ar="php artisan"
+
+# adonis
+alias ace="node ace"
+
+# fnm & nvm
+alias fnm="echo 'fnm is not installed, please use mise instead'"
+alias nvm="echo 'nvm is not installed, please use mise instead'"
+
+# direnv
+if command -v direnv &>/dev/null; then
+  eval "$(direnv hook bash)"
+fi

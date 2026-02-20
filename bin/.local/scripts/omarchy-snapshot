@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# omarchy-snapshot: copies current ~/.config configs into the omarchy stow package
+# Run this after omarchy-refresh or when you want to capture config changes
+
+DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
+TARGET="$DOTFILES/omarchy/.config"
+
+echo "[snapshot] Copying configs into omarchy stow package..."
+
+# Hyprland
+if [[ -d "$HOME/.config/hypr" ]]; then
+  echo "[snapshot] hypr/"
+  cp -a "$HOME/.config/hypr/"*.conf "$TARGET/hypr/" 2>/dev/null || true
+fi
+
+# Waybar
+if [[ -d "$HOME/.config/waybar" ]]; then
+  echo "[snapshot] waybar/"
+  cp -a "$HOME/.config/waybar/config.jsonc" "$TARGET/waybar/" 2>/dev/null || true
+  cp -a "$HOME/.config/waybar/style.css" "$TARGET/waybar/" 2>/dev/null || true
+fi
+
+# Walker
+if [[ -d "$HOME/.config/walker" ]]; then
+  echo "[snapshot] walker/"
+  cp -a "$HOME/.config/walker/config.toml" "$TARGET/walker/" 2>/dev/null || true
+fi
+
+# Mako - resolve symlink if present
+if [[ -e "$HOME/.config/mako/config" ]]; then
+  echo "[snapshot] mako/"
+  cp -aL "$HOME/.config/mako/config" "$TARGET/mako/" 2>/dev/null || true
+fi
+
+# Alacritty
+if [[ -d "$HOME/.config/alacritty" ]]; then
+  echo "[snapshot] alacritty/"
+  cp -a "$HOME/.config/alacritty/alacritty.toml" "$TARGET/alacritty/" 2>/dev/null || true
+fi
+
+# Starship
+if [[ -f "$HOME/.config/starship.toml" ]]; then
+  echo "[snapshot] starship.toml"
+  cp -a "$HOME/.config/starship.toml" "$TARGET/" 2>/dev/null || true
+fi
+
+# Fastfetch
+if [[ -d "$HOME/.config/fastfetch" ]]; then
+  echo "[snapshot] fastfetch/"
+  cp -a "$HOME/.config/fastfetch/config.jsonc" "$TARGET/fastfetch/" 2>/dev/null || true
+fi
+
+# Lazygit
+if [[ -d "$HOME/.config/lazygit" ]]; then
+  echo "[snapshot] lazygit/"
+  cp -a "$HOME/.config/lazygit/config.yml" "$TARGET/lazygit/" 2>/dev/null || true
+fi
+
+# Btop
+if [[ -d "$HOME/.config/btop" ]]; then
+  echo "[snapshot] btop/"
+  cp -a "$HOME/.config/btop/btop.conf" "$TARGET/btop/" 2>/dev/null || true
+fi
+
+# Omarchy hooks and extensions (custom only, not samples)
+if [[ -d "$HOME/.config/omarchy/hooks" ]]; then
+  echo "[snapshot] omarchy/hooks/"
+  cp -a "$HOME/.config/omarchy/hooks/" "$TARGET/omarchy/" 2>/dev/null || true
+fi
+
+if [[ -d "$HOME/.config/omarchy/extensions" ]]; then
+  echo "[snapshot] omarchy/extensions/"
+  cp -a "$HOME/.config/omarchy/extensions/" "$TARGET/omarchy/" 2>/dev/null || true
+fi
+
+echo "[snapshot] Done. Run 'stow omarchy' from $DOTFILES to create symlinks."

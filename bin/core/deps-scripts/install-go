@@ -1,67 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-GO_VERSION="1.24.4"  # Mets la version souhaitée ici
+echo "Installing Go..."
 
-echo "🚀 Installation de Go $GO_VERSION..."
-
-# Détecte l'OS et l'architecture
-OS=""
-ARCH=""
-
-case "$(uname -s)" in
-  Linux) OS="linux" ;;
-  Darwin) OS="darwin" ;;
-  *)
-    echo "❌ OS non supporté: $(uname -s)"
-    exit 1
-    ;;
-esac
-
-# Architecture
-case "$(uname -m)" in
-  x86_64) ARCH="amd64" ;;
-  aarch64|arm64) ARCH="arm64" ;;
-  *)
-    echo "❌ Architecture non supportée: $(uname -m)"
-    exit 1
-    ;;
-esac
-
-GO_SOURCE="go${GO_VERSION}.${OS}-${ARCH}"
-GO_TAR="${GO_SOURCE}.tar.gz"
-DOWNLOAD_URL="https://go.dev/dl/${GO_TAR}"
-
-echo "Téléchargement de $DOWNLOAD_URL..."
-
-cd /tmp
-
-# Nettoyage des anciens fichiers go téléchargés
-rm -f go*.tar.gz
-
-# Téléchargement avec wget et suivi des redirections
-if ! wget -q --show-progress --progress=bar:force:noscroll -O "$GO_TAR" "$DOWNLOAD_URL"; then
-  echo "❌ Échec du téléchargement de $DOWNLOAD_URL"
+if command -v omarchy-install-dev-env &>/dev/null; then
+  echo "Using omarchy-install-dev-env..."
+  omarchy-install-dev-env go
+elif command -v mise &>/dev/null; then
+  echo "Using mise..."
+  mise use --global go@latest
+else
+  echo "Neither omarchy-install-dev-env nor mise found."
+  echo "Install mise first: https://mise.jdx.dev"
   exit 1
 fi
 
-# Vérification que le fichier est bien une archive tar.gz valide
-if ! tar -tzf "$GO_TAR" > /dev/null 2>&1; then
-  echo "❌ Le fichier téléchargé n'est pas une archive tar.gz valide. Vérifie l'URL et la version."
-  exit 1
+# Activate mise in current shell if needed
+if command -v mise &>/dev/null; then
+  eval "$(mise activate bash)"
 fi
-
-echo "Extraction de Go dans /usr/local..."
-
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "$GO_TAR"
-
-rm "$GO_TAR"
-rm -rf $HOME/.config/go/telemetry
-
-# Ajoute go au PATH dans la session actuelle
-export PATH=$PATH:/usr/local/go/bin
 
 go version
 
-echo "✅ Go $GO_VERSION installé."
+echo "Go installed."

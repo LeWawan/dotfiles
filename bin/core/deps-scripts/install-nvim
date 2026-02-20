@@ -1,20 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-NVIM_VERSION="v0.11.1"
-NVIM_DIR="$HOME/personal/neovim"
+echo "Installing Neovim..."
 
-echo "🚀 Clonage Neovim $NVIM_VERSION..."
-if [[ -d "$NVIM_DIR" ]]; then
-  echo "📂 Le dossier $NVIM_DIR existe déjà, suppression..."
-  rm -rf "$NVIM_DIR"
+if [[ "$(uname)" == "Linux" ]] && command -v pacman &>/dev/null; then
+  echo "Using pacman..."
+  sudo pacman -S --noconfirm --needed neovim
+else
+  # Build from source on other platforms
+  NVIM_VERSION="v0.11.1"
+  NVIM_DIR="$HOME/personal/neovim"
+
+  echo "Building Neovim $NVIM_VERSION from source..."
+  if [[ -d "$NVIM_DIR" ]]; then
+    rm -rf "$NVIM_DIR"
+  fi
+
+  git clone -b "$NVIM_VERSION" https://github.com/neovim/neovim.git "$NVIM_DIR"
+
+  cd "$NVIM_DIR"
+  make CMAKE_BUILD_TYPE=RelWithDebInfo
+  sudo make install
 fi
 
-git clone -b "$NVIM_VERSION" https://github.com/neovim/neovim.git "$NVIM_DIR"
+nvim --version | head -1
 
-echo "🔧 Build Neovim..."
-cd "$NVIM_DIR"
-make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install
-
-echo "✅ Neovim $NVIM_VERSION installé."
+echo "Neovim installed."

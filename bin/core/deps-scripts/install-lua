@@ -1,57 +1,33 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CURRENT_DIR=$(pwd)
-LUA_VERSION="5.1"
-LUAROCKS_VERSION="3.9.2"
-LUAROCKS_INSTALL_DIR="$HOME/.luarocks"
+echo "Installing Lua and LuaRocks..."
 
-echo "🚀 Installation des dépendances système pour Lua $LUA_VERSION..."
-
-install_system_packages() {
-  if [[ "$(uname)" == "Linux" ]]; then
-    if command -v apt-get &> /dev/null; then
-      sudo apt-get update
-      sudo apt-get install -y lua${LUA_VERSION} liblua${LUA_VERSION}-0 liblua${LUA_VERSION}-0-dev
-    elif command -v dnf &> /dev/null; then
-      sudo dnf install -y lua${LUA_VERSION} lua${LUA_VERSION}-devel
-    else
-      echo "⚠️ Gestionnaire de paquets non supporté, installe manuellement"
-      exit 1
-    fi
-  elif [[ "$(uname)" == "Darwin" ]]; then
-    if command -v brew &> /dev/null; then
-      brew update
-      brew install lua@${LUA_VERSION}
-    else
-      echo "⚠️ Homebrew non trouvé, installe-le manuellement"
-      exit 1
-    fi
+if [[ "$(uname)" == "Linux" ]] && command -v pacman &>/dev/null; then
+  echo "Using pacman..."
+  sudo pacman -S --noconfirm --needed lua luarocks
+elif command -v omarchy-install-dev-env &>/dev/null; then
+  echo "Using omarchy-install-dev-env..."
+  omarchy-install-dev-env lua
+elif command -v mise &>/dev/null; then
+  echo "Using mise..."
+  mise use --global lua@latest
+else
+  # Fallback: install via system package manager
+  if command -v apt-get &>/dev/null; then
+    sudo apt-get update
+    sudo apt-get install -y lua5.1 liblua5.1-0 liblua5.1-0-dev luarocks
+  elif command -v dnf &>/dev/null; then
+    sudo dnf install -y lua lua-devel luarocks
+  elif command -v brew &>/dev/null; then
+    brew install lua luarocks
   else
-    echo "❌ Système non reconnu"
+    echo "No supported package manager found."
     exit 1
   fi
-}
+fi
 
-install_system_packages
-
-echo "📦 Téléchargement et installation de LuaRocks $LUAROCKS_VERSION..."
-
-cd /tmp
-curl -L -R -O https://luarocks.org/releases/luarocks-${LUAROCKS_VERSION}.tar.gz
-tar zxpf luarocks-${LUAROCKS_VERSION}.tar.gz
-cd luarocks-${LUAROCKS_VERSION}
-
-# Configure et compile LuaRocks
-./configure --with-lua-include=/usr/include/lua${LUA_VERSION} --prefix=$LUAROCKS_INSTALL_DIR
-make
-make install
-
-# Ajoute LuaRocks au PATH dans la session actuelle
-export PATH="$LUAROCKS_INSTALL_DIR/bin:$PATH"
-
-echo "✅ LuaRocks installé dans $LUAROCKS_INSTALL_DIR."
-
-echo "🛠 Vérification des versions :"
 lua -v
 luarocks --version
+
+echo "Lua and LuaRocks installed."

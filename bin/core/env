@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
 if [[ -z $STOW_FOLDERS ]]; then
-	STOW_FOLDERS="bin,zsh,tmux,nvim,aerospace,sketchybar"
+	STOW_FOLDERS="bin,nvim"
+	if [[ "$(uname -s)" == "Darwin" ]]; then
+		STOW_FOLDERS="$STOW_FOLDERS,zsh,tmux,aerospace,sketchybar"
+	else
+		STOW_FOLDERS="$STOW_FOLDERS,bash,omarchy"
+	fi
 fi
 
 if [[ -z $DOTFILES ]]; then
