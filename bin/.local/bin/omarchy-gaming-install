@@ -1,0 +1,11 @@
+#!/bin/bash
+# Install gaming dependencies for Arch Linux
+
+set -euo pipefail
+
+echo "Installing gaming dependencies..."
+sudo pacman -S --needed --noconfirm \
+  mangohud lib32-mangohud \
+  gamemode lib32-gamemode
+
+echo "Gaming dependencies installed successfully."

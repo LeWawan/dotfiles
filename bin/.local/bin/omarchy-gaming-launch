@@ -1,0 +1,17 @@
+#!/bin/bash
+# Steam gaming launch wrapper
+# Usage: Set Steam launch options to: omarchy-gaming-launch %command%
+
+# GPU detection and environment setup
+if command -v nvidia-smi &>/dev/null; then
+  # NVIDIA: enable DLSS and preserve shader cache
+  export PROTON_ENABLE_NVAPI=1
+  export PROTON_DLSS_UPGRADE=1
+  export __GL_SHADER_DISK_CACHE_SKIP_CLEANUP=1
+else
+  # AMD: enable Anti-Lag
+  export ENABLE_LAYER_MESA_ANTI_LAG=1
+fi
+
+# Launch with gamemode + mangohud overlay
+exec gamemoderun mangohud "$@"
