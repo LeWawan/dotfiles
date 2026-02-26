@@ -39,6 +39,9 @@ alias ace="node ace"
 alias fnm="echo 'fnm is not installed, please use mise instead'"
 alias nvm="echo 'nvm is not installed, please use mise instead'"
 
+# tmux sessionizer
+bind -x '"\C-f": tmux-sessionizer'
+
 # direnv
 if command -v direnv &>/dev/null; then
   eval "$(direnv hook bash)"
