@@ -49,8 +49,6 @@ main() {
   local menu_items=("Stow dotfiles" "Install dev tools" "Install system deps" "Install neovim")
   if command -v pacman &>/dev/null; then
     menu_items+=("Snapshot omarchy")
-  else
-    menu_items+=("Setup zsh")
   fi
 
   local selections
@@ -74,10 +72,6 @@ main() {
       "Install system deps")
         echo "[install] Installing system dependencies..."
         bash "$DOTFILES_DIR/bin/core/deps-scripts/install-all"
-        ;;
-      "Setup zsh")
-        echo "[install] Setting up zsh..."
-        bash "$DOTFILES_DIR/bin/core/deps-scripts/install-zsh"
         ;;
       "Install neovim")
         echo "[install] Installing neovim..."

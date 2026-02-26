@@ -10,3 +10,5 @@ nvim/.config/github-copilot/versions.json
 ssh-connect
 
 tmux/tmux
+
+bash/.bash_history

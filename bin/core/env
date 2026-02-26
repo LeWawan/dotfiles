@@ -3,7 +3,7 @@
 if [[ -z $STOW_FOLDERS ]]; then
 	STOW_FOLDERS="bin,nvim"
 	if [[ "$(uname -s)" == "Darwin" ]]; then
-		STOW_FOLDERS="$STOW_FOLDERS,zsh,tmux,aerospace,sketchybar"
+		STOW_FOLDERS="$STOW_FOLDERS,bash,tmux,aerospace,sketchybar"
 	else
 		STOW_FOLDERS="$STOW_FOLDERS,bash,tmux,omarchy"
 	fi
