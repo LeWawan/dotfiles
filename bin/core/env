@@ -5,7 +5,7 @@ if [[ -z $STOW_FOLDERS ]]; then
 	if [[ "$(uname -s)" == "Darwin" ]]; then
 		STOW_FOLDERS="$STOW_FOLDERS,zsh,tmux,aerospace,sketchybar"
 	else
-		STOW_FOLDERS="$STOW_FOLDERS,bash,omarchy"
+		STOW_FOLDERS="$STOW_FOLDERS,bash,tmux,omarchy"
 	fi
 fi
 
