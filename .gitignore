@@ -5,6 +5,7 @@ nvim/.config/github-copilot/apps.json
 nvim/.config/github-copilot/hosts.json
 nvim/.config/github-copilot/version.json
 nvim/.config/github-copilot/versions.json
+nvim/.config/go/telemetry
 
 # Ssh stuff
 ssh-connect
@@ -12,3 +13,5 @@ ssh-connect
 tmux/tmux
 
 bash/.bash_history
+
+
