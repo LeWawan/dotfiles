@@ -1,0 +1,136 @@
+#!/bin/bash
+
+WG_DIR="/etc/wireguard"
+
+# Colors
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+check_sudo() {
+  if [[ $EUID -ne 0 ]]; then
+    exec sudo "$0" "$@"
+  fi
+}
+
+# Get active WireGuard interfaces
+get_active() {
+    wg show interfaces 2>/dev/null
+}
+
+# List available configs
+list_configs() {
+    sudo ls "$WG_DIR"/*.conf 2>/dev/null | xargs -I{} basename {} .conf
+}
+
+# Display status
+show_status() {
+    local active
+    active=$(get_active)
+
+    if [[ -n "$active" ]]; then
+        echo -e "${GREEN}${BOLD}● VPN actif :${RESET} ${GREEN}$active${RESET}"
+    else
+        echo -e "${RED}${BOLD}● Aucun VPN actif${RESET}"
+    fi
+    echo
+}
+
+# Main
+main() {
+    echo -e "${BOLD}╔══════════════════════════╗${RESET}"
+    echo -e "${BOLD}║        vpns              ║${RESET}"
+    echo -e "${BOLD}╚══════════════════════════╝${RESET}"
+    echo
+
+    show_status
+
+    local configs
+    configs=$(list_configs)
+
+    if [[ -z "$configs" ]]; then
+        echo -e "${RED}Aucune config trouvée dans $WG_DIR${RESET}"
+        exit 1
+    fi
+
+    local active
+    active=$(get_active)
+
+    # Build menu
+    local i=1
+    local items=()
+    while IFS= read -r conf; do
+        items+=("$conf")
+        if [[ " $active " == *" $conf "* ]]; then
+            echo -e "  ${GREEN}${BOLD}$i)${RESET} ${GREEN}$conf (actif)${RESET}"
+        else
+            echo -e "  ${BLUE}${BOLD}$i)${RESET} $conf"
+        fi
+        ((i++))
+    done <<< "$configs"
+
+    # Disconnect option if a VPN is active
+    if [[ -n "$active" ]]; then
+        echo -e "  ${YELLOW}${BOLD}d)${RESET} Déconnecter tout"
+    fi
+
+    echo -e "  ${BOLD}q)${RESET} Quitter"
+    echo
+
+    read -rp "Choix: " choice
+
+    # Handle quit
+    if [[ "$choice" == "q" ]]; then
+        exit 0
+    fi
+
+    # Handle disconnect
+    if [[ "$choice" == "d" && -n "$active" ]]; then
+        for iface in $active; do
+            echo -e "${YELLOW}Déconnexion de $iface...${RESET}"
+            sudo wg-quick down "$iface"
+        done
+        echo -e "${GREEN}Déconnecté.${RESET}"
+        exit 0
+    fi
+
+    # Handle selection
+    if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#items[@]} )); then
+        local selected="${items[$((choice - 1))]}"
+
+        # If this one is already active, disconnect it
+        if [[ " $active " == *" $selected "* ]]; then
+            echo -e "${YELLOW}Déconnexion de $selected...${RESET}"
+            sudo wg-quick down "$selected"
+            echo -e "${GREEN}$selected déconnecté.${RESET}"
+            exit 0
+        fi
+
+        # Disconnect any active VPN first
+        if [[ -n "$active" ]]; then
+            for iface in $active; do
+                echo -e "${YELLOW}Déconnexion de $iface...${RESET}"
+                sudo wg-quick down "$iface"
+            done
+        fi
+
+        # Connect
+        echo -e "${BLUE}Connexion à $selected...${RESET}"
+        sudo wg-quick up "$selected"
+        if [[ $? -eq 0 ]]; then
+            echo -e "${GREEN}${BOLD}Connecté à $selected !${RESET}"
+        else
+            echo -e "${RED}${BOLD}Erreur de connexion.${RESET}"
+            exit 1
+        fi
+    else
+        echo -e "${RED}Choix invalide.${RESET}"
+        exit 1
+    fi
+}
+
+check_sudo
+main
