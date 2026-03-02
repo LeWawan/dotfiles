@@ -1,28 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "🚀 Installation de Rust via rustup..."
+echo "🚀 Installing Rust env"
 
-# Téléchargement du script d'installation dans un fichier temporaire
-TMP_SCRIPT="$(mktemp)"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o "$TMP_SCRIPT"
-
-# Vérification que le script n'est pas vide
-if [[ ! -s "$TMP_SCRIPT" ]]; then
-  echo "❌ Échec du téléchargement du script rustup."
-  rm -f "$TMP_SCRIPT"
-  exit 1
+if command -v mise &>/dev/null; then
+  echo "Using mise..."
+  mise use --global rust@latest
+  source "$HOME/.cargo/env"
+  rustc --version
+  echo "✅ Rust installé avec mise."
+  exit 0
+else
+  echo "Neither omarchy-install-dev-env nor mise found."
+  echo "Install mise first: https://mise.jdx.dev"
 fi
-
-# Exécution du script d'installation
-bash "$TMP_SCRIPT" -y
-
-# Nettoyage
-rm -f "$TMP_SCRIPT"
-
-# Ajoute Rust au PATH dans la session actuelle
-export PATH="$HOME/.cargo/bin:$PATH"
-source "$HOME/.cargo/env"
 
 rustc --version
 

@@ -1,33 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Installing Lua and LuaRocks..."
+echo "Installing Lua environment..."
 
-if [[ "$(uname)" == "Linux" ]] && command -v pacman &>/dev/null; then
-  echo "Using pacman..."
-  sudo pacman -S --noconfirm --needed lua luarocks
-elif command -v omarchy-install-dev-env &>/dev/null; then
+if command -v omarchy-install-dev-env &>/dev/null; then
   echo "Using omarchy-install-dev-env..."
-  omarchy-install-dev-env lua
+  omarchy-install-dev-env node
 elif command -v mise &>/dev/null; then
   echo "Using mise..."
   mise use --global lua@latest
 else
-  # Fallback: install via system package manager
-  if command -v apt-get &>/dev/null; then
-    sudo apt-get update
-    sudo apt-get install -y lua5.1 liblua5.1-0 liblua5.1-0-dev luarocks
-  elif command -v dnf &>/dev/null; then
-    sudo dnf install -y lua lua-devel luarocks
-  elif command -v brew &>/dev/null; then
-    brew install lua luarocks
-  else
-    echo "No supported package manager found."
-    exit 1
-  fi
+  echo "Neither omarchy-install-dev-env nor mise found."
+  echo "Install mise first: https://mise.jdx.dev"
+  exit 1
 fi
 
 lua -v
-luarocks --version
 
-echo "Lua and LuaRocks installed."
+echo "Lua environment installed."

@@ -16,11 +16,6 @@ else
   exit 1
 fi
 
-# Activate mise in current shell if needed
-if command -v mise &>/dev/null; then
-  eval "$(mise activate bash)"
-fi
-
 node --version
 pnpm --version
 

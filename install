@@ -66,19 +66,16 @@ main() {
         source "$DOTFILES_DIR/bin/core/env"
         source "$DOTFILES_DIR/bin/core/setup-env"
         ;;
+      "Install system deps")
+        bash "$DOTFILES_DIR/bin/core/deps-scripts/install-deps"
+        ;;
       "Install dev tools")
         install_dev_tools
         ;;
-      "Install system deps")
-        echo "[install] Installing system dependencies..."
-        bash "$DOTFILES_DIR/bin/core/deps-scripts/install-all"
-        ;;
       "Install neovim")
-        echo "[install] Installing neovim..."
         bash "$DOTFILES_DIR/bin/core/deps-scripts/install-nvim"
         ;;
       "Snapshot omarchy")
-        echo "[install] Snapshotting omarchy configs..."
         bash "$DOTFILES_DIR/bin/.local/scripts/omarchy-snapshot"
         ;;
     esac
