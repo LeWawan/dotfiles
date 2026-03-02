@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 if [[ -z $STOW_FOLDERS ]]; then
-	STOW_FOLDERS="bin,nvim"
+	STOW_FOLDERS="bin,nvim,bash,tmux"
 	if [[ "$(uname -s)" == "Darwin" ]]; then
-		STOW_FOLDERS="$STOW_FOLDERS,bash,tmux,aerospace,sketchybar"
+		STOW_FOLDERS="$STOW_FOLDERS,macos"
 	else
-		STOW_FOLDERS="$STOW_FOLDERS,bash,tmux,omarchy"
+		STOW_FOLDERS="$STOW_FOLDERS,omarchy"
 	fi
 fi
 
