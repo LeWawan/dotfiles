@@ -1,0 +1,102 @@
+#!/usr/bin/env bash
+
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+OS="$(uname -s)"
+
+# Ensure gum is available
+if ! command -v gum &>/dev/null; then
+  echo "Error: gum is required. Install it first: https://github.com/charmbracelet/gum"
+  exit 1
+fi
+
+install_dev_tools() {
+  local tools
+  tools=$(gum choose --no-limit \
+    --header "Select with Space, confirm with Enter" \
+    "node" \
+    "go" \
+    "rust" \
+    "lua" \
+    "python") || true
+
+  [[ -z "$tools" ]] && return
+
+  while IFS= read -r tool; do
+    echo "[install] Installing $tool..."
+    case "$tool" in
+      node)   bash "$DOTFILES_DIR/bin/core/deps-scripts/install-node-env" ;;
+      go)     bash "$DOTFILES_DIR/bin/core/deps-scripts/install-go" ;;
+      rust)   bash "$DOTFILES_DIR/bin/core/deps-scripts/install-rust" ;;
+      lua)    bash "$DOTFILES_DIR/bin/core/deps-scripts/install-lua" ;;
+      python)
+        if [[ "$OS" == "Linux" ]] && command -v pacman &>/dev/null; then
+          sudo pacman -S --noconfirm --needed python python-pip
+        elif command -v apt-get &>/dev/null; then
+          sudo apt-get install -y python3 python3-pip
+        elif command -v brew &>/dev/null; then
+          brew install python3
+        fi
+        ;;
+    esac
+  done <<< "$tools"
+}
+
+main() {
+  echo "=== Dotfiles Installer ==="
+  echo ""
+
+  # Build menu based on OS
+  local menu_items=("Stow dotfiles" "Install dev tools" "Install system deps" "Install neovim")
+  if command -v pacman &>/dev/null; then
+    menu_items+=("Snapshot omarchy")
+  fi
+
+  local selections
+  selections=$(gum choose --no-limit \
+    --header "Select with Space, confirm with Enter" \
+    "${menu_items[@]}") || true
+
+  [[ -z "$selections" ]] && echo "Nothing selected." && exit 0
+
+  while IFS= read -r selection; do
+    case "$selection" in
+      "Stow dotfiles")
+        echo "[install] Stowing dotfiles..."
+        cd "$DOTFILES_DIR"
+        source "$DOTFILES_DIR/bin/core/env"
+        source "$DOTFILES_DIR/bin/core/setup-env"
+        ;;
+      "Install dev tools")
+        install_dev_tools
+        ;;
+      "Install system deps")
+        echo "[install] Installing system dependencies..."
+        bash "$DOTFILES_DIR/bin/core/deps-scripts/install-deps"
+        ;;
+      "Install neovim")
+        echo "[install] Installing neovim..."
+        bash "$DOTFILES_DIR/bin/core/deps-scripts/install-nvim"
+        ;;
+      "Snapshot omarchy")
+        echo "[install] Snapshotting omarchy configs..."
+        bash "$DOTFILES_DIR/bin/.local/scripts/omarchy-snapshot"
+        ;;
+    esac
+  done <<< "$selections"
+
+  if [[ "$OS" == "Linux" ]]; then
+    echo ""
+    echo "Would you like to restart hyperctl now ?"
+    if gum confirm --default "No"; then
+      echo "Rebooting..."
+      hyprctl reload
+    else
+      echo "Remember that sometime soon you should restart hyperctl to unlock the controls."
+    fi
+  fi
+
+  echo ""
+  echo "Done!"
+}
+
+main
