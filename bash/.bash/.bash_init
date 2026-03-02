@@ -1,0 +1,26 @@
+
+# --- Homebrew ---
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# --- Mise ---
+if command -v mise &> /dev/null; then
+  eval "$(mise activate bash)"
+fi
+
+# --- Starship ---
+if command -v starship &> /dev/null; then
+  eval "$(starship init bash)"
+fi
+
+# --- FzF completions ---
+if command -v fzf &> /dev/null; then
+  if [[ -f /usr/share/fzf/completion.bash ]]; then
+    source /usr/share/fzf/completion.bash
+  fi
+  if [[ -f /usr/share/fzf/key-bindings.bash ]]; then
+    source /usr/share/fzf/key-bindings.bash
+  fi
+fi
+

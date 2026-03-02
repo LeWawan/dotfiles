@@ -1,0 +1,10 @@
+# Personal dotfiles config - sourced from ~/.bashrc
+
+# --- Locale ---
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# --- Startup ---
+if command -v fortune &>/dev/null && command -v cowsay &>/dev/null; then
+  fortune | cowsay -f tux
+fi

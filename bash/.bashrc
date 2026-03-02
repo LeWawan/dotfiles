@@ -3,10 +3,16 @@
 
 # All the default Omarchy aliases and functions
 # (don't mess with these directly, just overwrite them here!)
-source ~/.local/share/omarchy/default/bash/rc
+# source ~/.local/share/omarchy/default/bash/rc
 
-# Add your own exports, aliases, and functions here.
-#
-# Make an alias for invoking commands you use constantly
-# alias p='python'
+source ~/.bash/.bash_envs
+source ~/.bash/.bash_shell
+source ~/.bash/.bash_aliases
+source ~/.bash/.bash_init
+source ~/.bash/.bash_personal
+
+bind -x '"\C-f": tmux-sessionizer'
+bind -f ~/.bash/.bash_inputrc
+
+# --- PATH ---
 export PATH="$HOME/.local/bin:$PATH"
