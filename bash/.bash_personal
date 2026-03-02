@@ -1,0 +1,50 @@
+# Personal dotfiles config - sourced from ~/.bashrc
+# Add: source ~/.bash_personal  at the end of ~/.bashrc
+
+# --- PATH ---
+export PERSONAL_BIN="$HOME/.local/scripts"
+export PATH="$PERSONAL_BIN:$PATH"
+
+# --- Locale ---
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# --- Git aliases ---
+alias ga="git add"
+alias gs="git status"
+alias gc="git commit"
+alias gco="git checkout"
+alias gp="git push"
+alias gl="git pull"
+alias gd="git diff"
+alias glog="git log --oneline --graph"
+alias gb="git branch"
+alias gm="git merge"
+alias gst="git stash"
+alias gstp="git stash pop"
+alias nah="git reset --hard && git clean -df"
+
+# --- Tool aliases ---
+alias vim="nvim"
+
+# --- Tools ---
+
+# --- Mise (version manager) ---
+# @see https://mise.jdx.dev/
+if command -v mise &>/dev/null; then
+  eval "$(mise activate bash)"
+fi
+
+# --- direnv (environment variable manager) ---
+# @see https://direnv.net/
+if command -v direnv &>/dev/null; then
+  eval "$(direnv hook bash)"
+fi
+
+# tmux sessionizer (ctrl+f)
+bind -x '"": tmux-sessionizer'
+
+# --- Startup ---
+if command -v fortune &>/dev/null && command -v cowsay &>/dev/null; then
+  fortune | cowsay -f tux
+fi
