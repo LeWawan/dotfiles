@@ -16,7 +16,3 @@ bind -f ~/.bash/.bash_inputrc
 
 # --- PATH ---
 export PATH="$HOME/.local/bin:$PATH"
-
-
-# --- Sourcing personal bash files ---
-source ~/.bash_personal
