@@ -18,6 +18,6 @@ alias vim="nvim"
 alias python="python3"
 
 # --- CD aliases ---
-alias ..='cd..'
-alias ...='cd../..'
-alias ....='cd../../..'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
