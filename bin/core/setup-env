@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 source ./bin/core/env
 
-STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES
-
-pushd $DOTFILES
-for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g"); do
+pushd "$DOTFILES" > /dev/null
+for folder in $(echo "$STOW_FOLDERS" | sed "s/,/ /g"); do
 	echo "[link] stow $folder folder"
-	stow -D $folder
-	stow --adopt $folder
+	stow -D "$folder"
+	stow --adopt "$folder"
 done
+popd > /dev/null

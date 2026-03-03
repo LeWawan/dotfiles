@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 source ~/.dotfiles/bin/core/env
 
-STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES
-
-pushd $DOTFILES
-for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g"); do
+pushd "$DOTFILES" > /dev/null
+for folder in $(echo "$STOW_FOLDERS" | sed "s/,/ /g"); do
 	echo "removing $folder"
-	stow -D $folder
+	stow -D "$folder"
 done
+popd > /dev/null
