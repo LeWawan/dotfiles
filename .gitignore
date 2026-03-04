@@ -10,7 +10,7 @@ nvim/.config/go/telemetry
 # Ssh stuff
 ssh-connect
 
-tmux/tmux
+tmux/.config/tmux/plugins
 
 bash/.bash_history
 
