@@ -9,3 +9,50 @@ sudo pacman -S --needed --noconfirm \
   gamemode lib32-gamemode
 
 echo "Gaming dependencies installed successfully."
+
+# Isolate game directories from btrfs snapshots by creating dedicated subvolumes.
+# This prevents snapper from including large game files in home snapshots.
+
+GAME_DIRS=(
+  "$HOME/.local/share/Steam"
+  "$HOME/Games/Heroic"
+  "$HOME/Faugus"
+)
+
+# Only run on btrfs filesystems
+if ! stat -f -c %T "$HOME" 2>/dev/null | grep -q btrfs; then
+  exit 0
+fi
+
+for dir in "${GAME_DIRS[@]}"; do
+  # Skip if already a btrfs subvolume
+  if btrfs subvolume show "$dir" &>/dev/null; then
+    echo "[btrfs] $dir is already a subvolume, skipping."
+    continue
+  fi
+
+  parent="$(dirname "$dir")"
+  mkdir -p "$parent"
+
+  if [[ -d "$dir" ]]; then
+    echo "[btrfs] Migrating $dir to a subvolume..."
+    mv "$dir" "${dir}.bak"
+    sudo btrfs subvolume create "$dir"
+    sudo chown "$(id -u):$(id -g)" "$dir"
+    cp -a --reflink=auto "${dir}.bak/." "$dir/"
+    # Verify contents match before removing backup
+    if diff <(ls "${dir}.bak") <(ls "$dir") >/dev/null 2>&1; then
+      rm -rf "${dir}.bak"
+      echo "[btrfs] $dir migrated successfully."
+    else
+      echo "[btrfs] WARNING: contents differ, backup kept at ${dir}.bak"
+    fi
+  else
+    echo "[btrfs] Creating subvolume for $dir..."
+    sudo btrfs subvolume create "$dir"
+    sudo chown "$(id -u):$(id -g)" "$dir"
+    echo "[btrfs] $dir subvolume created."
+  fi
+done
+
+echo "Gaming setup complete."
