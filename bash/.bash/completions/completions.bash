@@ -1,0 +1,11 @@
+# Available on macos at : /opt/homebrew/share/bash-completion/completions/
+if [[ -s $HOMEBREW_PREFIX/etc/bash_completion ]]; then
+  source $HOMEBREW_PREFIX/etc/bash_completion
+fi
+
+# Available on linux at : /usr/share/bash-completion/completions/
+if [[ ! -v BASH_COMPLETION_VERSINFO && -f /usr/share/bash-completion/bash_completion ]]; then
+  source /usr/share/bash-completion/bash_completion
+fi
+
+source ./pnpm-completions.bash
