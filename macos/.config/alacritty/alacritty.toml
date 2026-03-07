@@ -1,0 +1,70 @@
+[env]
+TERM = "xterm-256color"
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+size = 9
+
+[window]
+padding.x = 14
+padding.y = 14
+decorations = "None"
+
+[keyboard]
+bindings = [
+  { key = "Insert", mods = "Shift", action = "Paste" },
+  { key = "Insert", mods = "Control", action = "Copy" }
+]
+
+[terminal]
+osc52 = "CopyPaste"
+
+[colors.primary]
+background = "#1f1f28"
+foreground = "#dcd7ba"
+
+[colors.cursor]
+text = "#1f1f28"
+cursor = "#c8c093"
+
+[colors.vi_mode_cursor]
+text = "#1f1f28"
+cursor = "#c8c093"
+
+[colors.search.matches]
+foreground = "#1f1f28"
+background = "#c0a36e"
+
+[colors.search.focused_match]
+foreground = "#1f1f28"
+background = "#c34043"
+
+[colors.footer_bar]
+foreground = "#1f1f28"
+background = "#dcd7ba"
+
+[colors.selection]
+text = "#c8c093"
+background = "#2d4f67"
+
+[colors.normal]
+black = "#090618"
+red = "#c34043"
+green = "#76946a"
+yellow = "#c0a36e"
+blue = "#7e9cd8"
+magenta = "#957fb8"
+cyan = "#6a9589"
+white = "#c8c093"
+
+[colors.bright]
+black = "#727169"
+red = "#e82424"
+green = "#98bb6c"
+yellow = "#e6c384"
+blue = "#7fb4ca"
+magenta = "#938aa9"
+cyan = "#7aa89f"
+white = "#dcd7ba"
