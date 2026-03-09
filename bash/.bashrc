@@ -6,9 +6,9 @@
 # source ~/.local/share/omarchy/default/bash/rc
 
 source ~/.bash/.bash_envs
+source ~/.bash/.bash_init
 source ~/.bash/.bash_shell
 source ~/.bash/.bash_aliases
-source ~/.bash/.bash_init
 source ~/.bash/.bash_personal
 
 bind -x '"\C-f": tmux-sessionizer'
