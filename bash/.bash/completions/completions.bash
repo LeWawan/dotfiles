@@ -8,4 +8,4 @@ if [[ ! -v BASH_COMPLETION_VERSINFO && -f /usr/share/bash-completion/bash_comple
   source /usr/share/bash-completion/bash_completion
 fi
 
-source ./pnpm-completions.bash
+source "${HOME}/.bash/completions/pnpm-completions.bash"
