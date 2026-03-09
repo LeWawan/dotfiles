@@ -1,16 +1,19 @@
+[general]
+live_config_reload = true
+
 [env]
 TERM = "xterm-256color"
 
 [font]
-normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
-bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
-italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
-size = 9
+normal = { family = "GeistMono Nerd Font", style = "Regular" }
+bold = { family = "GeistMono Nerd Font", style = "Bold" }
+italic = { family = "GeistMono Nerd Font", style = "Italic" }
+size = 13
 
 [window]
 padding.x = 14
 padding.y = 14
-decorations = "None"
+decorations = "Buttonless"
 
 [keyboard]
 bindings = [
@@ -19,6 +22,7 @@ bindings = [
 ]
 
 [terminal]
+shell = "/opt/homebrew/bin/bash"
 osc52 = "CopyPaste"
 
 [colors.primary]
