@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Default temperature values
+ON_BRIGHTNESS=70
+OFF_BRIGHTNESS=20
+
+notify-send "⟳  Toggling nightlight screen brightness"
+
+# Query the current brightness
+CURRENT_BRIGHTNESS="$(ddcutil getvcp 10 | awk -F= '/current value/{print $2+0}')"
+
+# it's long so tell the user it' in progress
+if [[ $CURRENT_BRIGHTNESS == $OFF_BRIGHTNESS ]]; then
+  ddcutil setvcp 10 $ON_BRIGHTNESS
+  notify-send "  Nightlight screen brightness"
+else
+  ddcutil setvcp 10 $OFF_BRIGHTNESS
+  notify-send "   Daylight screen brightness"
+fi
