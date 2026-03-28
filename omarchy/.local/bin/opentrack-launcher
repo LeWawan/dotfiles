@@ -1,0 +1,358 @@
+#!/usr/bin/env python3
+
+from os.path import join, isfile, isdir, abspath
+from os import makedirs, mkdir, environ, remove
+from sys import argv
+from urllib.request import urlopen, urlretrieve
+from urllib.error import URLError
+from shutil import which, rmtree
+from subprocess import Popen
+import json
+import traceback
+
+APPIDSIG = "AppId="
+APPHOME = environ.get("HOME", "")
+if isfile("/.flatpak-info"):
+    APPHOME = join(APPHOME, ".var/app/com.valvesoftware.Steam")
+LAUNCHERHOME = join(APPHOME, ".local/share/opentrack-launcher")
+OPENTRACKURL = "http://api.github.com/repos/opentrack/opentrack/releases/latest"
+ZIPBINARY = ""
+LOGFILE = join(LAUNCHERHOME, "launcher.log")
+
+def _log(level, msg):
+    line = "[opentrack-launcher] " + level + ": " + msg
+    print(line, flush=True)
+    try:
+        makedirs(LAUNCHERHOME, exist_ok=True)
+        with open(LOGFILE, "a") as f:
+            from datetime import datetime
+            f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + " " + line + "\n")
+    except:
+        pass
+
+def panic(msg):
+    _log("CRITICAL", msg)
+    exit(-1)
+
+def error(msg):
+    _log("ERROR", msg)
+
+def info(msg):
+    _log("INFO", msg)
+
+def findappid():
+    appid = ""
+    for arg in argv:
+        if APPIDSIG in arg:
+            appid = arg[len(APPIDSIG):]
+    if appid == "":
+        error("appid not found, falling back to executable name")
+        appid = argv[-1]
+        if not appid.endswith(".exe"):
+            panic("could not find a valid Windows executable name")
+    info("launching app with id " + str(appid) + "...")
+    return appid
+
+def isnewer(ver):
+    versionfile = join(LAUNCHERHOME, "version.txt")
+    if not isfile(versionfile):
+        with open(versionfile, mode="w") as f:
+            f.write(ver)
+        f.close()
+        return True
+    with open(versionfile, mode="r+") as f:
+        fver = f.read()
+        newer = fver != ver
+        f.close()
+        return newer
+
+def updateversionfile(ver):
+    versionfile = join(LAUNCHERHOME, "version.txt")
+    with open(versionfile, mode="w") as f:
+        f.write(ver)
+    f.close()
+
+def removeversionfile():
+    versionfile = join(LAUNCHERHOME, "version.txt")
+    if isfile(versionfile):
+        remove(versionfile)
+
+def dlopentrack():
+    info("checking if opentrack is up to date...")
+    try:
+        content = urlopen(OPENTRACKURL).read().decode("UTF-8")
+    except URLError as e:
+        error("could not get opentrack release manifest; error: " + str(e.reason))
+        return
+
+    try:
+        latest = json.loads(content)
+    except json.JSONDecodeError as e:
+        error("could not parse opentrack release manifest; error occurred at line " + str(e.lineno) + ": " + str(e.msg))
+        return
+    version = latest["tag_name"].split("-")[1]
+    info("latest version: " + version)
+    if isnewer(version):
+        info("downloading the latest opentrack version...")
+        for asset in latest["assets"]:
+            if asset["name"].endswith("portable.7z"):
+                info("found asset: " + asset["name"])
+                opentrackark = join(LAUNCHERHOME, "opentrack.7z")
+                info("downloading from: " + asset["browser_download_url"])
+                try:
+                    err = Popen(["curl", "-L", "--progress-bar", "-o", opentrackark, asset["browser_download_url"]]).wait()
+                    if err != 0:
+                        error("failed to download opentrack; curl exit code: " + str(err))
+                        return
+                except Exception as e:
+                    error("failed to download opentrack; error: " + str(e))
+                    return
+                if not isfile(opentrackark):
+                    error("file " + opentrackark + " does not exist")
+                    return
+                info("download complete: " + opentrackark)
+                opentrackinstall = join(LAUNCHERHOME, "install")
+                if isdir(opentrackinstall):
+                    info("removing old opentrack version...")
+                    rmtree(opentrackinstall)
+                info("extracting with " + ZIPBINARY + "...")
+                try:
+                    err = Popen([ which(ZIPBINARY), "x", "-aoa", "-o" + LAUNCHERHOME, opentrackark ], cwd=LAUNCHERHOME).wait()
+                    remove(opentrackark)
+                    if err != 0:
+                        panic("failed to extract " + opentrackark + "; 7z exit code: " + str(err))
+                        return
+                except:
+                    removeversionfile()
+                    remove(opentrackark)
+                    raise
+                info("extraction complete")
+    else:
+        info("opentrack is up to date")
+    updateversionfile(version)
+    return
+
+def getopentrack():
+    dlopentrack()
+    opentrackexec = join(LAUNCHERHOME, "install/opentrack.exe")
+    if not isfile(opentrackexec):
+        removeversionfile()
+        panic("could not find " + opentrackexec)
+    else:
+        info("opentrack found at " + opentrackexec)
+        return opentrackexec
+
+def towinepath(p):
+    p = abspath(p)
+    p = p.replace("/", "\\")
+    return "Z:" + p
+
+def findmainexe():
+    """Find the index of the main game .exe in argv (the one right after waitforexitandrun/run)."""
+    for i, arg in enumerate(argv):
+        if arg in ("waitforexitandrun", "run") and i + 1 < len(argv):
+            if argv[i + 1].endswith(".exe"):
+                return i + 1
+    # fallback: find the first .exe arg
+    for i, arg in enumerate(argv):
+        if arg.endswith(".exe"):
+            return i
+    return -1
+
+def findappcmdline(exe_index):
+    """Build the full app command line from the main exe and all trailing args."""
+    return " ".join(argv[exe_index:])
+
+def getlaunchscript(appid, opentrackexec):
+    scripts = join(LAUNCHERHOME, "scripts")
+    if not isdir(scripts):
+        mkdir(scripts)
+        if not isdir(scripts):
+            panic("failed to create scripts directory: " + scripts)
+    script = join(scripts, appid + ".bat")
+    if not isfile(script):
+        info("generating script for app with id " + str(appid) + "...")
+        exe_index = findmainexe()
+        if exe_index == -1:
+            panic("could not find main .exe in argv")
+        appcmdline = findappcmdline(exe_index)
+        info("app cmdline: " + appcmdline)
+        appexec = argv[exe_index]
+        appargs = " ".join(argv[exe_index + 1:]) if exe_index + 1 < len(argv) else ""
+        if appargs:
+            appargs = " " + appargs
+        appwine = towinepath(appexec)
+        info("app wine path: " + appwine)
+        with open(script, mode="w") as f:
+            f.writelines([
+                "start /wait \"\" \"" + appwine + "\"" + appargs + "\r\n",
+            ])
+            f.close()
+        info("script written: " + script)
+    else:
+        info("using existing script: " + script)
+    return script
+
+def makehome():
+    if not isdir(LAUNCHERHOME):
+        info("creating home...")
+        makedirs(LAUNCHERHOME, exist_ok=True)
+        if not isdir(LAUNCHERHOME):
+            panic("failed to create opentrack-launcher home: " + LAUNCHERHOME)
+
+def check7z():
+    global ZIPBINARY
+    if not which("7z") is None:
+        ZIPBINARY = "7z"
+    elif not which("7za") is None:
+        ZIPBINARY = "7za"
+
+    if not ZIPBINARY:
+        panic("7z is not installed")
+    info("using " + ZIPBINARY + " at " + str(which(ZIPBINARY)))
+
+if __name__ == '__main__':
+    try:
+        info("=== opentrack-launcher started ===")
+        info("argv: " + str(argv))
+        info("HOME: " + APPHOME)
+        info("LAUNCHERHOME: " + LAUNCHERHOME)
+        makehome()
+        appid = findappid()
+
+        # Install TrackIR DLLs into Wine prefix
+        OPENTRACK_LIBEXEC = "/usr/libexec/opentrack"
+        STEAMAPPS = join(APPHOME, ".local/share/Steam/steamapps")
+        prefixroot = join(STEAMAPPS, "compatdata", appid, "pfx")
+        prefix = join(prefixroot, "drive_c/windows")
+        system32 = join(prefix, "system32")
+        syswow64 = join(prefix, "syswow64")
+        if isdir(system32):
+            from shutil import copy2
+            copy2(join(OPENTRACK_LIBEXEC, "NPClient64.dll"), system32)
+            copy2(join(OPENTRACK_LIBEXEC, "NPClient.dll"), syswow64)
+            info("TrackIR DLLs installed in prefix")
+        else:
+            error("wine prefix not found, DLLs not installed")
+
+        # Add Wine DLL overrides for NPClient so Wine uses our native DLLs
+        user_reg = join(prefixroot, "user.reg")
+        if isfile(user_reg):
+            with open(user_reg, "r") as f:
+                reg_content = f.read()
+            if '"NPClient"' not in reg_content and '"NPClient64"' not in reg_content:
+                # Append to the global DllOverrides section
+                old = '[Software\\\\Wine\\\\DllOverrides]'
+                if old in reg_content:
+                    # Find the section and add our overrides after the first entry
+                    import re
+                    reg_content = re.sub(
+                        r'(\[Software\\\\Wine\\\\DllOverrides\][^\[]*)',
+                        lambda m: m.group(0).rstrip() + '\n"NPClient"="native"\n"NPClient64"="native"\n\n',
+                        reg_content,
+                        count=1
+                    )
+                    with open(user_reg, "w") as f:
+                        f.write(reg_content)
+                    info("NPClient DLL overrides added to registry")
+                else:
+                    error("could not find DllOverrides section in user.reg")
+            else:
+                info("NPClient DLL overrides already present")
+
+        # Check if opentrack is already running
+        import time
+        from signal import SIGTERM
+        from subprocess import check_output
+        opentrack_already_running = False
+        try:
+            pgrep = check_output(["pgrep", "-x", "opentrack"]).decode().strip()
+            if pgrep:
+                opentrack_already_running = True
+                info("opentrack already running (PID " + pgrep + "), skipping launch")
+        except:
+            pass
+
+        opentrack_proc = None
+        if not opentrack_already_running:
+            info("launching native opentrack...")
+            opentrack_proc = Popen(["opentrack", "--platform", "xcb"])
+            info("native opentrack PID: " + str(opentrack_proc.pid))
+            time.sleep(2)
+
+        # Detect if game runs via Proton (has waitforexitandrun in args)
+        is_proton = any(arg in ("waitforexitandrun", "run") for arg in argv)
+        info("proton detected: " + str(is_proton))
+
+        if is_proton:
+            # Proton: pressure-vessel blocks shared memory
+            # Use UDP relay: native opentrack (UDP out) -> opentrack.exe Wine (UDP in, freetrack out)
+            check7z()
+            dlopentrack()
+            opentrack_src = join(LAUNCHERHOME, "install")
+            src_exe = join(opentrack_src, "opentrack.exe")
+            if not isfile(src_exe):
+                removeversionfile()
+                panic("could not find " + src_exe)
+
+            # Copy opentrack into Wine prefix C:\opentrack
+            prefix_opentrack = join(STEAMAPPS, "compatdata", appid, "pfx/drive_c/opentrack")
+            from shutil import copytree
+            from os.path import getmtime
+            dst_exe = join(prefix_opentrack, "opentrack.exe")
+            if not isfile(dst_exe) or getmtime(dst_exe) < getmtime(src_exe):
+                info("copying opentrack into wine prefix...")
+                if isdir(prefix_opentrack):
+                    rmtree(prefix_opentrack)
+                copytree(opentrack_src, prefix_opentrack)
+            else:
+                info("opentrack in prefix is up to date")
+
+            # Copy ICU DLLs (Qt6 needs icuuc.dll, Proton ships icuuc68.dll)
+            from glob import glob
+            import re as _re
+            from os.path import basename
+            for icu_versioned in glob(join(prefix_opentrack, "..", "windows/system32/icu*.dll")):
+                name = basename(icu_versioned)
+                unversioned = _re.sub(r'\d+\.dll$', '.dll', name)
+                if unversioned != name:
+                    dst = join(prefix_opentrack, unversioned)
+                    if not isfile(dst):
+                        from shutil import copy2
+                        copy2(icu_versioned, dst)
+                        info("copied " + name + " -> " + unversioned)
+
+            # Launch game first, then opentrack.exe via protontricks
+            info("launching game...")
+            game_proc = Popen(argv[1:])
+            time.sleep(10)
+            info("launching opentrack.exe via protontricks...")
+            wine_opentrack_proc = Popen(["protontricks-launch", "--appid", appid, dst_exe])
+            info("wine opentrack PID: " + str(wine_opentrack_proc.pid))
+            game_proc.wait()
+
+            # Kill wine opentrack
+            info("killing wine opentrack...")
+            wine_opentrack_proc.send_signal(SIGTERM)
+            try:
+                wine_opentrack_proc.wait(timeout=5)
+            except:
+                wine_opentrack_proc.kill()
+        else:
+            # Native game: shared memory works directly, just launch the game
+            info("native game, launching directly...")
+            Popen(argv[1:]).wait()
+
+        # Kill native opentrack only if we started it
+        if opentrack_proc:
+            info("killing native opentrack...")
+            opentrack_proc.send_signal(SIGTERM)
+            try:
+                opentrack_proc.wait(timeout=5)
+            except:
+                opentrack_proc.kill()
+        info("=== opentrack-launcher exiting ===")
+    except Exception as e:
+        _log("CRITICAL", "unhandled exception: " + str(e))
+        _log("CRITICAL", traceback.format_exc())
+        exit(-1)
