@@ -9,4 +9,14 @@ for folder in $(echo "$STOW_FOLDERS" | sed "s/,/ /g"); do
 	stow -D "$folder"
 	stow --adopt "$folder"
 done
+# Stow system-level configs (targeting / instead of $HOME)
+if [[ "$(uname -s)" == "Linux" ]]; then
+	for folder in coolercontrol; do
+		if [[ -d "$folder" ]]; then
+			echo "[link] stow $folder folder (system: /etc)"
+			sudo stow -t / -D "$folder"
+			sudo stow -t / --adopt "$folder"
+		fi
+	done
+fi
 popd > /dev/null

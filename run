@@ -49,7 +49,7 @@ main() {
   # Build menu based on OS
   local menu_items=("Stow dotfiles" "Install dev tools" "Install system deps" "Install neovim" "Install tmux")
   if command -v pacman &>/dev/null; then
-    menu_items+=("Snapshot omarchy")
+    menu_items+=("Install coolercontrol" "Snapshot omarchy")
   fi
 
   local selections
@@ -67,16 +67,17 @@ main() {
         source "$DOTFILES_DIR/bin/core/env"
         source "$DOTFILES_DIR/bin/core/setup-env"
 
-        if [[ "$OS" == "Linux" ]]; then
-          echo ""
-          echo "Would you like to reload Hyprland now?"
-          if gum confirm --default "No"; then
-            echo "Rebooting..."
-            hyprctl reload
-          else
-            echo "Remember to run 'hyprctl reload' to apply changes."
-          fi
-        fi
+        # Now its auto-reloading
+        # if [[ "$OS" == "Linux" ]]; then
+        #   echo ""
+        #   echo "Would you like to reload Hyprland now?"
+        #   if gum confirm --default "No"; then
+        #     echo "Rebooting..."
+        #     hyprctl reload
+        #   else
+        #     echo "Remember to run 'hyprctl reload' to apply changes."
+        #   fi
+        # fi
         ;;
       "Install dev tools")
         install_dev_tools
@@ -92,6 +93,10 @@ main() {
       "Install neovim")
         echo "[install] Installing neovim..."
         bash "$DOTFILES_DIR/bin/core/deps-scripts/install-nvim"
+        ;;
+      "Install coolercontrol")
+        echo "[install] Installing coolercontrol..."
+        bash "$DOTFILES_DIR/bin/core/deps-scripts/install-coolercontrol"
         ;;
       "Snapshot omarchy")
         echo "[install] Snapshotting omarchy configs..."

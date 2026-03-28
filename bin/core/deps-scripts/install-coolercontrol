@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "[install] Installing CoolerControl..."
+
+if command -v coolercontrol &>/dev/null; then
+  echo "[install] CoolerControl is already installed."
+else
+  if command -v pacman &>/dev/null; then
+    sudo pacman -S --noconfirm --needed coolercontrol
+  else
+    echo "Package manager not supported. Install CoolerControl manually."
+    echo "See: https://gitlab.com/coolercontrol/coolercontrol"
+    exit 1
+  fi
+fi
+
+echo "[install] Enabling CoolerControl service..."
+sudo systemctl enable --now coolercontrold.service
+
+echo "[install] CoolerControl installed and service enabled."
