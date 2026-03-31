@@ -1,0 +1,5 @@
+[tools]
+go = "latest"
+ni = "latest"
+node = "latest"
+pnpm = "latest"
