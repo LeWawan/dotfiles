@@ -1,36 +1,19 @@
 #!/usr/bin/env bash
-set -euo pipefail
+source "$(dirname "$0")/_helpers.sh"
 
-echo "Installing tmux..."
+log_info "Installing tmux..."
 
-if command -v tmux &> /dev/null; then
-    echo "tmux is already installed. Skipping."
+if command -v tmux &>/dev/null; then
+  log_info "tmux is already installed. Skipping."
 else
-    if command -v brew &> /dev/null; then
-        echo "Homebrew is installed. Using Homebrew to install tmux."
-        brew install tmux
-    elif command -v apt-get &> /dev/null; then
-        echo "apt-get is available. Using apt-get to install tmux."
-        sudo apt-get update
-        sudo apt-get install -y tmux
-    elif command -v pacman &> /dev/null; then
-        echo "pacman is available. Using pacman to install tmux."
-        sudo pacman -S --noconfirm tmux
-    else
-        echo "No supported package manager found. Please install tmux manually."
-        exit 1
-    fi
-
-    echo "tmux installed successfully."
+  install_pkg tmux
+  log_info "tmux installed."
 fi
 
-if [[ ! -d "$XDG_CONFIG_HOME/tmux/plugins/tpm" ]]; then
-    echo "Installing tmux plugin manager (tpm)..."
-    git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
-
-    echo "tmux plugin manager (tpm) installed successfully."
-
-    echo "To install tmux plugins, open tmux and press 'prefix + I' (default prefix is 'Ctrl + b') to fetch the plugins specified in your .tmux.conf file."
+if [[ ! -d "${XDG_CONFIG_HOME:-$HOME/.config}/tmux/plugins/tpm" ]]; then
+  log_info "Installing tmux plugin manager (tpm)..."
+  git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+  log_info "tpm installed. Open tmux and press 'prefix + I' to install plugins."
 else
-    echo "tmux plugin manager (tpm) is already installed. Skipping."
+  log_info "tpm is already installed. Skipping."
 fi

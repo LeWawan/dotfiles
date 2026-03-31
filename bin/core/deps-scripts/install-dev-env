@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+source "$(dirname "$0")/_helpers.sh"
+
+if [[ -z "${1:-}" ]]; then
+  echo "Usage: install-dev-env <node|pnpm|ni|rust|lua>"
+  exit 1
+fi
+
+case "$1" in
+  node)
+    log_info "Installing Node.js..."
+    install_dev_runtime node
+    node --version
+    ;;
+  pnpm)
+    log_info "Installing pnpm..."
+    if command -v omarchy-install-dev-env &>/dev/null; then
+      : # pnpm handled by omarchy-install-dev-env node
+    elif command -v mise &>/dev/null; then
+      mise use --global pnpm@latest
+    fi
+    pnpm --version
+    ;;
+  ni)
+    log_info "Installing @antfu/ni..."
+    require_cmd npm
+    npm i -g @antfu/ni
+    ;;
+  rust)
+    log_info "Installing Rust..."
+    install_dev_runtime rust
+    if [[ -f "$HOME/.cargo/env" ]]; then
+      source "$HOME/.cargo/env"
+    fi
+    rustc --version
+    ;;
+  lua)
+    log_info "Installing Lua..."
+    install_dev_runtime lua
+    lua -v
+    ;;
+  *)
+    log_error "Unknown runtime: $1"
+    echo "Supported: node, pnpm, ni, rust, lua"
+    exit 1
+    ;;
+esac
+
+log_info "$1 installed."

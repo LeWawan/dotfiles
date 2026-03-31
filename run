@@ -15,30 +15,15 @@ install_dev_tools() {
   tools=$(gum choose --no-limit \
     --header "Select with Space, confirm with Enter" \
     "node" \
-    "go" \
+    "pnpm" \
+    "ni" \
     "rust" \
-    "lua" \
-    "python") || true
+    "lua") || true
 
   [[ -z "$tools" ]] && return
 
   while IFS= read -r tool; do
-    echo "[install] Installing $tool..."
-    case "$tool" in
-      node)   bash "$DOTFILES_DIR/bin/core/deps-scripts/install-node-env" ;;
-      go)     bash "$DOTFILES_DIR/bin/core/deps-scripts/install-go" ;;
-      rust)   bash "$DOTFILES_DIR/bin/core/deps-scripts/install-rust" ;;
-      lua)    bash "$DOTFILES_DIR/bin/core/deps-scripts/install-lua" ;;
-      python)
-        if [[ "$OS" == "Linux" ]] && command -v pacman &>/dev/null; then
-          sudo pacman -S --noconfirm --needed python python-pip
-        elif command -v apt-get &>/dev/null; then
-          sudo apt-get install -y python3 python3-pip
-        elif command -v brew &>/dev/null; then
-          brew install python3
-        fi
-        ;;
-    esac
+    bash "$DOTFILES_DIR/bin/core/deps-scripts/install-dev-env" "$tool"
   done <<< "$tools"
 }
 
@@ -66,18 +51,6 @@ main() {
         cd "$DOTFILES_DIR"
         source "$DOTFILES_DIR/bin/core/env"
         source "$DOTFILES_DIR/bin/core/setup-env"
-
-        # Now its auto-reloading
-        # if [[ "$OS" == "Linux" ]]; then
-        #   echo ""
-        #   echo "Would you like to reload Hyprland now?"
-        #   if gum confirm --default "No"; then
-        #     echo "Rebooting..."
-        #     hyprctl reload
-        #   else
-        #     echo "Remember to run 'hyprctl reload' to apply changes."
-        #   fi
-        # fi
         ;;
       "Install dev tools")
         install_dev_tools
