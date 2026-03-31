@@ -1,0 +1,81 @@
+#!/bin/bash
+# Switch between stable and beta NVIDIA drivers on Arch Linux
+
+set -euo pipefail
+
+STABLE_PKGS=(nvidia-open-dkms nvidia-settings nvidia-utils lib32-nvidia-utils libva-nvidia-driver)
+BETA_PKGS=(nvidia-open-beta-dkms nvidia-settings-beta nvidia-utils-beta lib32-nvidia-utils-beta)
+
+get_current_driver() {
+  if pacman -Q nvidia-open-beta-dkms &>/dev/null; then
+    echo "beta"
+  elif pacman -Q nvidia-open-dkms &>/dev/null; then
+    echo "stable"
+  else
+    echo "none"
+  fi
+}
+
+current=$(get_current_driver)
+
+case "$current" in
+  beta)   current_label="Beta 🧪" ;;
+  stable) current_label="Stable" ;;
+  none)   current_label="Aucun pilote NVIDIA détecté" ;;
+esac
+
+gum style \
+  --border rounded \
+  --border-foreground 76 \
+  --padding "0 2" \
+  --bold \
+  "NVIDIA Driver Switcher" \
+  "Pilote actuel: $current_label"
+
+echo
+
+choice=$(gum choose --header "Choisir le type de pilote:" "Stable" "Beta")
+
+case "$choice" in
+  Stable)
+    if [[ "$current" == "stable" ]]; then
+      gum style --foreground 214 "Déjà sur les pilotes stables."
+      exit 0
+    fi
+
+    gum confirm "Passer aux pilotes stables ? (nécessite un reboot)" || exit 0
+
+    echo
+    gum log --level info "Désinstallation des pilotes beta..."
+    sudo pacman -Rdd --noconfirm "${BETA_PKGS[@]}"
+
+    gum log --level info "Installation des pilotes stables..."
+    sudo pacman -S --needed --noconfirm "${STABLE_PKGS[@]}"
+
+    gum style --foreground 76 --bold "Pilotes stables installés."
+    ;;
+
+  Beta)
+    if [[ "$current" == "beta" ]]; then
+      gum style --foreground 214 "Déjà sur les pilotes beta."
+      exit 0
+    fi
+
+    gum confirm "Passer aux pilotes beta ? (nécessite un reboot)" || exit 0
+
+    echo
+    if [[ "$current" == "stable" ]]; then
+      gum log --level info "Désinstallation des pilotes stables..."
+      sudo pacman -Rdd --noconfirm "${STABLE_PKGS[@]}"
+    fi
+
+    gum log --level info "Installation des pilotes beta..."
+    yay -S --needed --noconfirm "${BETA_PKGS[@]}"
+
+    gum style --foreground 76 --bold "Pilotes beta installés."
+    ;;
+esac
+
+echo
+gum style --foreground 214 "Un reboot est nécessaire pour appliquer les changements."
+gum confirm "Rebooter maintenant ?" && systemctl reboot
