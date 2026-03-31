@@ -15,9 +15,9 @@
 # 21091c4fb341ceab6236e8c9e905ccc263a4ac08134b036ed415925ba4c1645d = "Nvidia GPU"
 [devices]
 de527a213ba1433cea3f81789b22390d5f97baee4550f627798f8335a2e29001 = "NVIDIA GeForce RTX 5070"
-613f9d383d629e6b5506470c24d720bdd7e70088d2e593790b500f7128056651 = "nvme1"
+613f9d383d629e6b5506470c24d720bdd7e70088d2e593790b500f7128056651 = "nvme0"
 cc70b4fa373b641d7dd71c7b5d3778e5c242726d11113e4551d3ed64b48989dd = "AMD Ryzen 5 5600X 6-Core Processor"
-95bddee15cd5507d3b788a1dbf20a36a38cb1de65dc8943316621e8939d86724 = "nvme0"
+95bddee15cd5507d3b788a1dbf20a36a38cb1de65dc8943316621e8939d86724 = "nvme1"
 00a4da18625f56275c89e2fcd25a83c08c5ad3326452fa7e252fcc8a89c92493 = "nct6798"
 19e098e312e1b1b39163a343ea22b6ea17f18ec1a803ffe0ce44f5bacd6076ee = "Custom Sensors"
 
@@ -48,13 +48,12 @@ cc70b4fa373b641d7dd71c7b5d3778e5c242726d11113e4551d3ed64b48989dd = "AMD Ryzen 5 
 [device-settings]
 
 [device-settings.de527a213ba1433cea3f81789b22390d5f97baee4550f627798f8335a2e29001]
-fan1 = { profile_uid = "f03a05d3-5cca-454c-8eb3-cfd97d55d33e" }
-fan2 = { profile_uid = "f03a05d3-5cca-454c-8eb3-cfd97d55d33e" }
+fan1 = { profile_uid = "3b9e3332-a55a-43d9-819f-bf3df99c36c5" }
+fan2 = { profile_uid = "3b9e3332-a55a-43d9-819f-bf3df99c36c5" }
 
 [device-settings.00a4da18625f56275c89e2fcd25a83c08c5ad3326452fa7e252fcc8a89c92493]
-fan2 = { profile_uid = "d6520f4a-be38-4f4a-ba6a-3d9f4286d8fb" }
-fan3 = { profile_uid = "c83e71bf-2727-4b41-931f-326cea1ba21d" }
-fan4 = { profile_uid = "c83e71bf-2727-4b41-931f-326cea1ba21d" }
+fan2 = { profile_uid = "bff7cd74-ef58-4ebe-a59a-e91e9dfcf455" }
+fan4 = { profile_uid = "d9dbfa19-a5d4-49b2-8d7b-48bb3a56e295" }
 
 
 # A list of profiles to be used with each device's settings
@@ -248,15 +247,16 @@ name = "nct6798"
 disable = false
 
 [settings.00a4da18625f56275c89e2fcd25a83c08c5ad3326452fa7e252fcc8a89c92493.channel_settings]
+fan1 = { label = "Fan1", disabled = true }
+temp3 = { label = "Auxtin0", disabled = true }
+fan7 = { label = "Fan7", disabled = true }
+fan3 = { label = "Case Rear", disabled = true }
 temp6 = { label = "Auxtin3", disabled = true }
 fan5 = { label = "Fan5", disabled = true }
-temp11 = { label = "Pch Cpu Temp", disabled = true }
-temp3 = { label = "Auxtin0", disabled = true }
-temp12 = { label = "Pch Mch Temp", disabled = true }
-fan7 = { label = "Fan7", disabled = true }
-temp10 = { label = "Pch Chip Temp", disabled = true }
-fan1 = { label = "Fan1", disabled = true }
 fan6 = { label = "Fan6", disabled = true }
+temp11 = { label = "Pch Cpu Temp", disabled = true }
+temp10 = { label = "Pch Chip Temp", disabled = true }
+temp12 = { label = "Pch Mch Temp", disabled = true }
 
 [settings.613f9d383d629e6b5506470c24d720bdd7e70088d2e593790b500f7128056651]
 name = "Samsung SSD 980 PRO 1TB"
@@ -273,25 +273,15 @@ disable = false
 [[custom_sensors]]
 id = "sensor1"
 cs_type = "Mix"
-mix_function = "Avg"
+mix_function = "Max"
 
 [[custom_sensors.sources]]
 temp_source = { temp_name = "temp1", device_uid = "cc70b4fa373b641d7dd71c7b5d3778e5c242726d11113e4551d3ed64b48989dd" }
-weight = 1
+weight = 2
 
 [[custom_sensors.sources]]
 temp_source = { temp_name = "GPU Temp", device_uid = "de527a213ba1433cea3f81789b22390d5f97baee4550f627798f8335a2e29001" }
 weight = 1
-
-# TLS/HTTPS Configuration:
-# TLS to secure the REST API with HTTPS. (enabled by default)
-# When enabled, a self-signed certificate will be automatically generated on first startup if no
-# certificate paths are specified. The certificate and key are stored in /etc/coolercontrol/ by
-# default.
-# Note: Self-signed certificates will cause browser warnings. You can provide your own
-# certificate by specifying the paths below, or use a reverse proxy (nginx, caddy, traefik)
-# to handle TLS termination as an alternative approach.
-tls_enabled = true
 # tls_cert_path = "/etc/coolercontrol/coolercontrol.crt"
 # tls_key_path = "/etc/coolercontrol/coolercontrol.key"
 

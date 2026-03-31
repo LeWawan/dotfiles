@@ -13,9 +13,30 @@ else
     echo "See: https://gitlab.com/coolercontrol/coolercontrol"
     exit 1
   fi
+
+fi
+
+if command -v cctv &>/dev/null; then
+  echo "[install] CoolerControl cctv is already installed."
+else
+  TAG=$(curl -sL https://gitlab.com/api/v4/projects/69657520/releases/permalink/latest | jq -r .tag_name)
+  curl -L "https://gitlab.com/coolercontrol/cctv/-/archive/${TAG}/cctv-${TAG}.tar.gz" | \
+      tar -xzf - --strip-components=2 -C /tmp "cctv-${TAG}/dist/cctv@.service"
+  sudo install -Dm 644 /tmp/cctv@.service -t /etc/systemd/system/
+  sudo systemctl daemon-reload
+  sudo systemctl enable --now "cctv@$USER.service"
 fi
 
 echo "[install] Enabling CoolerControl service..."
 sudo systemctl enable --now coolercontrold.service
+
+if secret-tool lookup service cctv type password &>/dev/null; then
+  echo "[install] CCTV daemon password already stored in keyring."
+else
+  echo "[install] Storing CCTV daemon password in keyring..."
+  echo "Enter CCTV daemon password:"
+  secret-tool store --label="CCTV daemon password" service cctv type password < /dev/tty
+  echo "[install] CCTV daemon password stored in keyring."
+fi
 
 echo "[install] CoolerControl installed and service enabled."
