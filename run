@@ -87,7 +87,7 @@ main() {
         bash "$DOTFILES_DIR/bin/core/deps-scripts/install-deps"
         ;;
       "Install tmux")
-        echo "[install] Installing neovim..."
+        echo "[install] Installing tmux..."
         bash "$DOTFILES_DIR/bin/core/deps-scripts/install-tmux"
         ;;
       "Install neovim")

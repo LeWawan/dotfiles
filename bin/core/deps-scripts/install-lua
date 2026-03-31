@@ -5,7 +5,7 @@ echo "Installing Lua environment..."
 
 if command -v omarchy-install-dev-env &>/dev/null; then
   echo "Using omarchy-install-dev-env..."
-  omarchy-install-dev-env node
+  omarchy-install-dev-env lua
 elif command -v mise &>/dev/null; then
   echo "Using mise..."
   mise use --global lua@latest
