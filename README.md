@@ -13,7 +13,7 @@ cd ~/.dotfiles
 The interactive installer (powered by [gum](https://github.com/charmbracelet/gum)) lets you pick what to set up:
 
 - **Stow dotfiles** -- symlink all configs to `~`
-- **Install dev tools** -- Node, Go, Rust, Lua, Python (via [mise](https://mise.jdx.dev/))
+- **Install dev tools** -- Node, pnpm, ni, Rust, Lua (via [mise](https://mise.jdx.dev/))
 - **Install system deps** -- ripgrep, fd, eza, stow, direnv, etc.
 - **Install neovim / tmux**
 - **Snapshot omarchy** -- backup current Hyprland/Waybar configs into the repo
@@ -23,15 +23,22 @@ The interactive installer (powered by [gum](https://github.com/charmbracelet/gum
 
 ```
 .dotfiles/
-├── bash/          # Shell config (bashrc, aliases, completions, env)
+├── bash/          # Shell config (bashrc, aliases, completions, env) + mise config
 ├── bin/           # Custom scripts & install helpers
 │   ├── core/      #   Setup/clean env, dependency installers
+│   │   └── deps-scripts/
+│   │       ├── _helpers.sh        # Shared helpers (install_pkg, log_*, platform detection)
+│   │       ├── install-deps       # System tools
+│   │       ├── install-dev-env    # Dev runtimes (node, pnpm, ni, rust, lua)
+│   │       ├── install-nvim       # Neovim
+│   │       ├── install-tmux       # Tmux + tpm
+│   │       └── install-coolercontrol  # CoolerControl (Arch only)
 │   └── .local/    #   tmux-sessionizer, omarchy-snapshot, wawan-config
 ├── macos/         # macOS-only: Alacritty, AeroSpace, Sketchybar
-├── nvim/          # Neovim config (git submodule -> LeWawan/nvim)
+├── nvim/          # Neovim (git submodule) + related tool configs (lazygit, copilot)
 ├── omarchy/       # Linux-only: Hyprland, Waybar, Walker, Alacritty, Btop
 ├── tmux/          # Tmux config with tpm plugins
-├── coolercontrol/ # CoolerControl fan profiles (Arch)
+├── coolercontrol/ # CoolerControl fan profiles (Arch, stowed to / not $HOME)
 ├── run            # Main interactive installer
 └── wall.{jpg,png} # Wallpapers
 ```
@@ -45,7 +52,28 @@ Each top-level directory is a **stow package** -- `stow bash` symlinks `bash/.ba
 | bash, bin, nvim, tmux | x | x | `$HOME` |
 | omarchy | x | | `$HOME` |
 | macos | | x | `$HOME` |
-| coolercontrol | x | | `/` (system) |
+| coolercontrol | x | | `/` (system, see [README](coolercontrol/README.md)) |
+
+## Install Scripts
+
+All install scripts live in `bin/core/deps-scripts/` and source a shared `_helpers.sh` that provides:
+
+- **`install_pkg`** -- cross-platform package install (pacman/apt/brew)
+- **`install_dev_runtime`** -- install via omarchy-install-dev-env or mise fallback
+- **`require_cmd`** -- assert a command exists before proceeding
+- **`log_info`**, **`log_warn`**, **`log_error`** -- consistent `[install]` prefixed logging
+- **`is_linux`**, **`is_macos`**, **`is_arch`** -- platform detection
+
+Dev runtimes are installed through a single unified script:
+
+```bash
+# Install individual runtimes
+bash bin/core/deps-scripts/install-dev-env node
+bash bin/core/deps-scripts/install-dev-env pnpm
+bash bin/core/deps-scripts/install-dev-env ni
+bash bin/core/deps-scripts/install-dev-env rust
+bash bin/core/deps-scripts/install-dev-env lua
+```
 
 ## Shell (Bash)
 
@@ -60,6 +88,8 @@ Modular config split into:
 | `.bash_shell` | History (32K), completions, hashing off for mise |
 | `.bash_personal` | Locale, fortune/cowsay on startup |
 | `.bash_inputrc` | Readline: case-insensitive, arrow history search, menu-complete |
+
+Runtime versions managed by [mise](https://mise.jdx.dev/) -- global config in `bash/.config/mise/config.toml`.
 
 ## Neovim
 
