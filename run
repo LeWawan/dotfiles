@@ -51,6 +51,12 @@ main() {
         cd "$DOTFILES_DIR"
         source "$DOTFILES_DIR/bin/core/env"
         source "$DOTFILES_DIR/bin/core/setup-env"
+
+        if [[ "$OS" == "Linux" ]] && command -v hyprctl &>/dev/null; then
+          if gum confirm "Reload Hyprland?"; then
+            hyprctl reload
+          fi
+        fi
         ;;
       "Install dev tools")
         install_dev_tools
