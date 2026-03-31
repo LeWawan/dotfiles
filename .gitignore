@@ -7,6 +7,10 @@ nvim/.config/github-copilot/version.json
 nvim/.config/github-copilot/versions.json
 nvim/.config/go/telemetry
 
+# Runtime state (auto-generated, should not be tracked)
+nvim/.config/htop/htoprc
+nvim/.config/lazygit/state.yml
+
 # Ssh stuff
 ssh-connect
 
