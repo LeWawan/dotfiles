@@ -14,6 +14,11 @@ if command -v starship &> /dev/null; then
   eval "$(starship init bash)"
 fi
 
+# --- Direnv ---
+if command -v direnv &> /dev/null; then
+  eval "$(direnv hook bash)"
+fi
+
 # --- FzF completions ---
 if command -v fzf &> /dev/null; then
   if [[ -f /usr/share/fzf/completion.bash ]]; then
