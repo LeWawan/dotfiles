@@ -60,7 +60,7 @@ inner.vertical =   8
 outer.left =       8
 # outer.bottom =     [{ monitor.main = 100 }, 8]
 outer.bottom =     8
-outer.top =        [{ monitor.main = 18 }, 48]
+outer.top =        [{ monitor.built-in = 18 }, 48]
 #outer.top =        48
 outer.right =      8
 
