@@ -20,6 +20,7 @@ export BATTERY_0_ICON=􀛪
 export DEV_ICON=􀟛
 export WEB_ICON=􀆪
 export TERM_ICON=􀩼
-export ALL_ICON=􀓨
+export CHAT_ICON=􁒘
+export MISC_ICON=􀺴
 
 

@@ -1,8 +1,8 @@
 #!/bin/bash
 source ./icons.sh
 
-SPACE_LABELS=("1:DEV" "2:WEB" "3:ITERM" "4:ALL")
-SPACE_ICONS=($DEV_ICON $WEB_ICON $TERM_ICON $ALL_ICON)
+SPACE_LABELS=("1:DEV" "2:ITERM" "3:MISC" "4:CHAT")
+SPACE_ICONS=($DEV_ICON $TERM_ICON $MISC_ICON $CHAT_ICON)
 
 SPACE=(
   label.padding_right=33
