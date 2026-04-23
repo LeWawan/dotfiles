@@ -1,0 +1,36 @@
+{
+    "compatible_printers": [
+        "Bambu Lab A1 0.4 nozzle"
+    ],
+    "default_filament_colour": [
+        "#FFFFFF"
+    ],
+    "filament_extruder_variant": [
+        "Direct Drive Standard"
+    ],
+    "filament_flow_ratio": [
+        "0.95"
+    ],
+    "filament_max_volumetric_speed": [
+        "12"
+    ],
+    "filament_settings_id": [
+        "R3D PLA Mat Blanc"
+    ],
+    "filament_type": [
+        "PLA"
+    ],
+    "filament_vendor": [
+        "R3D"
+    ],
+    "from": "User",
+    "inherits": "Bambu PLA Matte @BBL A1",
+    "name": "R3D PLA Mat Blanc",
+    "nozzle_temperature": [
+        "205"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "210"
+    ],
+    "version": "2.4.0.10"
+}
