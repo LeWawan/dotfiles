@@ -14,9 +14,7 @@
     "outer_wall_acceleration": [
         "2000"
     ],
-    "precise_outer_wall": [
-        "1"
-    ],
+    "precise_outer_wall": "1",
     "print_extruder_id": [
         "1"
     ],
@@ -27,12 +25,8 @@
     "sparse_infill_acceleration": [
         "6000"
     ],
-    "sparse_infill_pattern": [
-        "gyroid"
-    ],
-    "support_style": [
-        "tree_hybrid"
-    ],
+    "sparse_infill_pattern": "gyroid",
+    "support_style": "tree_hybrid",
     "top_surface_acceleration": [
         "3000"
     ],

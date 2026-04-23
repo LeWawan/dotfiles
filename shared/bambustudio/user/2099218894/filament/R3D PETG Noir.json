@@ -1,15 +1,6 @@
 {
-    "compatible_printers": [
-        "Bambu Lab A1 0.4 nozzle"
-    ],
     "default_filament_colour": [
         "#000000"
-    ],
-    "fan_max_speed": [
-        "50"
-    ],
-    "fan_min_speed": [
-        "30"
     ],
     "filament_density": [
         "1.27"
@@ -20,10 +11,10 @@
     "filament_flow_ratio": [
         "0.95"
     ],
-    "filament_notes": "R3D PETG Noir. Sechage recommande: 55C 8-12h OU 65C 4-8h avant print (cf. Bambu Wiki).",
     "filament_max_volumetric_speed": [
         "10"
     ],
+    "filament_notes": "R3D PETG Noir. Sechage recommande: 55C 8-12h OU 65C 4-8h avant print (cf. Bambu Wiki).",
     "filament_retraction_length": [
         "1"
     ],
@@ -32,9 +23,6 @@
     ],
     "filament_settings_id": [
         "R3D PETG Noir"
-    ],
-    "filament_type": [
-        "PETG"
     ],
     "filament_vendor": [
         "R3D"
@@ -48,17 +36,11 @@
     ],
     "inherits": "Bambu PETG HF @BBL A1",
     "name": "R3D PETG Noir",
-    "nozzle_temperature": [
-        "240"
-    ],
     "nozzle_temperature_initial_layer": [
         "245"
     ],
     "nozzle_temperature_range_high": [
         "255"
-    ],
-    "nozzle_temperature_range_low": [
-        "230"
     ],
     "pressure_advance": [
         "0.03"

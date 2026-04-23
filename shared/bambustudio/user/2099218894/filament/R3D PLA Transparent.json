@@ -2,14 +2,14 @@
     "additional_cooling_fan_speed": [
         "50"
     ],
+    "close_additional_fan_first_x_layers": [
+        "2"
+    ],
     "close_fan_the_first_x_layers": [
         "2"
     ],
     "compatible_printers": [
         "Bambu Lab A1 0.4 nozzle"
-    ],
-    "default_filament_colour": [
-        ""
     ],
     "enable_pressure_advance": [
         "1"
@@ -23,9 +23,6 @@
     "fan_min_speed": [
         "20"
     ],
-    "filament_cost": [
-        "24.99"
-    ],
     "filament_density": [
         "1.24"
     ],
@@ -33,7 +30,7 @@
         "Direct Drive Standard"
     ],
     "filament_flow_ratio": [
-        "1.00"
+        "1"
     ],
     "filament_max_volumetric_speed": [
         "18"
@@ -41,18 +38,12 @@
     "filament_settings_id": [
         "R3D PLA Transparent"
     ],
-    "filament_type": [
-        "PLA"
-    ],
     "filament_vendor": [
         "R3D"
     ],
     "from": "User",
     "inherits": "Bambu PLA Basic @BBL A1",
     "name": "R3D PLA Transparent",
-    "nozzle_temperature": [
-        "220"
-    ],
     "nozzle_temperature_initial_layer": [
         "225"
     ],
