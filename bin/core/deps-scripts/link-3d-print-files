@@ -14,8 +14,12 @@ source "$(dirname "$0")/_helpers.sh"
 DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
 
 # config dir name in ~/.config  ->  shared/<pkg>
+# The OrcaSlicer-bambulab fork uses the config dir "BambuStudio_OrcaSlicer";
+# it shares the orcaslicer preset set. Entries whose config dir is absent are
+# skipped, so listing all known dirs is safe.
 SLICERS=(
   "OrcaSlicer:orcaslicer"
+  "BambuStudio_OrcaSlicer:orcaslicer"
   "BambuStudio:bambustudio"
 )
 
@@ -30,10 +34,10 @@ link_kind() {
   fi
 
   if [[ -d "$live" ]]; then
-    # Live has real presets: mirror them into shared (live wins), then replace.
-    mkdir -p "$(dirname "$shared")"
-    rm -rf "$shared"
-    cp -a "$live" "$shared"
+    # Live has real presets: merge them into shared (live wins on same name,
+    # existing shared presets are kept), then replace the live dir with a link.
+    mkdir -p "$shared"
+    cp -a "$live/." "$shared/"
     rm -rf "$live"
   elif [[ -d "$shared" ]]; then
     # No live presets but repo has some: just link so the slicer picks them up.
@@ -51,6 +55,12 @@ link_kind() {
 for entry in "${SLICERS[@]}"; do
   cfg_name="${entry%%:*}"
   pkg="${entry##*:}"
+
+  # Only touch a slicer whose config dir actually exists (i.e. it's installed).
+  if [[ ! -d "$HOME/.config/$cfg_name" ]]; then
+    continue
+  fi
+
   live_user="$HOME/.config/$cfg_name/user"
   shared_user="$DOTFILES/shared/$pkg/user"
 
