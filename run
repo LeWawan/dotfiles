@@ -34,7 +34,7 @@ main() {
   # Build menu based on OS
   local menu_items=("Stow dotfiles" "Install dev tools" "Install system deps" "Install neovim" "Install tmux")
   if command -v pacman &>/dev/null; then
-    menu_items+=("Install coolercontrol" "Snapshot omarchy")
+    menu_items+=("Install coolercontrol" "Snapshot omarchy" "Link 3d print files")
   fi
 
   local selections
@@ -64,6 +64,10 @@ main() {
       "Install system deps")
         echo "[install] Installing system dependencies..."
         bash "$DOTFILES_DIR/bin/core/deps-scripts/install-deps"
+        ;;
+      "Link 3d print files")
+        echo "[install] Linking 3d print files..."
+        bash "$DOTFILES_DIR/bin/core/deps-scripts/link-3d-print-files"
         ;;
       "Install tmux")
         echo "[install] Installing tmux..."

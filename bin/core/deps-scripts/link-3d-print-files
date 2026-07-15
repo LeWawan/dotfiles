@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# link-3d-print-files: wire slicer presets (filament + process) into the repo.
+#
+# For each slicer, the live filament/ and process/ dirs under ~/.config are
+# replaced by symlinks into shared/<pkg>/. After this, editing a preset from
+# OrcaSlicer/BambuStudio writes straight into the dotfiles repo — no snapshot
+# step needed, just `git commit`.
+#
+# Existing live presets are migrated into shared/ first (live wins), so running
+# this on a machine that already has presets captures them into the repo.
+
+source "$(dirname "$0")/_helpers.sh"
+
+DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
+
+# config dir name in ~/.config  ->  shared/<pkg>
+SLICERS=(
+  "OrcaSlicer:orcaslicer"
+  "BambuStudio:bambustudio"
+)
+
+link_kind() {
+  # $1 live dir, $2 shared dir
+  local live="$1" shared="$2"
+
+  # Already a symlink -> assume it's ours, nothing to do.
+  if [[ -L "$live" ]]; then
+    log_info "  $(basename "$live"): already linked, skipping."
+    return
+  fi
+
+  if [[ -d "$live" ]]; then
+    # Live has real presets: mirror them into shared (live wins), then replace.
+    mkdir -p "$(dirname "$shared")"
+    rm -rf "$shared"
+    cp -a "$live" "$shared"
+    rm -rf "$live"
+  elif [[ -d "$shared" ]]; then
+    # No live presets but repo has some: just link so the slicer picks them up.
+    :
+  else
+    # Neither side exists: nothing to link.
+    return
+  fi
+
+  mkdir -p "$(dirname "$live")"
+  ln -s "$shared" "$live"
+  log_info "  $(basename "$live") -> ${shared#"$HOME"/}"
+}
+
+for entry in "${SLICERS[@]}"; do
+  cfg_name="${entry%%:*}"
+  pkg="${entry##*:}"
+  live_user="$HOME/.config/$cfg_name/user"
+  shared_user="$DOTFILES/shared/$pkg/user"
+
+  # Discover profiles from live first, fall back to what's already in the repo.
+  profiles=()
+  if [[ -d "$live_user" ]]; then
+    for d in "$live_user"/*/; do [[ -d "$d" ]] && profiles+=("$(basename "$d")"); done
+  fi
+  if [[ ${#profiles[@]} -eq 0 && -d "$shared_user" ]]; then
+    for d in "$shared_user"/*/; do [[ -d "$d" ]] && profiles+=("$(basename "$d")"); done
+  fi
+
+  if [[ ${#profiles[@]} -eq 0 ]]; then
+    log_info "$cfg_name: no profile found, skipping."
+    continue
+  fi
+
+  log_info "$cfg_name:"
+  for profile in "${profiles[@]}"; do
+    for kind in filament process; do
+      link_kind "$live_user/$profile/$kind" "$shared_user/$profile/$kind"
+    done
+  done
+done
+
+log_info "Done. Review with 'git -C \"$DOTFILES\" status' and commit."
