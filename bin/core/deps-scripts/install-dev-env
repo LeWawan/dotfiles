@@ -33,11 +33,18 @@ case "$1" in
       source "$HOME/.cargo/env"
     fi
     rustc --version
+    # Just is a Rust-based task runner, often used in Rust projects
+    install_dev_runtime just
     ;;
   lua)
     log_info "Installing Lua..."
     install_dev_runtime lua
     lua -v
+    ;;
+  git)
+    log_info "Installing Github/Gitlab cli tools..."
+    install_dev_runtime gh
+    install_dev_runtime glab
     ;;
   *)
     log_error "Unknown runtime: $1"

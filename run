@@ -18,7 +18,8 @@ install_dev_tools() {
     "pnpm" \
     "ni" \
     "rust" \
-    "lua") || true
+    "lua" \
+    "git") || true
 
   [[ -z "$tools" ]] && return
 
