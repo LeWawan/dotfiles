@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ -z $STOW_FOLDERS ]]; then
-	STOW_FOLDERS="bin,nvim,bash,tmux"
+	STOW_FOLDERS="bin,nvim,bash,tmux,shared"
 	if [[ "$(uname -s)" == "Darwin" ]]; then
 		STOW_FOLDERS="$STOW_FOLDERS,macos"
 	else
