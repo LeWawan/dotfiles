@@ -1,0 +1,29 @@
+{
+  "stateFile": ".modes-active",
+  "badgeFile": ".modes-badge",
+  "modes": {
+    "caveman": {
+      "skill": "caveman",
+      "default": "full",
+      "levels": ["lite", "full", "ultra", "wenyan-lite", "wenyan-full", "wenyan-ultra"],
+      "aliases": { "wenyan": "wenyan-full" },
+      "badge": "CAVEMAN",
+      "color": 172,
+      "showLevelInBadge": true,
+      "reminder": "CAVEMAN MODE ACTIVE ({level}). Drop articles/filler/pleasantries/hedging. Fragments OK. Code/commits/security: write normal.",
+      "on": ["caveman mode", "talk like caveman", "activate caveman", "use caveman", "mode caveman", "active caveman"],
+      "off": ["stop caveman", "normal mode", "mode normal", "arrete caveman"]
+    },
+    "unslop": {
+      "skill": "unslop",
+      "default": "on",
+      "levels": ["on"],
+      "badge": "UNSLOP",
+      "color": 66,
+      "showLevelInBadge": false,
+      "reminder": "UNSLOP ACTIVE. No em dashes, no colon as mid-sentence connector, sentence case headings, no decorative emojis, active voice, plain words. Self-audit before sending: what makes this obviously AI generated?",
+      "on": ["activate unslop", "enable unslop", "active unslop"],
+      "off": ["stop unslop", "disable unslop", "coupe unslop"]
+    }
+  }
+}
