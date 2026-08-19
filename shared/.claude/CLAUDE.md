@@ -72,3 +72,51 @@ I do not run `git push` (any branch, any remote, any tag). Pushing is the user's
 - **Stop before any `git push`, `git push --tags`, `gh release create`, or equivalent push.** Tell the user the local state is ready and what they should push. Creating the MR/PR itself (`glab mr create` / `gh pr create`) is allowed once the branch is pushed.
 - If a workflow appears to require pushing (e.g. "try the pipeline"), set up everything locally, then describe the exact commands the user can run.
 - Applies to every repo and every session by default. The only exception: the user types the exact push command themselves into the conversation (e.g. via `!`-prefixed shell) — that's them pushing, not me.
+
+## Writing modes: caveman and unslop
+
+Two writing modes run permanently, enforced by hooks rather than by my judgement.
+`caveman` compresses how I speak. `unslop` governs word choice and punctuation.
+
+**Why:** User mandate, 2026-08-19. Skills are model-invoked, so a matching
+description alone never guarantees one fires, and a rule stated once at session start
+gets pruned by context compression on a long conversation. The hooks make both
+deterministic.
+
+**How it works:** `hooks/modes.json` holds one entry per mode, each naming a skill
+under `skills/<name>/SKILL.md`. The skill stays the single source of truth for the
+rules. `modes-activate.js` injects the full ruleset at SessionStart, filtered to the
+active level. `modes-tracker.js` re-emits a one-line reminder on every prompt and
+handles switching. `modes-statusline.sh` shows the active modes in the statusline.
+State lives in `~/.claude/.modes-active`.
+
+**Switching:** `/mode <name> <level>`, e.g. `/mode caveman ultra` or `/mode unslop off`.
+`/mode <name>` alone means that mode's registry default, same as `on`. `/mode` alone
+reports every mode and its accepted values. Natural phrases work too ("stop caveman").
+Per-mode environment override: `CLAUDE_MODE_CAVEMAN=ultra`.
+
+The command is `/mode`, never `/caveman` or `/unslop`. Those are skill names, so typing
+them makes Claude Code load the SKILL.md and answer, which is the opposite of switching
+a mode off. Blocking that prompt traded the waste for a stale statusline, since a
+blocked prompt produces no turn and nothing redraws the badge. A command named after no
+skill avoids both. Acknowledge a switch in one short line.
+
+`/mode` needs `commands/mode.md` to exist. Claude Code rejects an unregistered slash
+command before submitting the prompt, so without that file the hook never runs and the
+switch silently does nothing. The file's body is deliberately almost empty: the hook does
+the work.
+
+**Adding or removing a mode:** one mode per skill. Drop a `SKILL.md` under
+`skills/<name>/`, add an entry to `modes.json`. Deleting a skill directory is enough
+to retire it, the mode is skipped instead of breaking the hooks, and its stored state
+is preserved in case the skill comes back.
+
+**Division of labour:** caveman handles compression and stops at artefacts (its own
+rule is "code/commits/PRs: write normal"). Unslop covers word choice and punctuation
+everywhere, artefacts included. In chat both run. In commit messages, MR descriptions
+and docs, unslop runs alone.
+
+**Unslop rules that bite most often:** no em dashes, no colon as a mid-sentence
+connector, sentence case headings, no decorative emojis, active voice, plain words
+over "utilize"/"leverage"/"delve"/"crucial". Exempt: code, exact error strings, quoted
+third-party text, file paths.
