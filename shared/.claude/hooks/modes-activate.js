@@ -1,33 +1,33 @@
 #!/usr/bin/env node
 // modes — SessionStart hook.
 //
-// Resolves the level of every registered mode, persists the state and the
-// statusline badge, then prints each active mode's ruleset. Claude Code injects
-// whatever this writes to stdout as hidden session context.
+// Works out which modes are active, records the state and the badge, then prints each
+// active mode's full ruleset. Claude Code injects whatever lands on stdout as hidden
+// session context.
 //
-// Full rules with examples go in, not a two-line summary. Summaries are too weak:
-// the model drifts back to its default voice mid-conversation, especially once
+// The whole ruleset goes in, examples included, not a two-line summary. Summaries do not
+// hold: the model drifts back to its default voice mid-conversation, especially once
 // context compression has pruned the original instruction away.
+
+'use strict';
 
 const { loadRegistry, resolveAll, writeState, writeBadge, renderRules } = require('./modes-lib');
 
-let reg;
+let registry;
 try {
-  reg = loadRegistry();
-} catch (e) {
-  // An unreadable or malformed registry must not block the session.
+  registry = loadRegistry();
+} catch (error) {
+  // No registry means no modes. Never a reason to hold up a session.
   process.stdout.write('OK');
   process.exit(0);
 }
 
-const levels = resolveAll(reg);
-writeState(reg, levels);
-writeBadge(reg, levels);
+const levels = resolveAll(registry);
+writeState(registry, levels);
+writeBadge(registry, levels);
 
-const blocks = [];
-for (const [name, modeCfg] of Object.entries(reg.modes)) {
-  const rules = renderRules(name, modeCfg, levels[name]);
-  if (rules) blocks.push(rules);
-}
+const rulesets = Object.entries(registry.modes)
+  .map(([name, def]) => renderRules(name, def, levels[name]))
+  .filter(Boolean);
 
-process.stdout.write(blocks.length ? blocks.join('\n\n---\n\n') : 'OK');
+process.stdout.write(rulesets.length ? rulesets.join('\n\n---\n\n') : 'OK');
