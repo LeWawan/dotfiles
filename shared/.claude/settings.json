@@ -1,0 +1,56 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:nuxt.com)",
+      "WebFetch(domain:docs.adonisjs.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(glab mr create:*)",
+      "Bash(gh pr create:*)"
+    ],
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.local/share/mise/shims/node\" \"$HOME/.claude/hooks/modes-activate.js\"",
+            "timeout": 5,
+            "statusMessage": "Loading writing modes..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.local/share/mise/shims/node\" \"$HOME/.claude/hooks/modes-tracker.js\"",
+            "timeout": 5,
+            "statusMessage": "Tracking writing modes..."
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash \"$HOME/.claude/hooks/modes-statusline.sh\""
+  },
+  "enabledPlugins": {
+    "lua-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "figma@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "language": "Francais",
+  "effortLevel": "medium",
+  "tui": "fullscreen",
+  "autoDreamEnabled": true,
+  "skipWorkflowUsageWarning": true,
+  "editorMode": "vim",
+  "skipAutoPermissionPrompt": true,
+  "voiceEnabled": false
+}
