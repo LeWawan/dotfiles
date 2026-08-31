@@ -1,5 +1,10 @@
 [tools]
+claude = "latest"
+codex = "latest"
+copilot = "latest"
+gh = "latest"
 go = "latest"
 ni = "latest"
 node = "latest"
+opencode = "latest"
 pnpm = "latest"
