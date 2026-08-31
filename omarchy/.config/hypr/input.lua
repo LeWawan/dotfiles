@@ -33,3 +33,10 @@ hl.device({
 
 -- 3-finger horizontal swipe to change workspaces.
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
+
+hl.config({
+  input = {
+    kb_options = "caps:capslock", -- Rétablit Caps Lock normal pour les jeux
+  },
+})
