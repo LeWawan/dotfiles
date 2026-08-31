@@ -8,5 +8,17 @@
         "apiKey": "dummy"
       }
     }
+  },
+  "mcp": {
+    "godot": {
+      "type": "local",
+      "command": [
+        "npx",
+        "@coding-solo/godot-mcp"
+      ],
+      "environment": {
+        "GODOT_PATH": "/usr/bin/godot"
+      }
+    }
   }
 }
