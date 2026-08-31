@@ -1,56 +1,49 @@
 {
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:nuxt.com)",
-      "WebFetch(domain:docs.adonisjs.com)",
-      "WebFetch(domain:github.com)",
-      "Bash(glab mr create:*)",
-      "Bash(gh pr create:*)"
-    ],
-    "defaultMode": "auto"
-  },
-  "hooks": {
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/.local/share/mise/shims/node\" \"$HOME/.claude/hooks/modes-activate.js\"",
-            "timeout": 5,
-            "statusMessage": "Loading writing modes..."
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/.local/share/mise/shims/node\" \"$HOME/.claude/hooks/modes-tracker.js\"",
-            "timeout": 5,
-            "statusMessage": "Tracking writing modes..."
-          }
-        ]
-      }
-    ]
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "bash \"$HOME/.claude/hooks/modes-statusline.sh\""
-  },
   "enabledPlugins": {
     "lua-lsp@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true,
-    "figma@claude-plugins-official": true,
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "clangd-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true
   },
   "language": "Francais",
   "effortLevel": "medium",
-  "tui": "fullscreen",
-  "autoDreamEnabled": true,
-  "skipWorkflowUsageWarning": true,
+  "modelSettings": {
+    "claude-sonnet-5": {
+      "effortLevel": "medium"
+    }
+  },
+  "advisorModel": "opus",
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
   "editorMode": "vim",
+  "preferredNotifChannel": "auto",
+  "autoCompactEnabled": true,
   "skipAutoPermissionPrompt": true,
-  "voiceEnabled": false
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured",
+      "**Cloud provider(s)**: None configured",
+      "**Repository visibility**: not queryable here — assume private per shipped-default heuristic (no visibility check succeeded)",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: None configured",
+      "**Default / protected branches**: Default branch main; 1 protected branch listed on LeWawan/dotfiles (name redacted, outside display charset) — treat as protected even though the name is unknown",
+      "**CI/CD deploy targets**: None configured",
+      "**Network posture**: None configured",
+      "**Source control**: The trusted repo (github.com:LeWawan/dotfiles.git) and its remote(s) only (no additional orgs configured)",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: None configured",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar; note nvim/.config/nvim/.envrc flagged by filename scan as a likely secrets/env file — treat as sensitive, do not print or commit contents",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries prod or production as a whole word or name segment",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries prod or production as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: personal dotfiles management (shell config, install scripts, system tooling) on a hobby/personal repo",
+      "**Trusted repo**: /home/wawan/.dotfiles (github.com:LeWawan/dotfiles.git) — visibility not confirmed, treat as private by default; do not port content from outside this repo into it and call it 'its own work'",
+      "**Org-specific CLIs**: None configured — herdr, vpns, cctv, arduino-cli, ddcutil, protonvpn, wg-quick, secret-tool are personal/hobby tools seen in shell history and project usage, not org infrastructure",
+      "routine under nvim/.config/nvim/ prefix: submodule — do not edit files there directly from this repo (per CLAUDE.md); sync via git submodule update instead"
+    ]
+  }
 }
