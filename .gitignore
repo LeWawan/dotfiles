@@ -5,6 +5,9 @@ nvim/.config/github-copilot/apps.json
 nvim/.config/github-copilot/hosts.json
 nvim/.config/github-copilot/version.json
 nvim/.config/github-copilot/versions.json
+nvim/.config/github-copilot/auth.db
+nvim/.config/github-copilot/auth.db-wal
+nvim/.config/github-copilot/auth.db-shm
 nvim/.config/go/telemetry
 
 # Runtime state (auto-generated, should not be tracked)
