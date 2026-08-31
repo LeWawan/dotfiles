@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# omarchy:summary=Regenerate AI agent usage data files (packaged + user collectors)
+# omarchy:args=[--force] [--limits-only] [--except <agent>] [agent...]
+
+# The packaged omarchy-agent-usage-update only globs collectors from its own
+# bin dir (/usr/share/omarchy/bin), so a user collector in ~/.local/bin is
+# invisible to it. This wrapper sits earlier on PATH (~/.local/bin precedes
+# /usr/share/omarchy/bin) and is what the omarchy.agents panel actually
+# spawns: it delegates to the packaged update for the stock agents, then runs
+# any additional omarchy-agent-usage-* collectors found in ~/.local/bin.
+# Records are written to ~/.local/state/omarchy/agents/usage/, which the
+# panel watches regardless of who wrote them.
+
+REAL_UPDATE="${OMARCHY_PATH:-/usr/share/omarchy}/bin/omarchy-agent-usage-update"
+USER_BIN="${HOME}/.local/bin"
+USAGE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/agents/usage"
+
+# The packaged update takes care of its own directory.
+"$REAL_UPDATE" "$@"
+packaged_status=$?
+
+[[ -d "$USER_BIN" ]] || exit $packaged_status
+mkdir -p "$USAGE_DIR"
+
+flags=()
+only=()
+declare -A excluded
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+  --force | --limits-only) flags+=("$1") ;;
+  --except)
+    excluded[$2]=1
+    shift
+    ;;
+  *) only+=("$1") ;;
+  esac
+  shift
+done
+
+wanted() {
+  local agent="$1"
+  [[ -n ${excluded[$agent]} ]] && return 1
+  (( ${#only[@]} == 0 )) && return 0
+  local candidate
+  for candidate in "${only[@]}"; do
+    [[ $candidate == "$agent" ]] && return 0
+  done
+  return 1
+}
+
+collect() {
+  local collector="$1" agent="$2"
+  local record tmp
+  if ! record=$("$collector" "${flags[@]}") || [[ -z $record ]] || ! jq -e . >/dev/null 2>&1 <<<"$record"; then
+    echo "omarchy-agent-usage-update: $agent collector failed" >&2
+    return 1
+  fi
+  tmp=$(mktemp "$USAGE_DIR/.$agent.XXXXXX")
+  printf '%s\n' "$record" >"$tmp"
+  mv "$tmp" "$USAGE_DIR/$agent.json"
+}
+
+status=0
+for collector in "$USER_BIN"/omarchy-agent-usage-*; do
+  [[ -x $collector ]] || continue
+  agent="${collector##*/omarchy-agent-usage-}"
+  [[ $agent == "update" ]] && continue
+  wanted "$agent" || continue
+  collect "$collector" "$agent" || status=1
+done
+
+[[ $packaged_status -eq 0 && $status -eq 0 ]]

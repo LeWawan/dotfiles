@@ -1,0 +1,170 @@
+#!/usr/bin/python3
+# omarchy:summary=Print the opencode usage record as JSON
+# omarchy:args=[--force] [--limits-only]
+# omarchy:hidden=true
+"""Collect opencode usage into one display-ready JSON record.
+
+Reads per-message token usage straight from opencode's own SQLite store
+(~/.local/share/opencode/opencode.db) and aggregates it by day and model.
+Sessions that already show up in another tab are excluded so no usage is
+counted twice: the claude collector merges opencode sessions on the
+"anthropic" provider and the codex collector merges the "openai" ones, so
+this record only carries everything else — OpenCode Zen and any other native
+provider.
+
+The agents panel only ever reads the JSON this prints.
+"""
+
+import argparse
+import json
+import os
+import sqlite3
+import sys
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+AGENT_ID = "opencode"
+AGENT_NAME = "OpenCode"
+TIER_LABEL = "Zen"
+
+# Providers already counted by another collector's tab. Excluded so this
+# tab never double-counts usage that also appears under Claude or Codex.
+EXCLUDED_PROVIDERS = {"anthropic", "openai"}
+
+
+def number(value):
+  try:
+    return int(value or 0)
+  except Exception:
+    return 0
+
+
+def db_path() -> Path:
+  root = Path(os.environ.get("XDG_DATA_HOME") or (Path.home() / ".local" / "share"))
+  return root / "opencode" / "opencode.db"
+
+
+def day_from_created_ms(ms, now):
+  if not number(ms):
+    return now.strftime("%Y-%m-%d")
+  return datetime.fromtimestamp(number(ms) / 1000).strftime("%Y-%m-%d")
+
+
+def scan():
+  now = datetime.now()
+  today = now.strftime("%Y-%m-%d")
+  recent_dates = [(now - timedelta(days=offset)).strftime("%Y-%m-%d") for offset in range(6, -1, -1)]
+  recent = {day: {"date": day, "messageCount": 0} for day in recent_dates}
+
+  today_prompts = 0
+  today_total_tokens = 0
+  today_tokens_by_model = {}
+  today_sessions = set()
+  total_prompts = 0
+  total_sessions = set()
+  active_days = set()
+  model_usage = {}
+
+  try:
+    # Read-only: opencode may be writing right now.
+    conn = sqlite3.connect(db_path().resolve().as_uri() + "?mode=ro", uri=True, timeout=2)
+  except sqlite3.Error:
+    return None, now
+  try:
+    conn.execute("PRAGMA query_only = ON")
+    for session_id, raw in conn.execute("SELECT session_id, data FROM message"):
+      # One malformed row must not abort the scan, so every shape assumption
+      # lives inside the try.
+      try:
+        entry = json.loads(raw)
+        if not isinstance(entry, dict) or entry.get("role") != "assistant":
+          continue
+        provider = str(entry.get("providerID") or "")
+        if provider in EXCLUDED_PROVIDERS:
+          continue
+        tokens = entry.get("tokens") or {}
+        cache = tokens.get("cache") or {}
+        input_tokens = number(tokens.get("input"))
+        # opencode keeps thinking tokens out of output; both are generated.
+        output_tokens = number(tokens.get("output")) + number(tokens.get("reasoning"))
+        cache_read = number(cache.get("read"))
+        cache_write = number(cache.get("write"))
+        total = input_tokens + output_tokens + cache_read + cache_write
+        if total <= 0:
+          continue
+        created = number((entry.get("time") or {}).get("created"))
+        day = day_from_created_ms(created, now)
+        model = str(entry.get("modelID") or "opencode").rstrip("/").split("/")[-1]
+      except Exception:
+        continue
+      session_key = "opencode:" + str(session_id)
+      total_prompts += 1
+      total_sessions.add(session_key)
+      active_days.add(day)
+
+      bucket = model_usage.setdefault(model, {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+      })
+      bucket["inputTokens"] += input_tokens
+      bucket["outputTokens"] += output_tokens
+      bucket["cacheReadInputTokens"] += cache_read
+      bucket["cacheCreationInputTokens"] += cache_write
+
+      if day in recent:
+        recent[day]["messageCount"] += total
+      if day == today:
+        today_prompts += 1
+        today_sessions.add(session_key)
+        today_total_tokens += total
+        today_tokens_by_model[model] = today_tokens_by_model.get(model, 0) + total
+  except sqlite3.Error:
+    return None, now
+  finally:
+    conn.close()
+
+  stats = None
+  if total_prompts > 0:
+    stats = {
+      "todayPrompts": today_prompts,
+      "todaySessions": len(today_sessions),
+      "todayTotalTokens": today_total_tokens,
+      "todayTokensByModel": today_tokens_by_model,
+      "recentDays": [recent[day] for day in recent_dates],
+      "totalPrompts": total_prompts,
+      "totalSessions": len(total_sessions),
+      "activeDays": len(active_days),
+      "activeDates": sorted(active_days),
+      "modelUsage": model_usage,
+    }
+  return stats, now
+
+
+def main():
+  parser = argparse.ArgumentParser()
+  # Accepted for CLI compatibility with the panel's refresh calls; the store
+  # is small, so a full rescan is always cheaper than a cache.
+  parser.add_argument("--force", action="store_true")
+  parser.add_argument("--limits-only", action="store_true")
+  parser.parse_args()
+
+  stats, now = scan()
+  record = {
+    "schemaVersion": 1,
+    "id": AGENT_ID,
+    "name": AGENT_NAME,
+    "tierLabel": TIER_LABEL,
+    "updatedAt": now.astimezone(timezone.utc).isoformat(),
+    "ready": stats is not None,
+    "hasLocalStats": True,
+  }
+  if stats:
+    record.update(stats)
+  print(json.dumps(record, separators=(",", ":")))
+  return 0
+
+
+if __name__ == "__main__":
+  raise SystemExit(main())

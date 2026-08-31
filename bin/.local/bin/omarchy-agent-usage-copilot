@@ -1,0 +1,198 @@
+#!/usr/bin/python3
+# omarchy:summary=Print the GitHub Copilot usage record as JSON
+# omarchy:args=[--force] [--limits-only]
+# omarchy:hidden=true
+"""Collect GitHub Copilot CLI usage into one display-ready JSON record.
+
+Everything the agents panel shows for Copilot comes from this one command:
+per-message token usage read from the Copilot CLI's own SQLite store
+(~/.copilot/session-store.db, table assistant_usage_events). The agents panel
+only ever reads the JSON this prints; it never touches the database.
+
+GitHub exposes no public rate-limit endpoint for individual Copilot
+subscriptions, so this record carries local stats only — no `limits`, no
+balance. The panel then shows the tokens-by-day/model breakdown without the
+limit meters.
+
+A machine that has never run the Copilot CLI prints an empty record: the
+panel self-hides, exactly like the stock collectors.
+
+Installation (user-level, no /usr/share/omarchy edits):
+  - this file -> ~/.local/bin/omarchy-agent-usage-copilot (executable)
+  - a ~/.local/bin/omarchy-agent-usage-update wrapper that also runs user
+    collectors, because omarchy-agent-usage-update only globs its own bin dir
+The usage records it writes are picked up by the omarchy.agents panel either
+way, since the panel watches ~/.local/state/omarchy/agents/usage/.
+"""
+
+import argparse
+import json
+import os
+import sqlite3
+import sys
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+AGENT_ID = "copilot"
+AGENT_NAME = "GitHub Copilot"
+
+
+def copilot_home() -> Path:
+  value = os.environ.get("COPILOT_HOME") or "~/.copilot"
+  return Path(os.path.expandvars(os.path.expanduser(value))).resolve()
+
+
+def db_path() -> Path:
+  return copilot_home() / "session-store.db"
+
+
+def number(value):
+  try:
+    return int(value or 0)
+  except Exception:
+    return 0
+
+
+def day_from_created_at(value, now):
+  # Copilot stores created_at as ISO-8601, e.g. "2026-08-15T10:11:19.337Z".
+  try:
+    text = str(value).strip()
+    if not text:
+      return now.strftime("%Y-%m-%d")
+    if text.endswith("Z"):
+      text = text[:-1] + "+00:00"
+    dt = datetime.fromisoformat(text)
+    if dt.tzinfo is not None:
+      dt = dt.astimezone()
+    return dt.strftime("%Y-%m-%d")
+  except Exception:
+    return now.strftime("%Y-%m-%d")
+
+
+def scan_usage_events():
+  """Per-message token usage straight from assistant_usage_events."""
+  now = datetime.now()
+  today = now.strftime("%Y-%m-%d")
+  recent_dates = [(now - timedelta(days=offset)).strftime("%Y-%m-%d") for offset in range(6, -1, -1)]
+  recent = {day: {"date": day, "messageCount": 0} for day in recent_dates}
+
+  today_prompts = 0
+  today_total_tokens = 0
+  today_tokens_by_model = {}
+  today_sessions = set()
+  total_prompts = 0
+  total_sessions = set()
+  active_days = set()
+  model_usage = {}
+
+  try:
+    # Read-only: the CLI may be writing right now.
+    conn = sqlite3.connect(db_path().resolve().as_uri() + "?mode=ro", uri=True, timeout=2)
+  except sqlite3.Error:
+    return None, now
+  try:
+    conn.execute("PRAGMA query_only = ON")
+    rows = conn.execute(
+      "SELECT session_id, model, input_tokens, output_tokens, cache_read_tokens,"
+      " cache_write_tokens, created_at FROM assistant_usage_events"
+    )
+    for session_id, model, input_tokens, output_tokens, cache_read, cache_write, created_at in rows:
+      try:
+        total = number(input_tokens) + number(output_tokens) + number(cache_read) + number(cache_write)
+        if total <= 0:
+          continue
+        day = day_from_created_at(created_at, now)
+        model_name = str(model or "copilot")
+        session_key = "copilot:" + str(session_id)
+      except Exception:
+        continue
+
+      total_prompts += 1
+      total_sessions.add(session_key)
+      active_days.add(day)
+
+      bucket = model_usage.setdefault(model_name, {
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+      })
+      bucket["inputTokens"] += number(input_tokens)
+      bucket["outputTokens"] += number(output_tokens)
+      bucket["cacheReadInputTokens"] += number(cache_read)
+      bucket["cacheCreationInputTokens"] += number(cache_write)
+
+      if day in recent:
+        recent[day]["messageCount"] += total
+      if day == today:
+        today_prompts += 1
+        today_sessions.add(session_key)
+        today_total_tokens += total
+        today_tokens_by_model[model_name] = today_tokens_by_model.get(model_name, 0) + total
+  except sqlite3.Error:
+    return None, now
+  finally:
+    conn.close()
+
+  stats = None
+  if total_prompts > 0:
+    stats = {
+      "todayPrompts": today_prompts,
+      "todaySessions": len(today_sessions),
+      "todayTotalTokens": today_total_tokens,
+      "todayTokensByModel": today_tokens_by_model,
+      "recentDays": [recent[day] for day in recent_dates],
+      "totalPrompts": total_prompts,
+      "totalSessions": len(total_sessions),
+      "activeDays": len(active_days),
+      "activeDates": sorted(active_days),
+      "modelUsage": model_usage,
+    }
+  return stats, now
+
+
+def scan_session_fallback():
+  """No assistant_usage_events (older CLI): count sessions/turns, no tokens."""
+  try:
+    conn = sqlite3.connect(db_path().resolve().as_uri() + "?mode=ro", uri=True, timeout=2)
+  except sqlite3.Error:
+    return None
+  try:
+    conn.execute("PRAGMA query_only = ON")
+    sessions = conn.execute("SELECT count(*) FROM sessions").fetchone()[0]
+    turns = conn.execute("SELECT count(*) FROM turns").fetchone()[0]
+    return {"totalPrompts": turns, "totalSessions": sessions} if turns > 0 else None
+  except sqlite3.Error:
+    return None
+  finally:
+    conn.close()
+
+
+def main():
+  parser = argparse.ArgumentParser()
+  # Accepted for CLI compatibility with the panel's refresh calls; the store
+  # is tiny, so a full rescan is always cheaper than a cache.
+  parser.add_argument("--force", action="store_true")
+  parser.add_argument("--limits-only", action="store_true")
+  args = parser.parse_args()
+
+  stats, now = scan_usage_events()
+  if stats is None:
+    stats = scan_session_fallback()
+
+  record = {
+    "schemaVersion": 1,
+    "id": AGENT_ID,
+    "name": AGENT_NAME,
+    "updatedAt": now.astimezone(timezone.utc).isoformat(),
+    "ready": stats is not None,
+    "hasLocalStats": True,
+  }
+  if stats:
+    record.update(stats)
+  print(json.dumps(record, separators=(",", ":")))
+  return 0
+
+
+if __name__ == "__main__":
+  raise SystemExit(main())
