@@ -16,3 +16,5 @@ bind -f ~/.bash/.bash_inputrc
 
 # --- PATH ---
 export PATH="$HOME/.local/bin:$PATH"
+
+. "$HOME/.local/share/../bin/env"
