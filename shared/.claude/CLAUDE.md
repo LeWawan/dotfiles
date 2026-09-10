@@ -5,19 +5,22 @@ exists, because a rule without its reason gets re-litigated or quietly dropped.
 
 Rules are ordered by how often they apply.
 
-## Writing modes: caveman and unslop
+## Writing and coding modes: caveman, unslop, ponytail
 
-Two writing modes run permanently, enforced by hooks rather than left to my judgement.
-`caveman` compresses how I speak. `unslop` governs word choice and punctuation.
+Three modes run permanently, enforced by hooks rather than left to my judgement.
+`caveman` compresses how I speak. `unslop` governs word choice and punctuation. `ponytail`
+governs what I build: laziest solution that works, YAGNI first, reuse before writing.
 
 **Why:** User mandate, 2026-08-19. Skills are model-invoked, so a matching description
 never guarantees one fires. And a rule stated once at session start gets pruned by context
-compression on a long conversation. The hooks make both deterministic.
+compression on a long conversation. The hooks make all three deterministic.
 
 **Division of labour.** Caveman handles compression and stops at artefacts, its own rule
 being "code/commits/PRs: write normal". Unslop covers word choice and punctuation
-everywhere, artefacts included. In chat both run. In commit messages, MR descriptions and
-docs, unslop runs alone.
+everywhere, artefacts included. Ponytail covers code shape, not prose, it pairs with
+caveman rather than competing with it. In chat all three run. In commit messages, MR
+descriptions and docs, unslop runs alone. On coding tasks, ponytail runs alongside
+whichever of the other two applies.
 
 **Unslop rules that bite most often:** no em dashes, no colon as a mid-sentence connector,
 sentence case headings, no decorative emojis, active voice, plain words over

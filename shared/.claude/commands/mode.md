@@ -1,5 +1,5 @@
 ---
-description: Switch a writing mode (caveman, unslop) on, off, or to a level
+description: Switch a writing mode (caveman, unslop, ponytail) on, off, or to a level
 argument-hint: [mode] [level|on|off]
 ---
 

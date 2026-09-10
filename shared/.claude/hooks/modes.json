@@ -24,6 +24,17 @@
       "reminder": "UNSLOP ACTIVE. No em dashes, no colon as mid-sentence connector, sentence case headings, no decorative emojis, active voice, plain words. Self-audit before sending: what makes this obviously AI generated?",
       "on": ["activate unslop", "enable unslop", "active unslop"],
       "off": ["stop unslop", "disable unslop", "coupe unslop"]
+    },
+    "ponytail": {
+      "skill": "ponytail",
+      "default": "full",
+      "levels": ["lite", "full", "ultra"],
+      "badge": "PONYTAIL",
+      "color": 214,
+      "showLevelInBadge": true,
+      "reminder": "PONYTAIL ACTIVE ({level}). Lazy senior dev: YAGNI first, reuse before writing, stdlib/native before deps, shortest working diff. Read the problem fully before picking a rung.",
+      "on": ["ponytail mode", "be lazy", "lazy mode", "use ponytail", "mode ponytail", "activate ponytail"],
+      "off": ["stop ponytail", "normal mode", "mode normal", "arrete ponytail"]
     }
   }
 }
